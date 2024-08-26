@@ -6,7 +6,8 @@
     "next/core-web-vitals",
     "eslint:recommended",
     "airbnb",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
+    "plugin:prettier/recommended"
   ],
   "globals": {
     "React": true
