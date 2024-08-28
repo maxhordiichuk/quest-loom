@@ -5,16 +5,17 @@ import { ChangeEvent, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { QuestImage } from '@/components/quest-image'
 import { Textarea } from '@/components/ui/textarea'
 
-import Image from 'next/image'
 import { saveQuestLabel } from './lib/labels'
+import { useImageUpload } from './lib'
 
 export interface QuestFormProps {
   quest?: {
     title: string
     description: string
-    imageURL: string
+    imageUrl: string
     code: string
   }
 }
@@ -22,8 +23,8 @@ export interface QuestFormProps {
 export function QuestForm({ quest }: QuestFormProps) {
   const [title, setTitle] = useState(quest?.title || '')
   const [description, setDescription] = useState(quest?.description || '')
-  const [imageURL] = useState(quest?.imageURL || '')
   const [code, setCode] = useState(quest?.code || '')
+  const { imageUrl, uploadImage, uploadError } = useImageUpload(quest?.imageUrl || '')
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value)
@@ -38,11 +39,10 @@ export function QuestForm({ quest }: QuestFormProps) {
   }
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
+    const { files } = event.target
 
-    if (file) {
-      // eslint-disable-next-line no-console
-      console.log(file)
+    if (files) {
+      uploadImage(files[0])
     }
   }
 
@@ -79,11 +79,9 @@ export function QuestForm({ quest }: QuestFormProps) {
             </div>
           </div>
 
-          {imageURL && (
-            <div className="mt-2">
-              <Image src={imageURL} alt="Uploaded image" width={400} height={300} />
-            </div>
-          )}
+          {uploadError && <p className="text-red-500">{uploadError}</p>}
+
+          {imageUrl && <QuestImage src={imageUrl} alt="Uploaded image" className="mt-2 w-full" />}
         </div>
 
         <div className="grid gap-2">
