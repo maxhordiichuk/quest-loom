@@ -5,37 +5,37 @@ import { getFileUrl, getUploadConfig } from '@/lib/aws'
 import { getSession } from '@/lib/auth'
 
 import { RequestBodySchema } from './validations'
-import { UploadRequestBody, UploadResponseBody } from './types'
+import { UploadRequestBody, UploadResponseBody, UploadResponseError } from './types'
 
-export async function POST(request: NextRequest): Promise<NextResponse<UploadResponseBody>> {
+export async function POST(
+  request: NextRequest
+): Promise<NextResponse<UploadResponseBody | UploadResponseError>> {
   const session = await getSession()
 
   if (!session || !session.user) {
     return NextResponse.json({ error: 'You must be signed in to do this' }, { status: 401 })
   }
 
-  const { user } = session
+  const userId = session.user.id
   const body = await request.json()
-  const result = RequestBodySchema.safeParse(body)
+  const schemaResult = RequestBodySchema.safeParse(body)
 
-  if (!result.success) {
-    // eslint-disable-next-line no-console
-    console.error(result.error.errors)
+  if (!schemaResult.success) {
+    console.error(schemaResult.error.errors)
 
     return NextResponse.json({ error: 'An unknown error occurred' }, { status: 500 })
   }
 
-  const { filename, contentType }: UploadRequestBody = result.data
+  const { filename, contentType, dimensions }: UploadRequestBody = schemaResult.data
 
   try {
-    const key = `${user.id}/${uuidv4()}/${filename}`
-    const { url, fields } = await getUploadConfig(key, contentType)
+    const key = `${userId}/${uuidv4()}/${filename}`
+    const { url, fields } = await getUploadConfig({ key, contentType, userId, dimensions })
     const fileUrl = await getFileUrl(key)
 
     return NextResponse.json({ url, fileUrl, fields })
   } catch (error) {
     if (error instanceof Error) {
-      // eslint-disable-next-line no-console
       console.error(error.message)
     }
 

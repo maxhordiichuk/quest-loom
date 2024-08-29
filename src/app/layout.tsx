@@ -18,16 +18,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: React.ReactNode
 }>) {
   return (
     <html lang="en">
-      <body
-        className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}
-      >
-        <Providers>
-          {children}
-        </Providers>
+      <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   )

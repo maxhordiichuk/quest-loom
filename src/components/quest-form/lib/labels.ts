@@ -1,1 +1,1 @@
-export const saveQuestLabel = 'Save Quest'
+export const saveTaskLabel = 'Save Quest'

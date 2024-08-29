@@ -1,12 +1,17 @@
 import EmailProvider from 'next-auth/providers/email'
 import NextAuth, { getServerSession } from 'next-auth'
+import getConfig from 'next/config'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
-
-import { db } from '@/db'
+import { redirect } from 'next/navigation'
 
 import type { AdapterUser } from 'next-auth/adapters'
 import type { JWT } from 'next-auth/jwt'
 import type { Session } from 'next-auth'
+
+import paths from '@/lib/paths'
+import { db } from '@/db'
+
+const { serverRuntimeConfig: config } = getConfig()
 
 interface SessionCallbackProps {
   session: Session
@@ -14,13 +19,13 @@ interface SessionCallbackProps {
   token?: JWT
 }
 
-export const config = {
+export const nextAuthConfig = {
   adapter: PrismaAdapter(db),
   providers: [
     EmailProvider({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
-      maxAge: 24 * 60 * 60, // 24 hours
+      server: config.mailer.server,
+      from: config.mailer.from,
+      maxAge: config.mailer.tokenMaxAge,
     }),
   ],
   callbacks: {
@@ -37,10 +42,20 @@ export const config = {
   },
 }
 
-const handler = NextAuth(config)
+const handler = NextAuth(nextAuthConfig)
 
 function getSession() {
-  return getServerSession(config)
+  return getServerSession(nextAuthConfig)
 }
 
-export { handler as GET, handler as POST, getSession }
+async function getAuthenticatedSession() {
+  const session = await getSession()
+
+  if (!session || !session.user) {
+    return redirect(paths.signIn)
+  }
+
+  return session
+}
+
+export { handler as GET, handler as POST, getSession, getAuthenticatedSession }

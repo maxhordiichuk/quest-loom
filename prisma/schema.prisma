@@ -21,6 +21,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  quests        Quest[]
   // Optional for WebAuthn support
   Authenticator Authenticator[]
 
@@ -84,4 +85,53 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, credentialID])
+}
+
+model Attachment {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  key         String
+  filename    String
+  contentType String
+  metadata    Json
+  byteSize    Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Quest Quest[]
+  Task  Task[]
+}
+
+model Quest {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String?
+  points      Int     @default(0)
+  isCompleted Boolean @default(false)
+  userId      String  @db.ObjectId
+  coverId     String? @db.ObjectId
+  tasks       Task[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cover Attachment? @relation(fields: [coverId], references: [id], onDelete: SetNull)
+}
+
+model Task {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String
+  description String
+  order       Int
+  isCompleted Boolean @default(false)
+  code        String
+  questId     String  @db.ObjectId
+  imageId     String? @db.ObjectId
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  quest Quest       @relation(fields: [questId], references: [id], onDelete: Cascade)
+  image Attachment? @relation(fields: [imageId], references: [id], onDelete: SetNull)
 }

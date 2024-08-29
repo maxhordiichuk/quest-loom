@@ -6,14 +6,12 @@ type Fields = Record<string, string>
 
 export type UploadRequestBody = z.infer<typeof RequestBodySchema>
 
-export interface UploadResponseBodySuccess {
+export interface UploadResponseBody {
   url: string
   fileUrl: string
   fields: Fields
 }
 
-export interface UploadResponseBodyError {
+export interface UploadResponseError {
   error: string
 }
-
-export type UploadResponseBody = UploadResponseBodySuccess | UploadResponseBodyError

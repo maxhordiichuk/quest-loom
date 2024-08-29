@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { QuestImage } from '@/components/quest-image'
+import { TaskImage } from '@/components/task-image'
 
 import { completeQuestLabel, taskNumberLabel } from './lib/labels'
 
@@ -27,7 +27,7 @@ export function Quest({ title, description, taskNumber, imageURL }: QuestProps):
               {title}
             </h1>
 
-            <QuestImage className="mx-auto lg:hidden" src={imageURL} alt={title} />
+            <TaskImage className="mx-auto lg:hidden" src={imageURL} alt={title} />
 
             <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               {description}
@@ -37,7 +37,7 @@ export function Quest({ title, description, taskNumber, imageURL }: QuestProps):
           </div>
         </div>
 
-        <QuestImage className="mx-auto hidden lg:block" src={imageURL} alt={title} />
+        <TaskImage className="mx-auto hidden lg:block" src={imageURL} alt={title} />
       </div>
     </main>
   )

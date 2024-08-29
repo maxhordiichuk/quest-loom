@@ -1,13 +1,15 @@
 {
   "plugins": [
-    "sort-imports-es6-autofix"
+    "sort-imports-es6-autofix",
+    "@typescript-eslint/eslint-plugin"
   ],
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
     "airbnb",
     "plugin:storybook/recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "React": true
@@ -53,6 +55,10 @@
           "multiple"
         ]
       }
-    ]
+    ],
+    "no-console": ["error", { "allow": ["error"] }],
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
+    "no-underscore-dangle": "off"
   }
 }

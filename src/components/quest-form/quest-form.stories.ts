@@ -20,7 +20,7 @@ const meta = {
 } satisfies Meta<typeof QuestForm>
 
 export default meta
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
   name: 'QuestForm',

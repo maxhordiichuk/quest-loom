@@ -2,13 +2,13 @@ import Image from 'next/image'
 import { ReactElement } from 'react'
 import { cn } from '@/lib/utils'
 
-export interface QuestImageProps {
+export interface TaskImageProps {
   className?: string
   src: string
   alt: string
 }
 
-export function QuestImage({ className, src, alt }: QuestImageProps): ReactElement {
+export function TaskImage({ className, src, alt }: TaskImageProps): ReactElement {
   return (
     <Image
       src={src}
