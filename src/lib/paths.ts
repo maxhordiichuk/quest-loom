@@ -4,5 +4,6 @@ export default {
   signIn: '/api/auth/signin',
   questNew: '/quests/new',
   questList: '/quests',
+  questEdit: (questId: string) => `/quests/${questId}/edit`,
   questShow: (questId: string) => `/quests/${questId}`,
 }

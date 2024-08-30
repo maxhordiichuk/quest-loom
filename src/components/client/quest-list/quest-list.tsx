@@ -45,7 +45,7 @@ export function QuestList({ quests }: QuestListProps) {
             <CardContent className="flex-grow p-4">
               <div className="flex justify-between items-start mb-2">
                 <CardTitle className="text-xl">{quest.title}</CardTitle>
-                <ActionsMenu />
+                <ActionsMenu questId={quest.id} />
               </div>
               <p className="text-muted-foreground">{quest.description}</p>
             </CardContent>
