@@ -15,10 +15,11 @@ datasource db {
 
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
-  email         String?         @unique
+  name          String
+  email         String          @unique
   emailVerified DateTime?
   image         String?
+  avatarId      String?         @db.ObjectId
   accounts      Account[]
   sessions      Session[]
   quests        Quest[]
@@ -27,6 +28,8 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  avatar Attachment? @relation(fields: [avatarId], references: [id], onDelete: SetNull)
 }
 
 model Account {
@@ -88,18 +91,24 @@ model Authenticator {
 }
 
 model Attachment {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  id          String             @id @default(auto()) @map("_id") @db.ObjectId
   key         String
   filename    String
   contentType String
-  metadata    Json
+  metadata    AttachmentMetadata
   byteSize    Int
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  User  User[]
   Quest Quest[]
   Task  Task[]
+}
+
+type AttachmentMetadata {
+  width  Int
+  height Int
 }
 
 model Quest {

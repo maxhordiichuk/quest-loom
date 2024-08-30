@@ -1,7 +1,7 @@
 import { ReactElement } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { TaskImage } from '@/components/task-image'
+import { TaskImage } from '@/components/client/task-image'
 
 import { completeQuestLabel, taskNumberLabel } from './lib/labels'
 

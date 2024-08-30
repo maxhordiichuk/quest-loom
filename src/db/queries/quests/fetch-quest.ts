@@ -1,20 +1,17 @@
-import { notFound } from 'next/navigation'
-
-import { Quest } from '@/db/types'
 import { db } from '@/db'
-import { serializeQuest } from '@/serializers'
 
-export async function fetchQuest(questId: string, userId: string): Promise<Quest> {
-  const quest = await db.quest.findFirst({
+interface FetchQuestProps {
+  questId: string
+  userId: string
+}
+
+export function fetchQuest({ questId, userId }: FetchQuestProps) {
+  return db.quest.findFirst({
     where: { id: questId, userId },
     include: {
-      cover: { select: { key: true } },
+      cover: {
+        select: { key: true, metadata: true },
+      },
     },
   })
-
-  if (!quest) {
-    return notFound()
-  }
-
-  return serializeQuest(quest)
 }

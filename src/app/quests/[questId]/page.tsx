@@ -1,5 +1,4 @@
-import { QuestEdit } from '@/components/quest-edit'
-import { fetchQuest } from '@/db/queries'
+import { QuestEdit } from '@/components/server/quest-edit'
 import { getAuthenticatedSession } from '@/lib/auth'
 
 interface QuestShowPageProps {
@@ -10,7 +9,6 @@ interface QuestShowPageProps {
 
 export default async function QuestShowPage({ params }: QuestShowPageProps) {
   const { user } = await getAuthenticatedSession()
-  const quest = await fetchQuest(params.questId, user.id)
 
-  return <QuestEdit quest={quest} />
+  return <QuestEdit questId={params.questId} userId={user.id} />
 }

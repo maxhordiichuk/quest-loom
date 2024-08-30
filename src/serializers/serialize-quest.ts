@@ -9,6 +9,10 @@ export type QuestProp = {
   isCompleted: boolean
   cover: {
     key: string
+    metadata: {
+      width: number
+      height: number
+    }
   } | null
 }
 
@@ -17,7 +21,8 @@ export async function serializeQuest(quest: QuestProp): Promise<Quest> {
     return quest as Quest
   }
 
-  const coverUrl = await getFileUrl(quest.cover.key)
+  const { cover } = quest
+  const coverUrl = await getFileUrl(cover.key)
 
   return {
     id: quest.id,
@@ -26,8 +31,10 @@ export async function serializeQuest(quest: QuestProp): Promise<Quest> {
     points: quest.points,
     isCompleted: quest.isCompleted,
     cover: {
-      key: quest.cover.key,
+      key: cover.key,
       url: coverUrl,
+      width: cover.metadata.width,
+      height: cover.metadata.height,
     },
   }
 }
