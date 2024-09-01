@@ -1,8 +1,9 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
+import paths from '@/lib/paths'
 import type { Task } from '@/db/types'
 
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -25,10 +26,9 @@ export function TaskCard({ task }: TaskCardProps) {
           <Image
             src={task.image.url}
             alt="Task image"
-            width={task.image.width}
-            height={task.image.height}
-            className="rounded-md"
-            style={{ aspectRatio: '64/64', objectFit: 'cover' }}
+            className="rounded-md w-16 h-16 object-cover"
+            width={64}
+            height={64}
           />
         ) : (
           <PlaceholderImage className="rounded-md" width={64} height={64} />
@@ -45,7 +45,7 @@ export function TaskCard({ task }: TaskCardProps) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <Link href="#preview-task">
+            <Link href={paths.taskShow(task.id)}>
               <DropdownMenuItem>
                 <Eye className="mr-2 h-4 w-4" />
                 <span>Preview</span>

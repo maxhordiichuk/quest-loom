@@ -14,8 +14,8 @@ const createPostSchema = z.object({
   title: z.string().min(3),
   description: z.string(),
   code: z.string(),
-  imageKey: z.string(),
   questId: z.string(),
+  imageKey: z.string().optional(),
 })
 
 export async function createTask(
@@ -28,8 +28,8 @@ export async function createTask(
     title: formData.get('title'),
     description: formData.get('description'),
     code: formData.get('code'),
-    imageKey: formData.get('imageKey'),
     questId: formData.get('questId'),
+    imageKey: formData.get('imageKey'),
   })
 
   if (!schemaResult.success) {

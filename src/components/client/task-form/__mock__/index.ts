@@ -17,5 +17,6 @@ export default {
       height: 1024,
     },
   },
+  questId: '66d0832be14a7663e71719ab',
   formAction: () => new Promise(() => {}),
 } satisfies TaskFormProps

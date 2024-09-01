@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { ChangeEvent, useState } from 'react'
+import { ChangeEvent } from 'react'
 import { useFormState } from 'react-dom'
 
 import { Button } from '@/components/ui/button'
@@ -21,17 +21,7 @@ export interface QuestFormProps {
 
 export function QuestForm({ quest, formAction }: QuestFormProps) {
   const [formState, questFormAction] = useFormState(formAction, { errors: {} })
-  const [title, setTitle] = useState(quest?.title || '')
-  const [description, setDescription] = useState(quest?.description || '')
   const { image: cover, uploadImage, uploadError } = useImageUpload(quest?.cover)
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value)
-  }
-
-  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    setDescription(event.target.value)
-  }
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
@@ -50,8 +40,7 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
           name="title"
           type="text"
           placeholder="Enter quest title"
-          value={title}
-          onChange={handleTitleChange}
+          defaultValue={quest?.title || ''}
         />
         {formState.errors.title && (
           <p className="text-red-500">{formState.errors.title.join(', ')}</p>
@@ -65,8 +54,7 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
           name="description"
           rows={4}
           placeholder="Enter quest description"
-          value={description}
-          onChange={handleDescriptionChange}
+          defaultValue={quest?.description || ''}
         />
         {formState.errors.description && (
           <p className="text-red-500">{formState.errors.description.join(', ')}</p>
@@ -75,7 +63,7 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
 
       <div>
         <div className="grid gap-2">
-          <Label htmlFor="image">Image</Label>
+          <Label htmlFor="image">Cover</Label>
           <div className="flex items-center gap-2">
             <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
           </div>

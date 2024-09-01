@@ -39,7 +39,11 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-end gap-4">
-            <TaskFormDialog title="Create a new task" formAction={createTaskAction}>
+            <TaskFormDialog
+              title="Create a new task"
+              questId={quest.id}
+              formAction={createTaskAction}
+            >
               <Button>Create task</Button>
             </TaskFormDialog>
             <Button variant="secondary">Rearrange tasks</Button>
