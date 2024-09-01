@@ -1,7 +1,7 @@
 import { User } from '@/db/types'
 import { getFileUrl } from '@/lib/aws'
 
-export type UserProp = {
+type UserProp = {
   name: string
   email: string
   avatar: {

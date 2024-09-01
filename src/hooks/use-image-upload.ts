@@ -1,7 +1,14 @@
 import { useCallback, useState } from 'react'
 
+import type { ImageType } from '@/db/types'
+import type { UploadRequestBody, UploadResponseBody } from '@/app/api/upload/types'
+
 import paths from '@/lib/paths'
-import { UploadRequestBody, UploadResponseBody } from '@/app/api/upload/types'
+
+interface Dimensions {
+  width: number
+  height: number
+}
 
 class UploadError extends Error {
   static message = 'Failed to upload image'
@@ -25,8 +32,7 @@ const getImageDimensions = (file: File) =>
     img.src = URL.createObjectURL(file)
   })
 
-const getUploadConfig = async (file: File) => {
-  const dimensions = await getImageDimensions(file)
+const getUploadConfig = async (file: File, dimensions: Dimensions) => {
   const data: UploadRequestBody = { filename: file.name, contentType: file.type, dimensions }
   const response = await fetch(paths.apiUpload, { method: 'POST', body: JSON.stringify(data) })
 
@@ -38,7 +44,8 @@ const getUploadConfig = async (file: File) => {
 }
 
 const uploadImageToS3 = async (file: File) => {
-  const { url, fileUrl, fields }: UploadResponseBody = await getUploadConfig(file)
+  const dimensions = await getImageDimensions(file)
+  const { url, fileUrl, fields }: UploadResponseBody = await getUploadConfig(file, dimensions)
 
   const formData = new FormData()
   Object.entries(fields).forEach(([key, value]) => {
@@ -52,20 +59,18 @@ const uploadImageToS3 = async (file: File) => {
     throw new UploadError()
   }
 
-  return { fileUrl, fileKey: fields.key }
+  return { url: fileUrl, key: fields.key, ...dimensions }
 }
 
-export function useImageUpload(initialImageURL: string | undefined) {
-  const [imageUrl, setImageURL] = useState(initialImageURL)
-  const [imageKey, setImageKey] = useState<string | null>(null)
+export function useImageUpload(initialImage?: ImageType | null) {
+  const [image, setImage] = useState(initialImage)
   const [uploadError, setUploadError] = useState<string | null>(null)
 
   const uploadImage = useCallback(async (file: File) => {
     try {
-      const { fileUrl: newImageUrl, fileKey } = await uploadImageToS3(file)
+      const newImage = await uploadImageToS3(file)
 
-      setImageURL(newImageUrl)
-      setImageKey(fileKey)
+      setImage(newImage)
     } catch (error) {
       if (error instanceof UploadError) {
         console.error(error.message)
@@ -75,5 +80,5 @@ export function useImageUpload(initialImageURL: string | undefined) {
     }
   }, [])
 
-  return { imageUrl, imageKey, uploadImage, uploadError }
+  return { image, uploadImage, uploadError }
 }

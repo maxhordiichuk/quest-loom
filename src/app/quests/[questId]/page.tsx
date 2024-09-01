@@ -1,5 +1,6 @@
-import { QuestEdit } from '@/components/server/quest-edit'
 import { getAuthenticatedSession } from '@/lib/auth'
+
+import { QuestShow } from '@/components/server/quest-show'
 
 interface QuestShowPageProps {
   params: {
@@ -10,5 +11,5 @@ interface QuestShowPageProps {
 export default async function QuestShowPage({ params }: QuestShowPageProps) {
   const { user } = await getAuthenticatedSession()
 
-  return <QuestEdit questId={params.questId} userId={user.id} />
+  return <QuestShow questId={params.questId} userId={user.id} />
 }

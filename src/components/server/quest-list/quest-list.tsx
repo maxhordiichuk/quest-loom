@@ -1,4 +1,4 @@
-import { fetchQuestList } from '@/db/queries'
+import { fetchQuests } from '@/db/queries'
 
 import { QuestList as ClientQuestList } from '@/components/client/quest-list'
 import { serializeQuest } from '@/serializers'
@@ -8,7 +8,7 @@ export interface QuestListProps {
 }
 
 export async function QuestList({ userId }: QuestListProps) {
-  const quests = await fetchQuestList({ userId })
+  const quests = await fetchQuests({ userId })
   const serializedQuests = await Promise.all(quests.map(serializeQuest))
 
   return <ClientQuestList quests={serializedQuests} />

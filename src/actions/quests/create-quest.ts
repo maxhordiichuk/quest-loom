@@ -45,7 +45,7 @@ export async function createQuest(
       console.error(err.message)
     }
 
-    return { errors: { _form: ['Failed to create a post'] } }
+    return { errors: { _form: ['Failed to create a quest'] } }
   }
 
   return redirect(paths.questShow(quest.id))

@@ -14,6 +14,8 @@ export default {
       cover: {
         key: 'quest-cover.jpg',
         url: questImage.src,
+        width: 1792,
+        height: 1024,
       },
     },
     {
@@ -25,6 +27,8 @@ export default {
       cover: {
         key: 'quest-cover.jpg',
         url: questImage.src,
+        width: 1792,
+        height: 1024,
       },
     },
     {
@@ -36,6 +40,8 @@ export default {
       cover: {
         key: 'quest-cover.jpg',
         url: questImage.src,
+        width: 1792,
+        height: 1024,
       },
     },
     {
@@ -47,6 +53,8 @@ export default {
       cover: {
         key: 'quest-cover.jpg',
         url: questImage.src,
+        width: 1792,
+        height: 1024,
       },
     },
   ],

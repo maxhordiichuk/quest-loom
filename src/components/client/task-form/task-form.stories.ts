@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
+import { withFormWrapper } from '@/.storybook/decorators'
+
 import data from './__mock__'
 import { TaskForm } from './task-form'
 
@@ -17,6 +19,7 @@ const meta = {
       },
     },
   },
+  decorators: [withFormWrapper],
 } satisfies Meta<typeof TaskForm>
 
 export default meta

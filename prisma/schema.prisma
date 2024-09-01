@@ -29,7 +29,9 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  avatar Attachment? @relation(fields: [avatarId], references: [id], onDelete: SetNull)
+  avatar          Attachment?       @relation(fields: [avatarId], references: [id], onDelete: SetNull)
+  QuestAssignment QuestAssignment[]
+  TaskAssignment  TaskAssignment[]
 }
 
 model Account {
@@ -112,35 +114,69 @@ type AttachmentMetadata {
 }
 
 model Quest {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String?
-  points      Int     @default(0)
-  isCompleted Boolean @default(false)
-  userId      String  @db.ObjectId
-  coverId     String? @db.ObjectId
-  tasks       Task[]
+  id               String            @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String?
+  isCompleted      Boolean           @default(false)
+  userId           String            @db.ObjectId
+  coverId          String?           @db.ObjectId
+  tasks            Task[]
+  questAssignments QuestAssignment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user  User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cover Attachment? @relation(fields: [coverId], references: [id], onDelete: SetNull)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cover          Attachment?      @relation(fields: [coverId], references: [id], onDelete: SetNull)
+  TaskAssignment TaskAssignment[]
 }
 
 model Task {
-  id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  order       Int
-  isCompleted Boolean @default(false)
-  code        String
-  questId     String  @db.ObjectId
-  imageId     String? @db.ObjectId
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  title           String
+  description     String
+  order           Int
+  code            String
+  questId         String           @db.ObjectId
+  imageId         String?          @db.ObjectId
+  taskAssignments TaskAssignment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   quest Quest       @relation(fields: [questId], references: [id], onDelete: Cascade)
   image Attachment? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+}
+
+model QuestAssignment {
+  id             String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId         String  @db.ObjectId
+  questId        String  @db.ObjectId
+  isCompleted    Boolean @default(false)
+  tasksCompleted Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questId])
+}
+
+model TaskAssignment {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId      String  @db.ObjectId
+  questId     String  @db.ObjectId
+  taskId      String  @db.ObjectId
+  isCompleted Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+  task  Task  @relation(fields: [taskId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, taskId])
 }

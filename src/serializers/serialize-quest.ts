@@ -1,12 +1,10 @@
 import { Quest } from '@/db/types'
 import { getFileUrl } from '@/lib/aws'
 
-export type QuestProp = {
+type QuestProp = {
   id: string
   title: string
   description: string | null
-  points: number
-  isCompleted: boolean
   cover: {
     key: string
     metadata: {
@@ -28,8 +26,6 @@ export async function serializeQuest(quest: QuestProp): Promise<Quest> {
     id: quest.id,
     title: quest.title,
     description: quest.description,
-    points: quest.points,
-    isCompleted: quest.isCompleted,
     cover: {
       key: cover.key,
       url: coverUrl,

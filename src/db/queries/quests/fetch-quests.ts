@@ -1,10 +1,10 @@
 import { db } from '@/db'
 
-interface FetchQuestListProps {
+interface FetchQuestsProps {
   userId: string
 }
 
-export function fetchQuestList({ userId }: FetchQuestListProps) {
+export function fetchQuests({ userId }: FetchQuestsProps) {
   return db.quest.findMany({
     where: { userId },
     include: {
