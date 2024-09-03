@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import { ReactElement } from 'react'
-import { cn } from '@/lib/utils'
+import { clsx } from 'clsx'
 
 export interface TaskImageProps {
   className?: string
@@ -14,7 +14,7 @@ export function TaskImage({ className, src, alt, width, height }: TaskImageProps
   return (
     <Image
       src={src}
-      className={cn(
+      className={clsx(
         'mx-auto aspect-[3/2] overflow-hidden rounded-xl object-cover object-center',
         className
       )}
