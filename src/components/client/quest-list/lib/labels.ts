@@ -1,5 +1,2 @@
 export const addNewQuestLabel = 'Add New Quest'
-export const completedLabel = 'Completed'
-export const pointsLabel = 'points'
-export const startQuestLabel = 'Start Quest'
-export const viewDetailsLabel = 'View Details'
+export const editQuestLabel = 'Edit Quest'

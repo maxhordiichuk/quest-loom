@@ -1,22 +1,15 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 
 import paths from '@/lib/paths'
 
 import type { Quest } from '@/db/types'
 
-import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 
-import {
-  addNewQuestLabel,
-  completedLabel,
-  pointsLabel,
-  startQuestLabel,
-  viewDetailsLabel,
-} from './lib'
+import { addNewQuestLabel, editQuestLabel } from './lib'
 
 import { ActionsMenu } from './actions-menu'
 
@@ -50,26 +43,13 @@ export function QuestList({ quests }: QuestListProps) {
               <p className="text-muted-foreground">{quest.description}</p>
             </CardContent>
             <CardFooter className="p-4">
-              <div className="w-full space-y-4">
-                <div className="flex justify-between items-center">
-                  <Badge variant="secondary" className="text-sm">
-                    {quest.points} {pointsLabel}
-                  </Badge>
-                  {quest.isCompleted && (
-                    <span className="flex items-center text-green-500">
-                      <CheckCircle className="w-4 h-4 mr-1" />
-                      {completedLabel}
-                    </span>
-                  )}
-                </div>
-
-                <Button
-                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
-                  size="lg"
-                >
-                  {quest.isCompleted ? viewDetailsLabel : startQuestLabel}
-                </Button>
-              </div>
+              <Button
+                asChild
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                size="lg"
+              >
+                <Link href={paths.questEdit(quest.id)}>{editQuestLabel}</Link>
+              </Button>
             </CardFooter>
           </Card>
         ))}

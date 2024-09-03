@@ -10,13 +10,13 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useImageUpload } from '@/hooks/use-image-upload'
 import type { Quest } from '@/db/types'
-import type { createQuest } from '@/actions'
+import type { createQuest, updateQuest } from '@/actions'
 
 import { saveTaskLabel } from './lib/labels'
 
 export interface QuestFormProps {
   quest?: Quest
-  formAction: typeof createQuest
+  formAction: typeof createQuest | typeof updateQuest
 }
 
 export function QuestForm({ quest, formAction }: QuestFormProps) {
@@ -33,6 +33,8 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
 
   return (
     <form action={questFormAction} className="grid gap-6">
+      {quest && <input type="hidden" name="id" value={quest.id} />}
+
       <div className="grid gap-2">
         <Label htmlFor="title">Title</Label>
         <Input

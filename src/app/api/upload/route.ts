@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { v4 as uuidv4 } from 'uuid'
 
+import { getAuthenticatedSession } from '@/lib/auth'
 import { getFileUrl, getUploadConfig } from '@/lib/aws'
-import { getSession } from '@/lib/auth'
 
 import { RequestBodySchema } from './validations'
 import { UploadRequestBody, UploadResponseBody, UploadResponseError } from './types'
@@ -10,13 +10,9 @@ import { UploadRequestBody, UploadResponseBody, UploadResponseError } from './ty
 export async function POST(
   request: NextRequest
 ): Promise<NextResponse<UploadResponseBody | UploadResponseError>> {
-  const session = await getSession()
+  const { user } = await getAuthenticatedSession()
 
-  if (!session || !session.user) {
-    return NextResponse.json({ error: 'You must be signed in to do this' }, { status: 401 })
-  }
-
-  const userId = session.user.id
+  const userId = user.id
   const body = await request.json()
   const schemaResult = RequestBodySchema.safeParse(body)
 

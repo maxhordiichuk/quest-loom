@@ -1,6 +1,9 @@
 import Image from 'next/image'
+import Link from 'next/link'
 
+import paths from '@/lib/paths'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import type { Quest, Task } from '@/db/types'
 import type { createTask } from '@/actions'
@@ -31,11 +34,17 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
             </div>
           )}
           <div className="mt-6 space-y-2">
-            <h1 className="text-3xl font-bold">{quest.title}</h1>
+            <div className="flex justify-between items-start">
+              <h1 className="text-4xl font-bold">{quest.title}</h1>
+              <Button variant="secondary" asChild>
+                <Link href={paths.questEdit(quest.id)}>Edit Quest</Link>
+              </Button>
+            </div>
+
             <p className="text-muted-foreground">{quest.description}</p>
           </div>
         </div>
-        <hr className="border-t border-muted" />
+        <Separator />
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold">Tasks</h2>
           <div className="flex justify-end gap-4">

@@ -5,24 +5,26 @@ import { Quest } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
-import { createQuest as createQuestService } from '@/services'
 import { getAuthenticatedSession } from '@/lib/auth'
+import { updateQuest as updateQuestService } from '@/services'
 
 import { QuestFormState } from './types'
 
-const createQuestSchema = z.object({
-  title: z.string().min(3),
-  description: z.string(),
-  coverKey: z.string(),
+const updateQuestSchema = z.object({
+  id: z.string(),
+  title: z.string().min(3).optional(),
+  description: z.string().optional(),
+  coverKey: z.string().optional().nullable(),
 })
 
-export async function createQuest(
+export async function updateQuest(
   _formState: QuestFormState,
   formData: FormData
 ): Promise<QuestFormState> {
   const { user } = await getAuthenticatedSession()
 
-  const schemaResult = createQuestSchema.safeParse({
+  const schemaResult = updateQuestSchema.safeParse({
+    id: formData.get('id'),
     title: formData.get('title'),
     description: formData.get('description'),
     coverKey: formData.get('coverKey'),
@@ -35,11 +37,11 @@ export async function createQuest(
   let quest: Quest
 
   try {
-    quest = await createQuestService({ ...schemaResult.data, userId: user.id })
+    quest = await updateQuestService({ ...schemaResult.data, userId: user.id })
   } catch (err: unknown) {
     console.error(err)
 
-    return { errors: { _form: ['Failed to create a quest'] } }
+    return { errors: { _form: ['Failed to update a quest'] } }
   }
 
   return redirect(paths.questShow(quest.id))

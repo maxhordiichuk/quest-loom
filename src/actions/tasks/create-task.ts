@@ -45,9 +45,7 @@ export async function createTask(
   try {
     await createTaskService({ ...schemaResult.data, questId: quest.id, userId: user.id })
   } catch (err: unknown) {
-    if (err instanceof Error) {
-      console.error(err.message)
-    }
+    console.error(err)
 
     return { errors: { _form: ['Failed to create a task'] } }
   }
