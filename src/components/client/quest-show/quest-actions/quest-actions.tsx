@@ -1,27 +1,27 @@
 import Link from 'next/link'
+import { ChevronDown, Edit, Eye, Trash2 } from 'lucide-react'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Edit, Eye, MoreVertical, Trash2 } from 'lucide-react'
 
 import paths from '@/lib/paths'
 
 import { Button } from '@/components/ui/button'
 
-export interface ActionsMenuProps {
+export interface QuestActionsProps {
   questId: string
 }
 
-export function ActionsMenu({ questId }: ActionsMenuProps) {
+export function QuestActions({ questId }: QuestActionsProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="h-8 w-8 p-0">
-          <span className="sr-only">Open menu</span>
-          <MoreVertical className="h-4 w-4" />
+        <Button variant="secondary">
+          <span>Actions</span>
+          <ChevronDown className="h-4 w-4 ml-2" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

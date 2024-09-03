@@ -1,6 +1,6 @@
-import type { User } from '@/db/types'
-
 import Link from 'next/link'
+import { UserIcon } from 'lucide-react'
+
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import type { User } from '@/db/types'
 
 import { getInitials, logoutLabel, profileLabel, toggleMenuLabel } from './lib'
 
@@ -24,10 +25,7 @@ export function Profile({ user }: ProfileProps) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="rounded-full">
-          <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar?.url} />
-            <AvatarFallback>{initials}</AvatarFallback>
-          </Avatar>
+          <UserIcon className="w-5 h-5" />
           <span className="sr-only">{toggleMenuLabel}</span>
         </Button>
       </DropdownMenuTrigger>

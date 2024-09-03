@@ -8,6 +8,7 @@ import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import type { Quest, Task } from '@/db/types'
 import type { createTask } from '@/actions'
 
+import { QuestActions } from './quest-actions'
 import { TaskCard } from './task-card'
 
 export interface QuestShowProps {
@@ -36,18 +37,18 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
           <div className="mt-6 space-y-2">
             <div className="flex justify-between items-start">
               <h1 className="text-4xl font-bold">{quest.title}</h1>
-              <Button variant="secondary" asChild>
-                <Link href={paths.questEdit(quest.id)}>Edit Quest</Link>
-              </Button>
+              <QuestActions questId={quest.id} />
             </div>
 
             <p className="text-muted-foreground">{quest.description}</p>
           </div>
         </div>
+
         <Separator />
+
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Tasks</h2>
-          <div className="flex justify-end gap-4">
+          <h2 className="text-2xl font-semibold">Tasks</h2>
+          <div className="flex justify-end gap-3">
             <TaskFormDialog
               title="Create a new task"
               questId={quest.id}
@@ -55,6 +56,7 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
             >
               <Button>Create task</Button>
             </TaskFormDialog>
+
             <Button variant="secondary">Rearrange tasks</Button>
           </div>
         </div>
