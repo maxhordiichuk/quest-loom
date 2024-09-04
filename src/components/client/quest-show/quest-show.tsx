@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { ArrowDownUp, Plus } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
@@ -52,10 +53,16 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
               questId={quest.id}
               formAction={createTaskAction}
             >
-              <Button>Create task</Button>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Create task
+              </Button>
             </TaskFormDialog>
 
-            <Button variant="secondary">Rearrange tasks</Button>
+            <Button variant="secondary">
+              <ArrowDownUp className="w-4 h-4 mr-2" />
+              Rearrange tasks
+            </Button>
           </div>
         </div>
         <div className="grid gap-4">

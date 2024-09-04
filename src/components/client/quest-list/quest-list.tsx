@@ -23,7 +23,7 @@ export function QuestList({ quests }: QuestListProps) {
           <h1 className="text-4xl font-bold">{titleLabel}</h1>
           <Button asChild>
             <Link href={paths.questNew}>
-              <Plus />
+              <Plus className="w-4 h-4 mr-2" />
               {addNewQuestLabel}
             </Link>
           </Button>
