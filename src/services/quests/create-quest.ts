@@ -3,7 +3,7 @@ import { db } from '@/db'
 import { QuestImageUploader } from '@/uploaders'
 import { attachImage } from '@/services/images/attach-image'
 
-export interface CreateQuestProps {
+interface CreateQuestProps {
   title: string
   description: string
   userId: string

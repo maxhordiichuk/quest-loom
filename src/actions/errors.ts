@@ -1,4 +1,6 @@
-export const questNotFound = 'Quest not found'
 export const failedToCreateQuest = 'Failed to create a quest'
-export const failedToUpdateQuest = 'Failed to update a quest'
 export const failedToCreateTask = 'Failed to create a task'
+export const failedToUpdateQuest = 'Failed to update a quest'
+export const failedToUpdateTask = 'Failed to update a task'
+export const questNotFound = 'Quest not found'
+export const taskNotFound = 'Task not found'

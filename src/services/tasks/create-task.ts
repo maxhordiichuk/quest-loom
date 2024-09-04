@@ -3,7 +3,7 @@ import { db } from '@/db'
 import { TaskImageUploader } from '@/uploaders'
 import { attachImage } from '@/services/images/attach-image'
 
-export interface CreateTaskProps {
+interface CreateTaskProps {
   title: string
   description: string
   code: string

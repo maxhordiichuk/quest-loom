@@ -1,5 +1,7 @@
-import { getFileUrl } from '@/lib/aws'
+import { fetchImage } from '@/db/queries'
 import type { Task } from '@/db/types'
+
+import { serializeImage } from './serialize-image'
 
 type TaskProp = {
   id: string
@@ -7,22 +9,11 @@ type TaskProp = {
   description: string | null
   code: string
   order: number
-  image: {
-    key: string
-    metadata: {
-      width: number
-      height: number
-    }
-  } | null
+  imageKey: string | null
 }
 
 export async function serializeTask(task: TaskProp): Promise<Task> {
-  if (!task.image) {
-    return task as Task
-  }
-
-  const { image } = task
-  const imageUrl = await getFileUrl(image.key)
+  const image = await fetchImage(task.imageKey)
 
   return {
     id: task.id,
@@ -30,11 +21,6 @@ export async function serializeTask(task: TaskProp): Promise<Task> {
     description: task.description,
     code: task.code,
     order: task.order,
-    image: {
-      key: image.key,
-      url: imageUrl,
-      width: image.metadata.width,
-      height: image.metadata.height,
-    },
+    image: serializeImage(image),
   }
 }

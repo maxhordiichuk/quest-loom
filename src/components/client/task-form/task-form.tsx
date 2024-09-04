@@ -3,7 +3,7 @@
 import { ChangeEvent, useEffect } from 'react'
 import { useFormState } from 'react-dom'
 
-import { createTask } from '@/actions'
+import { createTask, updateTask } from '@/actions'
 import type { Task } from '@/db/types'
 
 import { Button } from '@/components/ui/button'
@@ -17,8 +17,8 @@ import { saveTaskLabel } from './lib/labels'
 
 export interface TaskFormProps {
   task?: Task
-  questId: string
-  formAction: typeof createTask
+  questId?: string
+  formAction: typeof createTask | typeof updateTask
   onSuccess?: () => void
 }
 
@@ -46,7 +46,8 @@ export function TaskForm({ task, questId, formAction, onSuccess }: TaskFormProps
 
   return (
     <form action={taskFormAction} className="grid gap-6">
-      <input type="hidden" name="questId" value={questId} />
+      {task && <input type="hidden" name="id" value={task.id} />}
+      {questId && <input type="hidden" name="questId" value={questId} />}
 
       <div className="grid gap-2">
         <Label htmlFor="title">Title</Label>
@@ -96,7 +97,7 @@ export function TaskForm({ task, questId, formAction, onSuccess }: TaskFormProps
           />
         )}
 
-        <input type="hidden" name="imageKey" value={image?.key || ''} />
+        {image?.key && <input type="hidden" name="imageKey" value={image.key} />}
       </div>
 
       <div className="grid gap-2">

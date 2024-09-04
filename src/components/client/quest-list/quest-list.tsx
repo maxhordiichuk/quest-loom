@@ -41,10 +41,10 @@ export function QuestList({ quests }: QuestListProps) {
             href={paths.questShow(quest.id)}
             className="flex items-center gap-12 w-full group"
           >
-            {quest.cover && (
+            {quest.image && (
               <div className="shrink-0 border rounded-md overflow-hidden">
                 <Image
-                  src={quest.cover.url}
+                  src={quest.image.url}
                   alt={`Cover image for ${quest.title}`}
                   className="object-cover w-64 h-36 group-hover:scale-105 transition-transform"
                   width={200}

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { UserIcon } from 'lucide-react'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -32,7 +32,6 @@ export function Profile({ user }: ProfileProps) {
       <DropdownMenuContent align="end">
         <div className="flex items-center gap-2 p-2">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={user.avatar?.url} />
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="grid gap-0.5 leading-none">

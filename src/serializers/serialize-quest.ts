@@ -1,6 +1,7 @@
 import { Quest } from '@/db/types'
 import { fetchImage } from '@/db/queries'
-import { serializeImage } from '@/serializers/serialize-image'
+
+import { serializeImage } from './serialize-image'
 
 type QuestProp = {
   id: string
