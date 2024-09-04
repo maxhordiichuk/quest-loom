@@ -1,16 +1,18 @@
 import { db } from '@/db'
 
-import { createImage } from '../images/create-image'
+import { QuestImageUploader } from '@/uploaders'
+import { attachImage } from '@/services/images/attach-image'
 
 export interface CreateQuestProps {
   title: string
   description: string
   userId: string
-  coverKey?: string
+  imageKey?: string
 }
 
-export async function createQuest({ title, description, coverKey, userId }: CreateQuestProps) {
-  const cover = coverKey ? await createImage({ key: coverKey, userId }) : null
+export async function createQuest({ imageKey, ...data }: CreateQuestProps) {
+  const { title, description, userId } = data
+  const quest = await db.quest.create({ data: { title, description, userId } })
 
-  return db.quest.create({ data: { title, description, userId, coverId: cover?.id } })
+  return attachImage(new QuestImageUploader(quest), imageKey)
 }

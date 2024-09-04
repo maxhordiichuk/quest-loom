@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { createQuest as createQuestService } from '@/services'
+import { failedToCreateQuest } from '@/actions/errors'
 import { getAuthenticatedSession } from '@/lib/auth'
 
 import { QuestFormState } from './types'
@@ -13,7 +14,7 @@ import { QuestFormState } from './types'
 const createQuestSchema = z.object({
   title: z.string().min(3),
   description: z.string(),
-  coverKey: z.string(),
+  imageKey: z.string(),
 })
 
 export async function createQuest(
@@ -25,7 +26,7 @@ export async function createQuest(
   const schemaResult = createQuestSchema.safeParse({
     title: formData.get('title'),
     description: formData.get('description'),
-    coverKey: formData.get('coverKey'),
+    imageKey: formData.get('imageKey'),
   })
 
   if (!schemaResult.success) {
@@ -36,10 +37,10 @@ export async function createQuest(
 
   try {
     quest = await createQuestService({ ...schemaResult.data, userId: user.id })
-  } catch (err: unknown) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
 
-    return { errors: { _form: ['Failed to create a quest'] } }
+    return { errors: { _form: [failedToCreateQuest] } }
   }
 
   return redirect(paths.questShow(quest.id))

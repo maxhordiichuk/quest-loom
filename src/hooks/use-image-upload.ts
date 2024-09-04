@@ -72,9 +72,7 @@ export function useImageUpload(initialImage?: ImageType | null) {
 
       setImage(newImage)
     } catch (error) {
-      if (error instanceof UploadError) {
-        console.error(error.message)
-      }
+      console.error(error)
 
       setUploadError(UploadError.message)
     }

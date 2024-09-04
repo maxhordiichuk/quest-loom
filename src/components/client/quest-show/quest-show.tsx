@@ -1,7 +1,5 @@
 import Image from 'next/image'
-import Link from 'next/link'
 
-import paths from '@/lib/paths'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
@@ -22,19 +20,19 @@ export function QuestShow({ quest, tasks, createTaskAction }: QuestShowProps) {
     <div className="max-w-6xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
       <div className="grid gap-8">
         <div>
-          {quest.cover && (
+          {quest.image && (
             <div className="bg-muted rounded-lg overflow-hidden">
               <Image
-                src={quest.cover.url}
+                src={quest.image.url}
                 alt="Quest cover image"
-                width={quest.cover.width}
-                height={quest.cover.height}
+                width={quest.image.width}
+                height={quest.image.height}
                 className="w-full h-[300px] sm:h-[400px] object-cover"
                 style={{ aspectRatio: '1200/400', objectFit: 'cover' }}
               />
             </div>
           )}
-          <div className="mt-6 space-y-2">
+          <div className="mt-8 space-y-4">
             <div className="flex justify-between items-start">
               <h1 className="text-4xl font-bold">{quest.title}</h1>
               <QuestActions questId={quest.id} />

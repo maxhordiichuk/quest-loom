@@ -1,10 +1,11 @@
 'use server'
 
 import paths from '@/lib/paths'
-import { Quest } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
+import { failedToUpdateQuest, questNotFound } from '@/actions/errors'
+import { fetchQuest } from '@/db/queries'
 import { getAuthenticatedSession } from '@/lib/auth'
 import { updateQuest as updateQuestService } from '@/services'
 
@@ -14,7 +15,7 @@ const updateQuestSchema = z.object({
   id: z.string(),
   title: z.string().min(3).optional(),
   description: z.string().optional(),
-  coverKey: z.string().optional().nullable(),
+  imageKey: z.string().optional(),
 })
 
 export async function updateQuest(
@@ -27,21 +28,25 @@ export async function updateQuest(
     id: formData.get('id'),
     title: formData.get('title'),
     description: formData.get('description'),
-    coverKey: formData.get('coverKey'),
+    imageKey: formData.get('imageKey'),
   })
 
   if (!schemaResult.success) {
     return { errors: schemaResult.error.flatten().fieldErrors }
   }
 
-  let quest: Quest
+  const quest = await fetchQuest({ questId: schemaResult.data.id, userId: user.id })
+
+  if (!quest) {
+    return { errors: { _form: [questNotFound] } }
+  }
 
   try {
-    quest = await updateQuestService({ ...schemaResult.data, userId: user.id })
-  } catch (err: unknown) {
-    console.error(err)
+    await updateQuestService(quest.id, schemaResult.data)
+  } catch (error) {
+    console.error(error)
 
-    return { errors: { _form: ['Failed to update a quest'] } }
+    return { errors: { _form: [failedToUpdateQuest] } }
   }
 
   return redirect(paths.questShow(quest.id))

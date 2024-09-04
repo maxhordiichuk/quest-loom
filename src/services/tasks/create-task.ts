@@ -1,35 +1,20 @@
 import { db } from '@/db'
 
-import { createImage } from '../images/create-image'
+import { TaskImageUploader } from '@/uploaders'
+import { attachImage } from '@/services/images/attach-image'
 
 export interface CreateTaskProps {
   title: string
   description: string
   code: string
   imageKey?: string
-  userId: string
   questId: string
 }
 
-export async function createTask({
-  title,
-  description,
-  code,
-  imageKey,
-  userId,
-  questId,
-}: CreateTaskProps) {
-  const image = imageKey ? await createImage({ key: imageKey, userId }) : null
+export async function createTask({ imageKey, ...data }: CreateTaskProps) {
+  const { title, description, code, questId } = data
   const order = await db.task.count({ where: { questId } })
+  const task = await db.task.create({ data: { title, description, code, order, questId } })
 
-  return db.task.create({
-    data: {
-      title,
-      description,
-      code,
-      order,
-      questId,
-      imageId: image?.id,
-    },
-  })
+  return attachImage(new TaskImageUploader(task), imageKey)
 }

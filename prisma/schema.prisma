@@ -18,8 +18,6 @@ model User {
   name          String
   email         String          @unique
   emailVerified DateTime?
-  image         String?
-  avatarId      String?         @db.ObjectId
   accounts      Account[]
   sessions      Session[]
   quests        Quest[]
@@ -29,7 +27,6 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  avatar          Attachment?       @relation(fields: [avatarId], references: [id], onDelete: SetNull)
   QuestAssignment QuestAssignment[]
   TaskAssignment  TaskAssignment[]
 }
@@ -95,7 +92,6 @@ model Authenticator {
 model Attachment {
   id          String             @id @default(auto()) @map("_id") @db.ObjectId
   key         String
-  filename    String
   contentType String
   metadata    AttachmentMetadata
   byteSize    Int
@@ -103,9 +99,10 @@ model Attachment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  User  User[]
   Quest Quest[]
   Task  Task[]
+
+  @@unique([key])
 }
 
 type AttachmentMetadata {
@@ -119,7 +116,7 @@ model Quest {
   description      String?
   isCompleted      Boolean           @default(false)
   userId           String            @db.ObjectId
-  coverId          String?           @db.ObjectId
+  imageKey         String?
   tasks            Task[]
   questAssignments QuestAssignment[]
 
@@ -127,7 +124,7 @@ model Quest {
   updatedAt DateTime @updatedAt
 
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  cover          Attachment?      @relation(fields: [coverId], references: [id], onDelete: SetNull)
+  cover          Attachment?      @relation(fields: [imageKey], references: [key], onDelete: SetNull)
   TaskAssignment TaskAssignment[]
 }
 
@@ -138,14 +135,16 @@ model Task {
   order           Int
   code            String
   questId         String           @db.ObjectId
-  imageId         String?          @db.ObjectId
+  imageKey        String?
   taskAssignments TaskAssignment[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   quest Quest       @relation(fields: [questId], references: [id], onDelete: Cascade)
-  image Attachment? @relation(fields: [imageId], references: [id], onDelete: SetNull)
+  image Attachment? @relation(fields: [imageKey], references: [key], onDelete: SetNull)
+
+  @@unique([questId, order])
 }
 
 model QuestAssignment {

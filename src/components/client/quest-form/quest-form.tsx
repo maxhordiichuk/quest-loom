@@ -21,7 +21,7 @@ export interface QuestFormProps {
 
 export function QuestForm({ quest, formAction }: QuestFormProps) {
   const [formState, questFormAction] = useFormState(formAction, { errors: {} })
-  const { image: cover, uploadImage, uploadError } = useImageUpload(quest?.cover)
+  const { image, uploadImage, uploadError } = useImageUpload(quest?.image)
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { files } = event.target
@@ -73,17 +73,17 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
 
         {uploadError && <p className="text-red-500">{uploadError}</p>}
 
-        {cover && (
+        {image && (
           <Image
-            src={cover.url}
+            src={image.url}
             className="mt-2 w-full aspect-[3/2] overflow-hidden rounded-xl object-cover object-center"
             alt="Uploaded image"
-            width={cover.width}
-            height={cover.height}
+            width={image.width}
+            height={image.height}
           />
         )}
 
-        {cover && <input type="hidden" name="coverKey" value={cover.key} />}
+        {image?.key && <input type="hidden" name="imageKey" value={image.key} />}
       </div>
 
       {formState.errors._form && (

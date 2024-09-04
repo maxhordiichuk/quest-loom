@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { z } from 'zod'
 
 import { createTask as createTaskService } from '@/services'
+import { failedToCreateTask, questNotFound } from '@/actions/errors'
 import { fetchQuest } from '@/db/queries'
 import { getAuthenticatedSession } from '@/lib/auth'
 
@@ -39,15 +40,15 @@ export async function createTask(
   const quest = await fetchQuest({ questId: schemaResult.data.questId, userId: user.id })
 
   if (!quest) {
-    return { errors: { _form: ['Cannot find quest'] } }
+    return { errors: { _form: [questNotFound] } }
   }
 
   try {
-    await createTaskService({ ...schemaResult.data, questId: quest.id, userId: user.id })
-  } catch (err: unknown) {
-    console.error(err)
+    await createTaskService(schemaResult.data)
+  } catch (error) {
+    console.error(error)
 
-    return { errors: { _form: ['Failed to create a task'] } }
+    return { errors: { _form: [failedToCreateTask] } }
   }
 
   return redirect(paths.questShow(quest.id))

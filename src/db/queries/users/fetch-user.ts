@@ -5,12 +5,5 @@ interface FetchUserProps {
 }
 
 export function fetchUser({ userId }: FetchUserProps) {
-  return db.user.findFirst({
-    where: { id: userId },
-    include: {
-      avatar: {
-        select: { key: true, metadata: true },
-      },
-    },
-  })
+  return db.user.findFirst({ where: { id: userId } })
 }

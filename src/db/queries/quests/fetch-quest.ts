@@ -6,12 +6,5 @@ interface FetchQuestProps {
 }
 
 export function fetchQuest({ questId, userId }: FetchQuestProps) {
-  return db.quest.findFirst({
-    where: { id: questId, userId },
-    include: {
-      cover: {
-        select: { key: true, metadata: true },
-      },
-    },
-  })
+  return db.quest.findFirst({ where: { id: questId, userId } })
 }
