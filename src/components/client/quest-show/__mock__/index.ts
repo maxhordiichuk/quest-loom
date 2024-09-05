@@ -68,4 +68,5 @@ export default {
   createTaskAction: () => new Promise(() => {}),
   deleteTaskAction: () => new Promise(() => {}),
   updateTaskAction: () => new Promise(() => {}),
+  reorderTasksAction: () => new Promise(() => {}),
 } satisfies QuestShowProps

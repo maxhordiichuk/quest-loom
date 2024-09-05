@@ -7,10 +7,10 @@ import { PageContent } from '@/components/client/page-content'
 import { PageHeading } from '@/components/client/page-heading'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import type { Quest, Task } from '@/db/types'
-import type { createTask, deleteQuest, deleteTask, updateTask } from '@/actions'
+import type { createTask, deleteQuest, deleteTask, reorderTasks, updateTask } from '@/actions'
 
 import { QuestActions } from './quest-actions'
-import { TaskCard } from './task-card'
+import { TaskList } from './task-list'
 
 export interface QuestShowProps {
   quest: Quest
@@ -19,6 +19,7 @@ export interface QuestShowProps {
   createTaskAction: typeof createTask
   deleteTaskAction: typeof deleteTask
   updateTaskAction: typeof updateTask
+  reorderTasksAction: typeof reorderTasks
 }
 
 export function QuestShow({
@@ -28,6 +29,7 @@ export function QuestShow({
   createTaskAction,
   deleteTaskAction,
   updateTaskAction,
+  reorderTasksAction,
 }: QuestShowProps) {
   return (
     <PageContent className="pt-8">
@@ -59,24 +61,15 @@ export function QuestShow({
               Create task
             </Button>
           </TaskFormDialog>
-
-          <Button variant="secondary">
-            <ArrowDownUp className="w-4 h-4 mr-2" />
-            Rearrange tasks
-          </Button>
         </div>
       </div>
 
-      <div className="grid gap-4">
-        {tasks.map(task => (
-          <TaskCard
-            key={task.id}
-            task={task}
-            deleteTaskAction={deleteTaskAction}
-            updateTaskAction={updateTaskAction}
-          />
-        ))}
-      </div>
+      <TaskList
+        tasks={tasks}
+        deleteTaskAction={deleteTaskAction}
+        updateTaskAction={updateTaskAction}
+        reorderTasksAction={reorderTasksAction}
+      />
     </PageContent>
   )
 }

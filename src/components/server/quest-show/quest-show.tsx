@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation'
 
-import { createTask, deleteQuest, deleteTask, updateTask } from '@/actions'
+import { createTask, deleteQuest, deleteTask, reorderTasks, updateTask } from '@/actions'
 import { fetchQuest, fetchTasks } from '@/db/queries'
 import { serializeQuest, serializeTask } from '@/serializers'
 
@@ -31,6 +31,7 @@ export async function QuestShow({ id, userId }: QuestShowProps) {
       createTaskAction={createTask}
       deleteTaskAction={deleteTask}
       updateTaskAction={updateTask}
+      reorderTasksAction={reorderTasks}
     />
   )
 }

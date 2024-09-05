@@ -10,7 +10,7 @@ import type { deleteTask, updateTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'
 import { DeleteTaskDialog } from '@/components/client/delete-task-dialog'
-import { Edit, Eye, Trash2 } from 'lucide-react'
+import { Edit, Trash2 } from 'lucide-react'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
@@ -18,12 +18,15 @@ export interface TaskCardProps {
   task: Task
   deleteTaskAction: typeof deleteTask
   updateTaskAction: typeof updateTask
+  dragHandler: React.ReactNode
 }
 
-export function TaskCard({ task, deleteTaskAction, updateTaskAction }: TaskCardProps) {
+export function TaskCard({ task, deleteTaskAction, updateTaskAction, dragHandler }: TaskCardProps) {
   return (
     <div className="bg-muted/70 rounded-lg p-4 hover:bg-muted/80 transition-colors">
       <div className="flex items-center gap-4">
+        {dragHandler}
+
         <Image
           src={fallbackTaskImage.src}
           alt="Task image"
@@ -33,26 +36,15 @@ export function TaskCard({ task, deleteTaskAction, updateTaskAction }: TaskCardP
         />
 
         <div className="flex-1">
-          <h3 className="text-lg font-semibold">{task.title}</h3>
+          <h3 className="text-lg font-semibold">
+            <Link href={paths.taskShow(task.id)} className="hover:underline">
+              {task.title}
+            </Link>
+          </h3>
           <p className="text-sm text-muted-foreground/80">{task.description}</p>
         </div>
 
         <div>
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button asChild variant="ghost">
-                  <Link href={paths.taskShow(task.id)}>
-                    <Eye className="h-4 w-4" />
-                  </Link>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Preview task</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-
           <TooltipProvider>
             <Tooltip>
               <TaskFormDialog title="Update the task" task={task} formAction={updateTaskAction}>
