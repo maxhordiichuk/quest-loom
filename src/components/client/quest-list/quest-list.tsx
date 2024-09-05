@@ -2,12 +2,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 
+import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
 import paths from '@/lib/paths'
-
 import type { Quest } from '@/db/types'
 
 import { Button } from '@/components/ui/button'
-import { Separator } from '@/components/ui/separator'
+import { PageContent } from '@/components/client/page-content'
+import { PageHeading } from '@/components/client/page-heading'
 
 import { addNewQuestLabel, descriptionLabel, titleLabel } from './lib'
 
@@ -17,41 +18,32 @@ export interface QuestListProps {
 
 export function QuestList({ quests }: QuestListProps) {
   return (
-    <div className="container mx-auto py-20">
-      <div className="mt-6 space-y-2">
-        <div className="flex justify-between items-start">
-          <h1 className="text-4xl font-bold">{titleLabel}</h1>
-          <Button asChild>
-            <Link href={paths.questNew}>
-              <Plus className="w-4 h-4 mr-2" />
-              {addNewQuestLabel}
-            </Link>
-          </Button>
-        </div>
-
-        <p className="text-muted-foreground">{descriptionLabel}</p>
-      </div>
-
-      <Separator className="my-8" />
+    <PageContent>
+      <PageHeading title={titleLabel} subtitle={descriptionLabel}>
+        <Button asChild>
+          <Link href={paths.questNew}>
+            <Plus className="w-4 h-4 mr-2" />
+            {addNewQuestLabel}
+          </Link>
+        </Button>
+      </PageHeading>
 
       <div className="grid gap-8">
         {quests.map(quest => (
           <Link
             key={quest.id}
             href={paths.questShow(quest.id)}
-            className="flex items-center gap-12 w-full group"
+            className="flex items-center gap-12 w-full"
           >
-            {quest.image && (
-              <div className="shrink-0 border rounded-md overflow-hidden">
-                <Image
-                  src={quest.image.url}
-                  alt={`Cover image for ${quest.title}`}
-                  className="object-cover w-64 h-36 group-hover:scale-105 transition-transform"
-                  width={200}
-                  height={100}
-                />
-              </div>
-            )}
+            <div className="shrink-0 border rounded-md overflow-hidden">
+              <Image
+                src={quest.image?.url || fallbackQuestImage}
+                alt="Quest cover image"
+                className="object-cover w-64 h-36 hover:scale-105 transition-transform"
+                width={300}
+                height={200}
+              />
+            </div>
             <div>
               <h2 className="text-2xl font-semibold">{quest.title}</h2>
               <p>{quest.description}</p>
@@ -59,6 +51,6 @@ export function QuestList({ quests }: QuestListProps) {
           </Link>
         ))}
       </div>
-    </div>
+    </PageContent>
   )
 }

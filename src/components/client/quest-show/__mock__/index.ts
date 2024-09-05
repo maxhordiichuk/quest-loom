@@ -65,4 +65,5 @@ export default {
     },
   ],
   createTaskAction: () => new Promise(() => {}),
+  updateTaskAction: () => new Promise(() => {}),
 } satisfies QuestShowProps

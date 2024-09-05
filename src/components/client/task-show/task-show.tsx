@@ -1,8 +1,10 @@
+import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import type { Task } from '@/db/types'
 
 import { Button } from '@/components/ui/button'
 import { TaskImage } from '@/components/client/task-image'
 
+import { PageContent } from '@/components/client/page-content'
 import { completeQuestLabel, taskNumberLabel } from './lib/labels'
 
 export interface TaskShowProps {
@@ -10,9 +12,11 @@ export interface TaskShowProps {
 }
 
 export function TaskShow({ task }: TaskShowProps) {
+  const taskImageUrl = task.image?.url || fallbackTaskImage.src
+
   return (
-    <main className="w-full py-12 md:py-24 lg:py-32">
-      <div className="container grid items-center justify-center gap-8 px-4 md:px-6 lg:grid-cols-2 lg:gap-16">
+    <PageContent>
+      <div className="grid items-center justify-center gap-8 lg:grid-cols-2 lg:gap-16">
         <div className="pb-7">
           <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm mb-1">
             {taskNumberLabel}
@@ -24,15 +28,13 @@ export function TaskShow({ task }: TaskShowProps) {
               {task.title}
             </h1>
 
-            {task.image && (
-              <TaskImage
-                className="mx-auto lg:hidden"
-                src={task.image.url}
-                alt="Task image"
-                width={task.image.width}
-                height={task.image.height}
-              />
-            )}
+            <TaskImage
+              className="mx-auto lg:hidden"
+              src={taskImageUrl}
+              alt="Task image"
+              width={500}
+              height={500}
+            />
 
             <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
               {task.description}
@@ -42,16 +44,14 @@ export function TaskShow({ task }: TaskShowProps) {
           </div>
         </div>
 
-        {task.image && (
-          <TaskImage
-            className="mx-auto hidden lg:block"
-            src={task.image.url}
-            alt="Task image"
-            width={task.image.width}
-            height={task.image.height}
-          />
-        )}
+        <TaskImage
+          className="ml-auto hidden lg:block"
+          src={taskImageUrl}
+          alt="Task image"
+          width={500}
+          height={500}
+        />
       </div>
-    </main>
+    </PageContent>
   )
 }

@@ -15,7 +15,7 @@ export function TaskImage({ className, src, alt, width, height }: TaskImageProps
     <Image
       src={src}
       className={clsx(
-        'mx-auto aspect-[3/2] overflow-hidden rounded-xl object-cover object-center',
+        'overflow-hidden rounded-xl object-cover object-center w-full max-h-[512px]',
         className
       )}
       alt={alt}

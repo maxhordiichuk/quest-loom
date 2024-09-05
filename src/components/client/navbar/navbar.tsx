@@ -21,8 +21,8 @@ export interface NavbarProps {
 export function Navbar({ user }: NavbarProps) {
   return (
     <nav className="sticky top-0 z-10 bg-white shadow dark:shadow-dark inset-x-0">
-      <div className="w-full mx-auto max-w-7xl">
-        <div className="flex items-center h-16 px-4 md:px-6">
+      <div className="container max-w-7xl">
+        <div className="flex items-center h-16">
           <Link href={paths.home} className="flex items-center gap-2" prefetch={false}>
             <MountainIcon className="h-6 w-6" />
             <span className="text-lg font-semibold">{projectNameLabel}</span>
