@@ -6,12 +6,12 @@ import { serializeTask } from '@/serializers'
 import { TaskShow as ClientTaskShow } from '@/components/client/task-show'
 
 export interface TaskShowProps {
-  taskId: string
+  id: string
   userId: string
 }
 
-export async function TaskShow({ taskId, userId }: TaskShowProps) {
-  const task = await fetchTask({ taskId, userId })
+export async function TaskShow({ id, userId }: TaskShowProps) {
+  const task = await fetchTask({ id, userId })
 
   if (!task) {
     return notFound()

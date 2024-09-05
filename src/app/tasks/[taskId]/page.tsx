@@ -11,5 +11,5 @@ interface TaskShowPageProps {
 export default async function TaskShowPage({ params }: TaskShowPageProps) {
   const { user } = await getAuthenticatedSession()
 
-  return <TaskShow taskId={params.taskId} userId={user.id} />
+  return <TaskShow id={params.taskId} userId={user.id} />
 }

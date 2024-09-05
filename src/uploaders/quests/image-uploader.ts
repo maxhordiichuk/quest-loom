@@ -1,4 +1,4 @@
-import { Quest } from '@prisma/client'
+import type { Quest } from '@prisma/client'
 
 import { BaseUploader } from '@/uploaders/base-uploader'
 import { db } from '@/db'

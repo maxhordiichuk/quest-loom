@@ -10,7 +10,7 @@ import { deleteImage } from './delete-image'
 
 export async function attachImage<T extends Identifiable>(
   uploader: BaseUploader<T>,
-  tempKey?: string
+  tempKey?: string | null
 ) {
   if (!tempKey) {
     return uploader.entity

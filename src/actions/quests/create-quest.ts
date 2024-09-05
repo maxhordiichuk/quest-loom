@@ -1,9 +1,9 @@
 'use server'
 
 import paths from '@/lib/paths'
-import { Quest } from '@prisma/client'
 import { redirect } from 'next/navigation'
 import { z } from 'zod'
+import type { Quest } from '@prisma/client'
 
 import { createQuest as createQuestService } from '@/services'
 import { failedToCreateQuest } from '@/actions/errors'
@@ -14,7 +14,7 @@ import { QuestFormState } from './types'
 const createQuestSchema = z.object({
   title: z.string().min(3),
   description: z.string(),
-  imageKey: z.string(),
+  imageKey: z.string().optional().nullable(),
 })
 
 export async function createQuest(

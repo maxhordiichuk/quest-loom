@@ -35,7 +35,7 @@ export async function updateQuest(
     return { errors: schemaResult.error.flatten().fieldErrors }
   }
 
-  const quest = await fetchQuest({ questId: schemaResult.data.id, userId: user.id })
+  const quest = await fetchQuest({ id: schemaResult.data.id, userId: user.id })
 
   if (!quest) {
     return { errors: { _form: [questNotFound] } }

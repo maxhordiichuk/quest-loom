@@ -37,7 +37,7 @@ export async function createTask(
     return { errors: schemaResult.error.flatten().fieldErrors }
   }
 
-  const quest = await fetchQuest({ questId: schemaResult.data.questId, userId: user.id })
+  const quest = await fetchQuest({ id: schemaResult.data.questId, userId: user.id })
 
   if (!quest) {
     return { errors: { _form: [questNotFound] } }

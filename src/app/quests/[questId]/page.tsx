@@ -11,5 +11,5 @@ interface QuestShowPageProps {
 export default async function QuestShowPage({ params }: QuestShowPageProps) {
   const { user } = await getAuthenticatedSession()
 
-  return <QuestShow questId={params.questId} userId={user.id} />
+  return <QuestShow id={params.questId} userId={user.id} />
 }

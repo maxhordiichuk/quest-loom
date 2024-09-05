@@ -65,7 +65,7 @@ export function QuestForm({ quest, formAction }: QuestFormProps) {
 
       <div>
         <div className="grid gap-2">
-          <Label htmlFor="image">Cover</Label>
+          <Label htmlFor="image">Image</Label>
           <div className="flex items-center gap-2">
             <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
           </div>

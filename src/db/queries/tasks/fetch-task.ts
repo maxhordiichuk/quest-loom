@@ -1,12 +1,12 @@
 import { db } from '@/db'
 
 interface FetchTaskProps {
-  taskId: string
+  id: string
   userId: string
 }
 
-export function fetchTask({ taskId, userId }: FetchTaskProps) {
+export function fetchTask({ id, userId }: FetchTaskProps) {
   return db.task.findFirst({
-    where: { id: taskId, quest: { userId } },
+    where: { id, quest: { userId } },
   })
 }

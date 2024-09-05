@@ -5,12 +5,12 @@ import { serializeQuest } from '@/serializers'
 import { QuestEdit as QuestEditClient } from '@/components/client/quest-edit'
 
 export interface QuestEditProps {
-  questId: string
+  id: string
   userId: string
 }
 
-export async function QuestEdit({ userId, questId }: QuestEditProps) {
-  const quest = await fetchQuest({ userId, questId })
+export async function QuestEdit({ id, userId }: QuestEditProps) {
+  const quest = await fetchQuest({ id, userId })
 
   if (!quest) {
     return notFound()

@@ -1,10 +1,10 @@
 import { db } from '@/db'
 
 interface FetchQuestProps {
-  questId: string
+  id: string
   userId: string
 }
 
-export function fetchQuest({ questId, userId }: FetchQuestProps) {
-  return db.quest.findFirst({ where: { id: questId, userId } })
+export function fetchQuest({ id, userId }: FetchQuestProps) {
+  return db.quest.findFirst({ where: { id, userId } })
 }

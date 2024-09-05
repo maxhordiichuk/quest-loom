@@ -10,5 +10,5 @@ interface QuestEditPageProps {
 export default async function QuestShowPage({ params }: QuestEditPageProps) {
   const { user } = await getAuthenticatedSession()
 
-  return <QuestEdit questId={params.questId} userId={user.id} />
+  return <QuestEdit id={params.questId} userId={user.id} />
 }

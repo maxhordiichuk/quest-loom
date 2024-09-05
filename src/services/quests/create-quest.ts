@@ -7,7 +7,7 @@ interface CreateQuestProps {
   title: string
   description: string
   userId: string
-  imageKey?: string
+  imageKey?: string | null
 }
 
 export async function createQuest({ imageKey, ...data }: CreateQuestProps) {

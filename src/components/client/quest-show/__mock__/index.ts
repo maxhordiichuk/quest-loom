@@ -64,6 +64,8 @@ export default {
       image: null,
     },
   ],
+  deleteQuestAction: () => new Promise(() => {}),
   createTaskAction: () => new Promise(() => {}),
+  deleteTaskAction: () => new Promise(() => {}),
   updateTaskAction: () => new Promise(() => {}),
 } satisfies QuestShowProps

@@ -1,24 +1,24 @@
 import { notFound } from 'next/navigation'
 
-import { createTask, updateTask } from '@/actions'
+import { createTask, deleteQuest, deleteTask, updateTask } from '@/actions'
 import { fetchQuest, fetchTasks } from '@/db/queries'
 import { serializeQuest, serializeTask } from '@/serializers'
 
 import { QuestShow as ClientQuestShow } from '@/components/client/quest-show'
 
 export interface QuestShowProps {
-  questId: string
+  id: string
   userId: string
 }
 
-export async function QuestShow({ questId, userId }: QuestShowProps) {
-  const quest = await fetchQuest({ questId, userId })
+export async function QuestShow({ id, userId }: QuestShowProps) {
+  const quest = await fetchQuest({ id, userId })
 
   if (!quest) {
     return notFound()
   }
 
-  const tasks = await fetchTasks({ questId })
+  const tasks = await fetchTasks({ questId: id })
 
   const serializedQuest = await serializeQuest(quest)
   const serializedTasks = await Promise.all(tasks.map(serializeTask))
@@ -27,7 +27,9 @@ export async function QuestShow({ questId, userId }: QuestShowProps) {
     <ClientQuestShow
       quest={serializedQuest}
       tasks={serializedTasks}
+      deleteQuestAction={deleteQuest}
       createTaskAction={createTask}
+      deleteTaskAction={deleteTask}
       updateTaskAction={updateTask}
     />
   )

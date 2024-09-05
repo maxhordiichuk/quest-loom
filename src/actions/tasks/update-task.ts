@@ -37,7 +37,7 @@ export async function updateTask(
     return { errors: schemaResult.error.flatten().fieldErrors }
   }
 
-  const task = await fetchTask({ taskId: schemaResult.data.id, userId: user.id })
+  const task = await fetchTask({ id: schemaResult.data.id, userId: user.id })
 
   if (!task) {
     return { errors: { _form: [taskNotFound] } }

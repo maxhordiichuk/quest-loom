@@ -1,4 +1,4 @@
-import { Task } from '@prisma/client'
+import type { Task } from '@prisma/client'
 
 import { BaseUploader } from '@/uploaders/base-uploader'
 import { db } from '@/db'

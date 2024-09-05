@@ -6,19 +6,21 @@ import Link from 'next/link'
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import paths from '@/lib/paths'
 import type { Task } from '@/db/types'
-import type { updateTask } from '@/actions'
+import type { deleteTask, updateTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'
+import { DeleteTaskDialog } from '@/components/client/delete-task-dialog'
 import { Edit, Eye, Trash2 } from 'lucide-react'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
 export interface TaskCardProps {
   task: Task
+  deleteTaskAction: typeof deleteTask
   updateTaskAction: typeof updateTask
 }
 
-export function TaskCard({ task, updateTaskAction }: TaskCardProps) {
+export function TaskCard({ task, deleteTaskAction, updateTaskAction }: TaskCardProps) {
   return (
     <div className="bg-muted/70 rounded-lg p-4 hover:bg-muted/80 transition-colors">
       <div className="flex items-center gap-4">
@@ -68,13 +70,13 @@ export function TaskCard({ task, updateTaskAction }: TaskCardProps) {
 
           <TooltipProvider>
             <Tooltip>
-              <TooltipTrigger asChild>
-                <Button asChild variant="ghost">
-                  <Link href={paths.taskShow(task.id)}>
+              <DeleteTaskDialog task={task} deleteAction={deleteTaskAction}>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost">
                     <Trash2 className="h-4 w-4 text-red-600" />
-                  </Link>
-                </Button>
-              </TooltipTrigger>
+                  </Button>
+                </TooltipTrigger>
+              </DeleteTaskDialog>
               <TooltipContent>
                 <p>Delete task</p>
               </TooltipContent>
