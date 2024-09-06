@@ -1,3 +1,9 @@
+export interface Assignment {
+  id: string
+  completedAt: Date | null
+  url: string
+}
+
 export interface Image {
   key?: string
   url: string

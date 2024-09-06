@@ -11,6 +11,9 @@ declare module 'next/config' {
         tokenMaxAge: number
       }
     }
+    publicRuntimeConfig: {
+      host: string
+    }
   }
 
   declare const getConfig: ConfigTypes

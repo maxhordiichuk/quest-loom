@@ -1,4 +1,4 @@
-;['AWS_BUCKET_NAME', 'AWS_REGION', 'EMAIL_SERVER', 'EMAIL_FROM'].forEach(key => {
+;['HOST', 'AWS_BUCKET_NAME', 'AWS_REGION', 'EMAIL_SERVER', 'EMAIL_FROM'].forEach(key => {
   if (!process.env[key]) {
     throw new Error(`Please set ${key} in environment variables`)
   }
@@ -16,6 +16,9 @@ const nextConfig = {
       from: process.env.EMAIL_FROM,
       tokenMaxAge: 24 * 60 * 60, // 24 hours
     },
+  },
+  publicRuntimeConfig: {
+    host: process.env.HOST,
   },
   images: {
     remotePatterns: [{

@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ChevronDown, Edit, Eye, Trash2 } from 'lucide-react'
+import { ChevronDown, Edit, Eye, Share, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 import paths from '@/lib/paths'
@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { ShareQuestDialog } from '@/components/client/share-quest-dialog'
 
 export interface QuestActionsProps {
   quest: Quest
@@ -24,9 +25,14 @@ export interface QuestActionsProps {
 
 export function QuestActions({ quest, deleteQuestAction }: QuestActionsProps) {
   const [isDeleting, setDeleting] = useState(false)
+  const [isSharing, setSharing] = useState(false)
 
   const handleDelete = () => {
     setDeleting(true)
+  }
+
+  const handleShare = () => {
+    setSharing(true)
   }
 
   return (
@@ -39,6 +45,10 @@ export function QuestActions({ quest, deleteQuestAction }: QuestActionsProps) {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem className="text-primary-foreground" onClick={handleShare}>
+            <Share className="mr-2 h-4 w-4" />
+            <span>Share</span>
+          </DropdownMenuItem>
           <Link href={paths.questShow(quest.id)}>
             <DropdownMenuItem>
               <Eye className="mr-2 h-4 w-4" />
@@ -66,6 +76,8 @@ export function QuestActions({ quest, deleteQuestAction }: QuestActionsProps) {
           onOpenChange={setDeleting}
         />
       )}
+
+      {isSharing && <ShareQuestDialog quest={quest} open={isSharing} onOpenChange={setSharing} />}
     </>
   )
 }
