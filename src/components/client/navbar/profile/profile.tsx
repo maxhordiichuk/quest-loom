@@ -1,5 +1,8 @@
+'use client'
+
 import Link from 'next/link'
 import { UserIcon } from 'lucide-react'
+import { signOut } from 'next-auth/react'
 
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -21,6 +24,10 @@ interface ProfileProps {
 export function Profile({ user }: ProfileProps) {
   const initials = getInitials(user.name)
 
+  const handleSignOut = async () => {
+    await signOut()
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -31,7 +38,7 @@ export function Profile({ user }: ProfileProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <div className="flex items-center gap-2 p-2">
-          <Avatar className="h-8 w-8">
+          <Avatar className="h-10 w-10">
             <AvatarFallback>{initials}</AvatarFallback>
           </Avatar>
           <div className="grid gap-0.5 leading-none">
@@ -46,7 +53,7 @@ export function Profile({ user }: ProfileProps) {
             <span>{profileLabel}</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleSignOut}>
           <Link href="#logout" className="flex items-center gap-2" prefetch={false}>
             <div className="h-4 w-4" />
             <span>{logoutLabel}</span>

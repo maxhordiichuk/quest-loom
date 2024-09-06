@@ -1,7 +1,9 @@
 export default {
   home: '/quests',
+  apiAuthSignIn: '/api/auth/signin/email',
   apiUpload: '/api/upload',
-  signIn: '/api/auth/signin',
+  signIn: '/auth/login',
+  verifyRequest: '/auth/verify-request',
   questNew: '/quests/new',
   questList: '/quests',
   questEdit: (questId: string) => `/quests/${questId}/edit`,

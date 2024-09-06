@@ -2,6 +2,7 @@ import EmailProvider from 'next-auth/providers/email'
 import NextAuth, { getServerSession } from 'next-auth'
 import getConfig from 'next/config'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
+import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 
 import type { AdapterUser } from 'next-auth/adapters'
@@ -40,6 +41,10 @@ export const nextAuthConfig = {
       }
     },
   },
+  pages: {
+    signIn: paths.signIn,
+    verifyRequest: paths.verifyRequest,
+  },
 }
 
 const handler = NextAuth(nextAuthConfig)
@@ -58,4 +63,8 @@ async function getAuthenticatedSession() {
   return session
 }
 
-export { handler as GET, handler as POST, getSession, getAuthenticatedSession }
+function getCsrfToken() {
+  return cookies().get('next-auth.csrf-token')?.value.split('|')[0]
+}
+
+export { handler as GET, handler as POST, getSession, getAuthenticatedSession, getCsrfToken }
