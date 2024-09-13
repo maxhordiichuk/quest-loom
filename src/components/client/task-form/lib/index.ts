@@ -1,1 +1,1 @@
-export { saveTaskLabel } from './labels'
+export * from './labels'

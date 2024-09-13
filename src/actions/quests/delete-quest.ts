@@ -5,7 +5,7 @@ import { deleteQuest as doDeleteQuest } from '@/services'
 import { failedToDeleteQuest, questNotFound } from '@/actions/errors'
 import { fetchQuest } from '@/db/queries'
 import { getAuthenticatedSession } from '@/lib/auth'
-import type { DeleteQuestAction } from '@/types/requests/delete-quest'
+import type { DeleteQuestAction } from '@/types/requests'
 
 export const deleteQuest: DeleteQuestAction = async body => {
   try {

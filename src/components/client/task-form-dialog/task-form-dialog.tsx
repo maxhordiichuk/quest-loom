@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import type { CreateTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import {
@@ -13,28 +14,17 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { TaskForm } from '@/components/client/task-form'
-import { createTask, updateTask } from '@/actions'
 
 export interface TaskFormDialogProps {
   title: string
   task?: Task
   questId?: string
-  formAction: typeof createTask | typeof updateTask
+  onSubmit: CreateTaskAction | UpdateTaskAction
   children?: React.ReactNode
 }
 
-export function TaskFormDialog({
-  title,
-  task,
-  questId,
-  formAction,
-  children,
-}: TaskFormDialogProps) {
+export function TaskFormDialog({ title, task, questId, onSubmit, children }: TaskFormDialogProps) {
   const [isOpen, setOpen] = useState(false)
-
-  const close = () => {
-    setOpen(false)
-  }
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
@@ -45,7 +35,12 @@ export function TaskFormDialog({
         </DialogHeader>
         <DialogDescription>Fill in the form below to create a new task</DialogDescription>
         <div className="pt-4">
-          <TaskForm task={task} questId={questId} formAction={formAction} onSuccess={close} />
+          <TaskForm
+            task={task}
+            questId={questId}
+            onSubmit={onSubmit}
+            onSuccess={() => setOpen(false)}
+          />
         </div>
       </DialogContent>
     </Dialog>

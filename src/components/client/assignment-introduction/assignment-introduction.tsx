@@ -1,15 +1,15 @@
 'use client'
 
 import Image from 'next/image'
-import { FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 
 import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import { useErrorToast } from '@/hooks/use-error-toast'
 import type { Quest } from '@/types/models/player'
 import type { StartAssignmentAction } from '@/types/requests'
 
 import { Button } from '@/components/ui/button'
-import { ErrorsToaster } from '@/components/client/errors-toaster'
 import { PageContent } from '@/components/client/page-content'
 import { PageHeading } from '@/components/client/page-heading'
 
@@ -26,8 +26,8 @@ export function AssignmentIntroduction({
   quest,
   startAssignment,
 }: AssignmentIntroductionProps) {
+  const { toastErrors } = useErrorToast()
   const router = useRouter()
-  const [errors, setErrors] = useState<string[]>([])
 
   const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
     event.preventDefault()
@@ -35,7 +35,7 @@ export function AssignmentIntroduction({
     const result = await startAssignment({ id: assignmentId })
 
     if (result.errors) {
-      setErrors(result.errors)
+      toastErrors(result.errors)
       return
     }
 
@@ -69,7 +69,6 @@ export function AssignmentIntroduction({
       <Button className="px-8 mt-8" onClick={handleSubmit}>
         {startQuestLabel}
       </Button>
-      <ErrorsToaster errors={errors} />
     </PageContent>
   )
 }

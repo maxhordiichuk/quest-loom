@@ -1,55 +1,34 @@
 'use server'
 
-import paths from '@/lib/paths'
-import { redirect } from 'next/navigation'
-import { z } from 'zod'
-
-import { createTask as createTaskService } from '@/services'
+import { createTaskSchema } from '@/schema'
+import { createTask as doCreateTask } from '@/services'
 import { failedToCreateTask, questNotFound } from '@/actions/errors'
 import { fetchQuest } from '@/db/queries'
 import { getAuthenticatedSession } from '@/lib/auth'
+import type { CreateTaskAction } from '@/types/requests'
 
-import type { TaskFormState } from './types'
-
-const createPostSchema = z.object({
-  title: z.string().min(3),
-  description: z.string(),
-  code: z.string(),
-  questId: z.string(),
-  imageKey: z.string().optional().nullable(),
-})
-
-export async function createTask(
-  _formState: TaskFormState,
-  formData: FormData
-): Promise<TaskFormState> {
-  const { user } = await getAuthenticatedSession()
-
-  const schemaResult = createPostSchema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    code: formData.get('code'),
-    questId: formData.get('questId'),
-    imageKey: formData.get('imageKey'),
-  })
-
-  if (!schemaResult.success) {
-    return { errors: schemaResult.error.flatten().fieldErrors }
-  }
-
-  const quest = await fetchQuest({ id: schemaResult.data.questId, userId: user.id })
-
-  if (!quest) {
-    return { errors: { _form: [questNotFound] } }
-  }
-
+export const createTask: CreateTaskAction = async body => {
   try {
-    await createTaskService(schemaResult.data)
+    const { user } = await getAuthenticatedSession()
+
+    const result = createTaskSchema.safeParse(body)
+
+    if (!result.success) {
+      return { success: false, errors: result.error.flatten().fieldErrors }
+    }
+
+    const quest = await fetchQuest({ id: result.data.questId, userId: user.id })
+
+    if (!quest) {
+      return { success: false, errors: { root: [questNotFound] } }
+    }
+
+    await doCreateTask(result.data)
+
+    return { success: true }
   } catch (error) {
     console.error(error)
 
-    return { errors: { _form: [failedToCreateTask] } }
+    return { success: false, errors: { root: [failedToCreateTask] } }
   }
-
-  return redirect(paths.questShow(quest.id))
 }

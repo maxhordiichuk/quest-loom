@@ -1,125 +1,119 @@
-'use client'
+import { useForm } from 'react-hook-form'
+import { useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-import { ChangeEvent, useEffect } from 'react'
-import { useFormState } from 'react-dom'
-
-import { createTask, updateTask } from '@/actions'
+import { CreateTaskSchemaType, createTaskSchema } from '@/schema'
+import { setErrors } from '@/lib/forms'
+import type { CreateTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { FormAlert } from '@/components/client/form-alert'
+import { ImageField } from '@/components/client/image-field'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { TaskImage } from '@/components/client/task-image'
 import { Textarea } from '@/components/ui/textarea'
-import { useImageUpload } from '@/hooks/use-image-upload'
 
-import { saveTaskLabel } from './lib/labels'
+import { saveTaskLabel } from './lib'
 
 export interface TaskFormProps {
   task?: Task
   questId?: string
-  formAction: typeof createTask | typeof updateTask
-  onSuccess?: () => void
+  onSubmit: CreateTaskAction | UpdateTaskAction
+  onSuccess: () => void
 }
 
-export function TaskForm({ task, questId, formAction, onSuccess }: TaskFormProps) {
-  const [formState, taskFormAction] = useFormState(formAction, { errors: {} })
-  const { image, uploadImage, uploadError } = useImageUpload(task?.image)
+export function TaskForm({ task, questId, onSubmit, onSuccess }: TaskFormProps) {
+  const router = useRouter()
+  const formRef = useRef<HTMLFormElement>(null)
 
-  useEffect(() => {
-    if (!formState) {
-      onSuccess?.()
+  const form = useForm<CreateTaskSchemaType>({
+    resolver: zodResolver(createTaskSchema),
+    defaultValues: {
+      questId,
+      title: task?.title || '',
+      description: task?.description || '',
+      code: task?.code || '',
+    },
+  })
+
+  const handleSubmit = form.handleSubmit(async () => {
+    const result = await onSubmit({ ...form.getValues(), id: task?.id as string })
+
+    if (!result.success) {
+      setErrors(form, result.errors)
+      return
     }
-  }, [formState, onSuccess])
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
-
-    if (files) {
-      uploadImage(files[0])
-    }
-  }
-
-  if (!formState) {
-    return null
-  }
+    router.refresh()
+    onSuccess()
+  })
 
   return (
-    <form action={taskFormAction} className="grid gap-6">
-      {task && <input type="hidden" name="id" value={task.id} />}
-      {questId && <input type="hidden" name="questId" value={questId} />}
+    <Form {...form}>
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
+        <FormAlert message={form.formState.errors.root?.message} />
 
-      <div className="grid gap-2">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
+        <FormField name="questId" render={({ field }) => <input type="hidden" {...field} />} />
+
+        <FormField
+          control={form.control}
           name="title"
-          type="text"
-          placeholder="Enter task title"
-          defaultValue={task?.title || ''}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter task title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        {formState.errors.title && (
-          <p className="text-red-500">{formState.errors.title.join(', ')}</p>
-        )}
-      </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          id="description"
+        <FormField
+          control={form.control}
           name="description"
-          rows={4}
-          placeholder="Enter task description"
-          defaultValue={task?.description || ''}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter task description" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        {formState.errors.description && (
-          <p className="text-red-500">{formState.errors.description.join(', ')}</p>
-        )}
-      </div>
 
-      <div>
-        <div className="grid gap-2">
-          <Label htmlFor="image">Image</Label>
-          <div className="flex items-center gap-2">
-            <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
-          </div>
-        </div>
-
-        {uploadError && <p className="text-red-500">{uploadError}</p>}
-
-        {image && (
-          <TaskImage
-            src={image.url}
-            width={image.width}
-            height={image.height}
-            alt="Uploaded image"
-            className="mt-2 w-full"
-          />
-        )}
-
-        {image?.key && <input type="hidden" name="imageKey" value={image.key} />}
-      </div>
-
-      <div className="grid gap-2">
-        <Label htmlFor="code">Code</Label>
-        <Input
-          id="code"
+        <FormField
+          control={form.control}
           name="code"
-          placeholder="Enter task code"
-          className="font-mono"
-          defaultValue={task?.code || ''}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Code</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter unlock code" className="font-mono" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </div>
 
-      {formState.errors._form && (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          {formState.errors._form.join(', ')}
+        <ImageField form={form} name="imageKey" image={task?.image} />
+
+        <div className="grid justify-end">
+          <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
+            {saveTaskLabel}
+          </Button>
         </div>
-      )}
-
-      <Button type="submit" className="justify-center">
-        {saveTaskLabel}
-      </Button>
-    </form>
+      </form>
+    </Form>
   )
 }

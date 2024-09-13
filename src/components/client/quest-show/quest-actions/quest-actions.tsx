@@ -5,7 +5,7 @@ import { ChevronDown, Edit, Eye, Share, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 import paths from '@/lib/paths'
-import type { DeleteQuestAction } from '@/types/requests/delete-quest'
+import type { DeleteQuestAction } from '@/types/requests'
 import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'

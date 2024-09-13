@@ -7,7 +7,7 @@ interface UpdateTaskData {
   title?: string
   description?: string
   code?: string
-  imageKey?: string
+  imageKey?: string | null
 }
 
 export async function updateTask(id: string, data: UpdateTaskData) {

@@ -15,27 +15,33 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { startTransition, useState } from 'react'
+import { startTransition, useEffect, useState } from 'react'
 
+import { useErrorToast } from '@/hooks/use-error-toast'
+import type { DeleteTaskAction, ReorderTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
-import type { deleteTask, reorderTasks, updateTask } from '@/actions'
 
 import { SortableTask } from './sortable-task'
 
 interface TaskListProps {
   tasks: Task[]
-  deleteTaskAction: typeof deleteTask
-  updateTaskAction: typeof updateTask
-  reorderTasksAction: typeof reorderTasks
+  deleteTask: DeleteTaskAction
+  updateTask: UpdateTaskAction
+  reorderTask: ReorderTaskAction
 }
 
 export function TaskList({
   tasks: propsTasks,
-  deleteTaskAction,
-  updateTaskAction,
-  reorderTasksAction,
+  deleteTask,
+  updateTask,
+  reorderTask,
 }: TaskListProps) {
+  const { toastErrors } = useErrorToast()
   const [tasks, setTasks] = useState(propsTasks)
+
+  useEffect(() => {
+    setTasks(propsTasks)
+  }, [propsTasks])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -44,10 +50,13 @@ export function TaskList({
     })
   )
 
-  const reorderAction = (id: string, oldIndex: number, newIndex: number) => {
-    startTransition(async () => {
-      await reorderTasksAction({ id, oldIndex, newIndex })
-    })
+  const reorderAction = async (id: string, oldIndex: number, newIndex: number) => {
+    const result = await reorderTask({ id, oldIndex, newIndex })
+
+    if (!result.success) {
+      toastErrors(result.errors)
+      setTasks(propsTasks)
+    }
   }
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -75,8 +84,8 @@ export function TaskList({
             <SortableTask
               key={task.id}
               task={task}
-              deleteTaskAction={deleteTaskAction}
-              updateTaskAction={updateTaskAction}
+              deleteTask={deleteTask}
+              updateTask={updateTask}
             />
           ))}
         </SortableContext>

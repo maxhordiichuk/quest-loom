@@ -5,8 +5,8 @@ import Link from 'next/link'
 
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import paths from '@/lib/paths'
+import type { DeleteTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
-import type { deleteTask, updateTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'
 import { DeleteTaskDialog } from '@/components/client/delete-task-dialog'
@@ -16,12 +16,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 export interface TaskCardProps {
   task: Task
-  deleteTaskAction: typeof deleteTask
-  updateTaskAction: typeof updateTask
+  deleteTask: DeleteTaskAction
+  updateTask: UpdateTaskAction
   dragHandler: React.ReactNode
 }
 
-export function TaskCard({ task, deleteTaskAction, updateTaskAction, dragHandler }: TaskCardProps) {
+export function TaskCard({ task, deleteTask, updateTask, dragHandler }: TaskCardProps) {
   return (
     <div className="bg-muted/70 rounded-lg p-4 hover:bg-muted/80 transition-colors">
       <div className="flex items-center gap-4">
@@ -47,7 +47,7 @@ export function TaskCard({ task, deleteTaskAction, updateTaskAction, dragHandler
         <div>
           <TooltipProvider>
             <Tooltip>
-              <TaskFormDialog title="Update the task" task={task} formAction={updateTaskAction}>
+              <TaskFormDialog title="Update the task" task={task} onSubmit={updateTask}>
                 <TooltipTrigger asChild>
                   <Button variant="ghost">
                     <Edit className="h-4 w-4" />
@@ -62,7 +62,7 @@ export function TaskCard({ task, deleteTaskAction, updateTaskAction, dragHandler
 
           <TooltipProvider>
             <Tooltip>
-              <DeleteTaskDialog task={task} deleteAction={deleteTaskAction}>
+              <DeleteTaskDialog task={task} deleteTask={deleteTask}>
                 <TooltipTrigger asChild>
                   <Button variant="ghost">
                     <Trash2 className="h-4 w-4 text-red-600" />

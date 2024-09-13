@@ -2,18 +2,18 @@ import { CSS } from '@dnd-kit/utilities'
 import { GripVertical } from 'lucide-react'
 import { useSortable } from '@dnd-kit/sortable'
 
+import type { DeleteTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
-import type { deleteTask, updateTask } from '@/actions'
 
 import { TaskCard } from '../task-card'
 
 interface SortableTaskProps {
   task: Task
-  deleteTaskAction: typeof deleteTask
-  updateTaskAction: typeof updateTask
+  deleteTask: DeleteTaskAction
+  updateTask: UpdateTaskAction
 }
 
-export function SortableTask({ task, deleteTaskAction, updateTaskAction }: SortableTaskProps) {
+export function SortableTask({ task, deleteTask, updateTask }: SortableTaskProps) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: task.id })
 
   const style = {
@@ -32,8 +32,8 @@ export function SortableTask({ task, deleteTaskAction, updateTaskAction }: Sorta
       <TaskCard
         key={task.id}
         task={task}
-        deleteTaskAction={deleteTaskAction}
-        updateTaskAction={updateTaskAction}
+        deleteTask={deleteTask}
+        updateTask={updateTask}
         dragHandler={dragHandler}
       />
     </div>

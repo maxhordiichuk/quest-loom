@@ -60,8 +60,6 @@ export function QuestForm({ quest, onSubmit }: QuestFormProps) {
       <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
         <FormAlert message={form.formState.errors.root?.message} />
 
-        <FormField name="assignmentId" render={({ field }) => <input type="hidden" {...field} />} />
-
         <FormField
           control={form.control}
           name="title"

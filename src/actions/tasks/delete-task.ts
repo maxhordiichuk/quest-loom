@@ -1,32 +1,30 @@
 'use server'
 
-import paths from '@/lib/paths'
-import { notFound, redirect } from 'next/navigation'
-
-import { getAuthenticatedSession } from '@/lib/auth'
-
+import { deleteTaskSchema } from '@/schema'
 import { deleteTask as deleteTaskService } from '@/services'
+import { failedToDeleteTask, taskNotFound } from '@/actions/errors'
 import { fetchTask } from '@/db/queries'
+import { getAuthenticatedSession } from '@/lib/auth'
+import type { DeleteTaskAction } from '@/types/requests'
 
-export async function deleteTask(_formState: object, formData: FormData) {
-  const { user } = await getAuthenticatedSession()
-  const id = formData.get('id')
-
-  if (!id || typeof id !== 'string') {
-    return notFound()
-  }
-
-  const task = await fetchTask({ id, userId: user.id })
-
-  if (!task) {
-    return notFound()
-  }
-
+export const deleteTask: DeleteTaskAction = async body => {
   try {
+    const { user } = await getAuthenticatedSession()
+
+    const { id } = deleteTaskSchema.parse(body)
+
+    const task = await fetchTask({ id, userId: user.id })
+
+    if (!task) {
+      return { success: false, errors: [taskNotFound] }
+    }
+
     await deleteTaskService(task)
+
+    return { success: true }
   } catch (error) {
     console.error(error)
-  }
 
-  return redirect(paths.questShow(task.questId))
+    return { success: false, errors: [failedToDeleteTask] }
+  }
 }

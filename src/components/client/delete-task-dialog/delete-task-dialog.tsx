@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react'
-import { useFormState } from 'react-dom'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 
+import { useErrorToast } from '@/hooks/use-error-toast'
+import type { DeleteTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
-import type { deleteTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -17,22 +18,25 @@ import {
 
 export interface DeleteTaskDialogProps {
   task: Task
-  deleteAction: typeof deleteTask
+  deleteTask: DeleteTaskAction
   children?: React.ReactNode
 }
 
-export function DeleteTaskDialog({ task, deleteAction, children }: DeleteTaskDialogProps) {
+export function DeleteTaskDialog({ task, deleteTask, children }: DeleteTaskDialogProps) {
   const [isOpen, setOpen] = useState(false)
-  const [formState, deleteTaskAction] = useFormState(deleteAction, {})
+  const { toastErrors } = useErrorToast()
+  const router = useRouter()
 
-  useEffect(() => {
-    if (!formState) {
-      setOpen(false)
+  const handleDelete = async () => {
+    const result = await deleteTask({ id: task.id })
+
+    if (!result.success) {
+      toastErrors(result.errors)
+      return
     }
-  }, [formState])
 
-  if (!formState) {
-    return null
+    setOpen(false)
+    router.refresh()
   }
 
   return (
@@ -46,12 +50,9 @@ export function DeleteTaskDialog({ task, deleteAction, children }: DeleteTaskDia
           Are you sure you want to delete the task {task.title}?
         </DialogDescription>
         <DialogFooter>
-          <form action={deleteTaskAction}>
-            <input type="hidden" name="id" value={task.id} />
-            <Button variant="destructive" type="submit">
-              Delete task
-            </Button>
-          </form>
+          <Button variant="destructive" onClick={handleDelete}>
+            Delete Task
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

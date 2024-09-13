@@ -5,6 +5,7 @@ import type { Metadata } from 'next'
 import { cn } from '@/lib/utils'
 
 import Providers from '@/app/providers'
+import { Toaster } from '@/components/ui/toaster'
 
 const fontSans = FontSans({
   subsets: ['latin', 'cyrillic'],
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={cn('min-h-screen bg-background font-sans antialiased', fontSans.variable)}>
         <Providers>{children}</Providers>
+        <Toaster />
       </body>
     </html>
   )
