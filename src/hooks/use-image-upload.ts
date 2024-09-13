@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import type { ImageType } from '@/types/models/creator'
+import type { Image } from '@/types/models/common'
 import type { UploadRequestBody, UploadResponseBody } from '@/app/api/upload/types'
 
 import paths from '@/lib/paths'
@@ -62,21 +62,22 @@ const uploadImageToS3 = async (file: File) => {
   return { url: fileUrl, key: fields.key, ...dimensions }
 }
 
-export function useImageUpload(initialImage?: ImageType | null) {
+export function useImageUpload(initialImage?: Image | null) {
   const [image, setImage] = useState(initialImage)
-  const [uploadError, setUploadError] = useState<string | null>(null)
 
   const uploadImage = useCallback(async (file: File) => {
     try {
       const newImage = await uploadImageToS3(file)
 
       setImage(newImage)
+
+      return { image: newImage }
     } catch (error) {
       console.error(error)
 
-      setUploadError(UploadError.message)
+      return { error: UploadError.message }
     }
   }, [])
 
-  return { image, uploadImage, uploadError }
+  return { image, uploadImage }
 }

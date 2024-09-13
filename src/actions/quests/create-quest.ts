@@ -1,47 +1,27 @@
 'use server'
 
-import paths from '@/lib/paths'
-import { redirect } from 'next/navigation'
-import { z } from 'zod'
-import type { Quest } from '@prisma/client'
-
+import { createQuestSchema } from '@/schema'
 import { createQuest as createQuestService } from '@/services'
 import { failedToCreateQuest } from '@/actions/errors'
 import { getAuthenticatedSession } from '@/lib/auth'
+import type { CreateQuestAction } from '@/types/requests'
 
-import { QuestFormState } from './types'
-
-const createQuestSchema = z.object({
-  title: z.string().min(3),
-  description: z.string(),
-  imageKey: z.string().optional().nullable(),
-})
-
-export async function createQuest(
-  _formState: QuestFormState,
-  formData: FormData
-): Promise<QuestFormState> {
-  const { user } = await getAuthenticatedSession()
-
-  const schemaResult = createQuestSchema.safeParse({
-    title: formData.get('title'),
-    description: formData.get('description'),
-    imageKey: formData.get('imageKey'),
-  })
-
-  if (!schemaResult.success) {
-    return { errors: schemaResult.error.flatten().fieldErrors }
-  }
-
-  let quest: Quest
-
+export const createQuest: CreateQuestAction = async body => {
   try {
-    quest = await createQuestService({ ...schemaResult.data, userId: user.id })
+    const { user } = await getAuthenticatedSession()
+
+    const schemaResult = createQuestSchema.safeParse(body)
+
+    if (!schemaResult.success) {
+      return { success: false, errors: schemaResult.error.flatten().fieldErrors }
+    }
+
+    const quest = await createQuestService({ ...schemaResult.data, userId: user.id })
+
+    return { success: true, questId: quest.id }
   } catch (error) {
     console.error(error)
 
-    return { errors: { _form: [failedToCreateQuest] } }
+    return { success: false, errors: { root: [failedToCreateQuest] } }
   }
-
-  return redirect(paths.questShow(quest.id))
 }

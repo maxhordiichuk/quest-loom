@@ -1,7 +1,7 @@
 import _each from 'lodash/each'
 import { Path, UseFormReturn } from 'react-hook-form'
 
-type FormValues = Record<string, string>
+type FormValues = Record<string, string | null | undefined>
 type ErrorKey<TFormValues> = Path<TFormValues> | `root.${string}` | 'root'
 type Errors<TFormValues> = Partial<Record<ErrorKey<TFormValues>, string[]>>
 

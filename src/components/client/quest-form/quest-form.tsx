@@ -1,100 +1,103 @@
 'use client'
 
-import Image from 'next/image'
-import { ChangeEvent } from 'react'
-import { useFormState } from 'react-dom'
+import { useForm } from 'react-hook-form'
+import { useRef } from 'react'
+import { useRouter } from 'next/navigation'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+import paths from '@/lib/paths'
+import { CreateQuestSchemaType, createQuestSchema } from '@/schema'
+import { setErrors } from '@/lib/forms'
+import type { CreateQuestAction } from '@/types/requests'
+import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { FormAlert } from '@/components/client/form-alert'
+import { ImageField } from '@/components/client/image-field'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { useImageUpload } from '@/hooks/use-image-upload'
-import type { Quest } from '@/types/models/creator'
-import type { createQuest, updateQuest } from '@/actions'
 
-import { saveTaskLabel } from './lib/labels'
+import { saveQuestLabel } from './lib'
 
 export interface QuestFormProps {
   quest?: Quest
-  formAction: typeof createQuest | typeof updateQuest
+  createQuest: CreateQuestAction
 }
 
-export function QuestForm({ quest, formAction }: QuestFormProps) {
-  const [formState, questFormAction] = useFormState(formAction, { errors: {} })
-  const { image, uploadImage, uploadError } = useImageUpload(quest?.image)
+export function QuestForm({ quest, createQuest }: QuestFormProps) {
+  const router = useRouter()
+  const formRef = useRef<HTMLFormElement>(null)
 
-  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { files } = event.target
+  const form = useForm<CreateQuestSchemaType>({
+    resolver: zodResolver(createQuestSchema),
+    defaultValues: {
+      title: quest?.title || '',
+      description: quest?.description || '',
+    },
+  })
 
-    if (files) {
-      uploadImage(files[0])
+  const handleSubmit = form.handleSubmit(async () => {
+    const result = await createQuest(form.getValues())
+
+    if (!result.success) {
+      setErrors(form, result.errors)
+      return
     }
-  }
+
+    router.push(paths.questShow(result.questId))
+  })
 
   return (
-    <form action={questFormAction} className="grid gap-6">
-      {quest && <input type="hidden" name="id" value={quest.id} />}
+    <Form {...form}>
+      <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
+        <FormAlert message={form.formState.errors.root?.message} />
 
-      <div className="grid gap-2">
-        <Label htmlFor="title">Title</Label>
-        <Input
-          id="title"
+        <FormField name="assignmentId" render={({ field }) => <input type="hidden" {...field} />} />
+
+        <FormField
+          control={form.control}
           name="title"
-          type="text"
-          placeholder="Enter quest title"
-          defaultValue={quest?.title || ''}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Title</FormLabel>
+              <FormControl>
+                <Input placeholder="Enter quest title" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        {formState.errors.title && (
-          <p className="text-red-500">{formState.errors.title.join(', ')}</p>
-        )}
-      </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="description">Description</Label>
-        <Textarea
-          id="description"
+        <FormField
+          control={form.control}
           name="description"
-          rows={4}
-          placeholder="Enter quest description"
-          defaultValue={quest?.description || ''}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Description</FormLabel>
+              <FormControl>
+                <Textarea placeholder="Enter quest description" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-        {formState.errors.description && (
-          <p className="text-red-500">{formState.errors.description.join(', ')}</p>
-        )}
-      </div>
 
-      <div>
-        <div className="grid gap-2">
-          <Label htmlFor="image">Image</Label>
-          <div className="flex items-center gap-2">
-            <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
-          </div>
+        <ImageField form={form} name="imageKey" image={quest?.image} />
+
+        <div className="grid justify-end">
+          <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
+            {saveQuestLabel}
+          </Button>
         </div>
-
-        {uploadError && <p className="text-red-500">{uploadError}</p>}
-
-        {image && (
-          <Image
-            src={image.url}
-            className="mt-2 w-full aspect-[3/2] overflow-hidden rounded-xl object-cover object-center"
-            alt="Uploaded image"
-            width={image.width}
-            height={image.height}
-          />
-        )}
-
-        {image?.key && <input type="hidden" name="imageKey" value={image.key} />}
-      </div>
-
-      {formState.errors._form && (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          {formState.errors._form.join(', ')}
-        </div>
-      )}
-
-      <Button type="submit" className="justify-center">
-        {saveTaskLabel}
-      </Button>
-    </form>
+      </form>
+    </Form>
   )
 }
