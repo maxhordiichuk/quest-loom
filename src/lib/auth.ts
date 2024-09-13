@@ -56,7 +56,7 @@ function getSession() {
 async function getAuthenticatedSession() {
   const session = await getSession()
 
-  if (!session || !session.user) {
+  if (!session?.user) {
     return redirect(paths.signIn)
   }
 
