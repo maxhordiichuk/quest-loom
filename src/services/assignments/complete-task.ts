@@ -43,7 +43,7 @@ export async function completeTask({ assignment }: CompleteTaskProps) {
     return
   }
 
-  db.$transaction(async tx => {
+  await db.$transaction(async tx => {
     await tx.taskAssignment.update({
       where: { id: taskAssignment.id },
       data: { completedAt: new Date() },

@@ -7,7 +7,7 @@ interface CreateTaskProps {
   title: string
   description: string
   code: string
-  imageKey?: string
+  imageKey?: string | null
   questId: string
 }
 
@@ -16,5 +16,5 @@ export async function createTask({ imageKey, ...data }: CreateTaskProps) {
   const order = await db.task.count({ where: { questId } })
   const task = await db.task.create({ data: { title, description, code, order, questId } })
 
-  return attachImage(new TaskImageUploader(task), imageKey)
+  await attachImage(new TaskImageUploader(task), imageKey)
 }

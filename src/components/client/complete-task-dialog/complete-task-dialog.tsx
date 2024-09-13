@@ -37,7 +37,11 @@ export function CompleteTaskDialog({ assignmentId, completeTask }: DeleteQuestDi
 
         <DialogDescription>Please enter the code to complete the task.</DialogDescription>
 
-        <CompleteTaskForm assignmentId={assignmentId} completeTask={completeTask} />
+        <CompleteTaskForm
+          assignmentId={assignmentId}
+          completeTask={completeTask}
+          onSuccess={() => setOpen(false)}
+        />
       </DialogContent>
     </Dialog>
   )

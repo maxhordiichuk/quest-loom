@@ -17,9 +17,10 @@ import { completeTaskLabel } from '../lib'
 export interface CompleteTaskFormProps {
   assignmentId: string
   completeTask: CompleteTaskAction
+  onSuccess: () => void
 }
 
-export function CompleteTaskForm({ assignmentId, completeTask }: CompleteTaskFormProps) {
+export function CompleteTaskForm({ assignmentId, completeTask, onSuccess }: CompleteTaskFormProps) {
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -36,6 +37,7 @@ export function CompleteTaskForm({ assignmentId, completeTask }: CompleteTaskFor
       return
     }
 
+    onSuccess()
     router.refresh()
   })
 
@@ -44,11 +46,7 @@ export function CompleteTaskForm({ assignmentId, completeTask }: CompleteTaskFor
       <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
         <FormAlert message={form.formState.errors.root?.message} />
 
-        <FormField
-          control={form.control}
-          name="assignmentId"
-          render={({ field }) => <input type="hidden" {...field} />}
-        />
+        <FormField name="assignmentId" render={({ field }) => <input type="hidden" {...field} />} />
 
         <FormField
           control={form.control}

@@ -15,7 +15,7 @@ export async function startAssignment({ assignment }: StartAssignmentProps) {
     orderBy: { order: 'asc' },
   })
 
-  db.$transaction(async tx => {
+  await db.$transaction(async tx => {
     const taskAssignment = await tx.taskAssignment.create({
       data: {
         taskId: firstTask.id,

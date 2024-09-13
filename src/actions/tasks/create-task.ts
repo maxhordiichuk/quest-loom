@@ -16,7 +16,7 @@ const createPostSchema = z.object({
   description: z.string(),
   code: z.string(),
   questId: z.string(),
-  imageKey: z.string().optional(),
+  imageKey: z.string().optional().nullable(),
 })
 
 export async function createTask(
