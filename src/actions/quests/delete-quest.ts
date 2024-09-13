@@ -1,32 +1,30 @@
 'use server'
 
-import paths from '@/lib/paths'
-import { notFound, redirect } from 'next/navigation'
-
-import { getAuthenticatedSession } from '@/lib/auth'
-
-import { deleteQuest as deleteQuestService } from '@/services'
+import { deleteQuestSchema } from '@/schema'
+import { deleteQuest as doDeleteQuest } from '@/services'
+import { failedToDeleteQuest, questNotFound } from '@/actions/errors'
 import { fetchQuest } from '@/db/queries'
+import { getAuthenticatedSession } from '@/lib/auth'
+import type { DeleteQuestAction } from '@/types/requests/delete-quest'
 
-export async function deleteQuest(formData: FormData) {
-  const { user } = await getAuthenticatedSession()
-  const id = formData.get('id')
-
-  if (!id || typeof id !== 'string') {
-    return notFound()
-  }
-
-  const quest = await fetchQuest({ id, userId: user.id })
-
-  if (!quest) {
-    return notFound()
-  }
-
+export const deleteQuest: DeleteQuestAction = async body => {
   try {
-    await deleteQuestService(quest)
+    const { user } = await getAuthenticatedSession()
+
+    const { id } = deleteQuestSchema.parse(body)
+
+    const quest = await fetchQuest({ id, userId: user.id })
+
+    if (!quest) {
+      return { success: false, errors: [questNotFound] }
+    }
+
+    await doDeleteQuest(quest)
+
+    return { success: true }
   } catch (error) {
     console.error(error)
-  }
 
-  return redirect(paths.home)
+    return { success: false, errors: [failedToDeleteQuest] }
+  }
 }

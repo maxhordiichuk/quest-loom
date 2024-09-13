@@ -13,7 +13,7 @@ export const createQuestSchema = z.object({
 export type CreateQuestSchemaType = z.infer<typeof createQuestSchema>
 
 export const updateQuestSchema = z.object({
-  id: z.string().uuid({
+  id: z.string().trim().min(1, {
     message: 'Quest ID is required',
   }),
   title: z.string().trim().min(1, {
@@ -26,3 +26,11 @@ export const updateQuestSchema = z.object({
 })
 
 export type UpdateQuestSchemaType = z.infer<typeof updateQuestSchema>
+
+export const deleteQuestSchema = z.object({
+  id: z.string().trim().min(1, {
+    message: 'Quest ID is required',
+  }),
+})
+
+export type DeleteQuestSchemaType = z.infer<typeof deleteQuestSchema>

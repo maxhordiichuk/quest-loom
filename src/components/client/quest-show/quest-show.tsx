@@ -6,8 +6,9 @@ import { Button } from '@/components/ui/button'
 import { PageContent } from '@/components/client/page-content'
 import { PageHeading } from '@/components/client/page-heading'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
+import type { DeleteQuestAction } from '@/types/requests/delete-quest'
 import type { Quest, Task } from '@/types/models/creator'
-import type { createTask, deleteQuest, deleteTask, reorderTasks, updateTask } from '@/actions'
+import type { createTask, deleteTask, reorderTasks, updateTask } from '@/actions'
 
 import { QuestActions } from './quest-actions'
 import { TaskList } from './task-list'
@@ -15,7 +16,7 @@ import { TaskList } from './task-list'
 export interface QuestShowProps {
   quest: Quest
   tasks: Task[]
-  deleteQuestAction: typeof deleteQuest
+  deleteQuest: DeleteQuestAction
   createTaskAction: typeof createTask
   deleteTaskAction: typeof deleteTask
   updateTaskAction: typeof updateTask
@@ -25,7 +26,7 @@ export interface QuestShowProps {
 export function QuestShow({
   quest,
   tasks,
-  deleteQuestAction,
+  deleteQuest,
   createTaskAction,
   deleteTaskAction,
   updateTaskAction,
@@ -45,7 +46,7 @@ export function QuestShow({
       </div>
 
       <PageHeading title={quest.title} subtitle={quest.description} className="pt-8">
-        <QuestActions quest={quest} deleteQuestAction={deleteQuestAction} />
+        <QuestActions quest={quest} deleteQuest={deleteQuest} />
       </PageHeading>
 
       <div className="flex items-center justify-between mb-4">

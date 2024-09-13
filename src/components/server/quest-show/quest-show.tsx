@@ -27,7 +27,7 @@ export async function QuestShow({ id, userId }: QuestShowProps) {
     <ClientQuestShow
       quest={serializedQuest}
       tasks={serializedTasks}
-      deleteQuestAction={deleteQuest}
+      deleteQuest={deleteQuest}
       createTaskAction={createTask}
       deleteTaskAction={deleteTask}
       updateTaskAction={updateTask}
