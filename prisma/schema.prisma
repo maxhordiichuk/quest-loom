@@ -144,28 +144,33 @@ model Task {
 }
 
 model Assignment {
-  id              String           @id @default(auto()) @map("_id") @db.ObjectId
-  questId         String           @db.ObjectId
-  completedAt     DateTime?
-  taskAssignments TaskAssignment[]
+  id               String           @id @default(auto()) @map("_id") @db.ObjectId
+  questId          String           @db.ObjectId
+  taskAssignmentId String?          @db.ObjectId
+  completedAt      DateTime?
+  taskAssignments  TaskAssignment[] @relation
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+  quest          Quest           @relation(fields: [questId], references: [id], onDelete: Cascade)
+  taskAssignment TaskAssignment? @relation(name: "CurrentTaskAssignment", fields: [taskAssignmentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([taskAssignmentId])
 }
 
 model TaskAssignment {
-  id           String  @id @default(auto()) @map("_id") @db.ObjectId
-  taskId       String  @db.ObjectId
-  assignmentId String  @db.ObjectId
-  isCompleted  Boolean @default(false)
+  id           String    @id @default(auto()) @map("_id") @db.ObjectId
+  taskId       String    @db.ObjectId
+  assignmentId String    @db.ObjectId
+  completedAt  DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  assignment Assignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
-  task       Task       @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  assignment               Assignment  @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  reverseCurrentAssignemnt Assignment? @relation(name: "CurrentTaskAssignment")
+  task                     Task        @relation(fields: [taskId], references: [id], onDelete: Cascade)
 
   @@unique([assignmentId, taskId])
 }

@@ -1,7 +1,7 @@
 import { fetchQuests } from '@/db/queries'
 
 import { QuestList as ClientQuestList } from '@/components/client/quest-list'
-import { serializeQuest } from '@/serializers'
+import { serializeQuest } from '@/serializers/creator'
 
 export interface QuestListProps {
   userId: string

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import type { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 
 import {
   Dialog,

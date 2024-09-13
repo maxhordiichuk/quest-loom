@@ -1,12 +1,12 @@
 import getConfig from 'next/config'
-import { Assignment } from '@prisma/client'
+import { Assignment as PrismaAssignment } from '@prisma/client'
 
 import paths from '@/lib/paths'
-import { Assignment as PublicAssignment } from '@/db/types'
+import type { Assignment } from '@/types/models/creator'
 
 const { publicRuntimeConfig: config } = getConfig()
 
-export function serializeAssignment(assignment: Assignment): PublicAssignment {
+export function serializeAssignment(assignment: PrismaAssignment): Assignment {
   return {
     id: assignment.id,
     completedAt: assignment.completedAt,

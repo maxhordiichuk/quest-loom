@@ -17,7 +17,7 @@ import {
 } from '@dnd-kit/sortable'
 import { startTransition, useState } from 'react'
 
-import { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 import type { deleteTask, reorderTasks, updateTask } from '@/actions'
 
 import { SortableTask } from './sortable-task'

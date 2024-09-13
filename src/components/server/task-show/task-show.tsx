@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 
 import { fetchTask } from '@/db/queries'
-import { serializeTask } from '@/serializers'
+import { serializeTask } from '@/serializers/creator'
 
 import { TaskShow as ClientTaskShow } from '@/components/client/task-show'
 

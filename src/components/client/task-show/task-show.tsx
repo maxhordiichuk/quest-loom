@@ -1,17 +1,22 @@
-import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
-import type { Task } from '@/db/types'
+'use client'
 
-import { Button } from '@/components/ui/button'
+import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
+import type { CompleteTaskAction } from '@/types/requests'
+import type { PublicTask } from '@/types/models/creator'
+
+import { CompleteTaskDialog } from '@/components/client/complete-task-dialog'
+import { PageContent } from '@/components/client/page-content'
 import { TaskImage } from '@/components/client/task-image'
 
-import { PageContent } from '@/components/client/page-content'
-import { completeQuestLabel, taskNumberLabel } from './lib/labels'
+import { taskNumberLabel } from './lib'
 
 export interface TaskShowProps {
-  task: Task
+  task: PublicTask
+  assignmentId?: string
+  completeTask?: CompleteTaskAction
 }
 
-export function TaskShow({ task }: TaskShowProps) {
+export function TaskShow({ task, assignmentId, completeTask }: TaskShowProps) {
   const taskImageUrl = task.image?.url || fallbackTaskImage.src
 
   return (
@@ -40,7 +45,9 @@ export function TaskShow({ task }: TaskShowProps) {
               {task.description}
             </p>
 
-            <Button className="px-8">{completeQuestLabel}</Button>
+            {completeTask && assignmentId && (
+              <CompleteTaskDialog assignmentId={assignmentId} completeTask={completeTask} />
+            )}
           </div>
         </div>
 

@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import paths from '@/lib/paths'
-import type { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 import type { deleteTask, updateTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'

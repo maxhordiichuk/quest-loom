@@ -1,14 +1,9 @@
+import type { Image } from './common'
+
 export interface Assignment {
   id: string
   completedAt: Date | null
   url: string
-}
-
-export interface Image {
-  key?: string
-  url: string
-  width: number
-  height: number
 }
 
 export interface User {

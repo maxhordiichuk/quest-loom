@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect } from 'react'
 import { useFormState } from 'react-dom'
 
 import { createTask, updateTask } from '@/actions'
-import type { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'

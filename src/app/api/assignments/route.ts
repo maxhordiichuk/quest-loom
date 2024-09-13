@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 
-import { Assignment } from '@/db/types'
 import { createAssignment } from '@/services'
-import { serializeAssignment } from '@/serializers/serialize-assignment'
+import { serializeAssignment } from '@/serializers/creator'
+import type { Assignment } from '@/types/models/creator'
 
 interface ErrorResponseBody {
   error: string

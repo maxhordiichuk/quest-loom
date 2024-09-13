@@ -1,4 +1,4 @@
-import { Image } from '@/db/types'
+import { Image } from '@/types/models/common'
 
 type ImageProp = {
   url: string

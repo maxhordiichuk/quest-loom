@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react'
 
 import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
 import paths from '@/lib/paths'
-import type { Quest } from '@/db/types'
+import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
 import { PageContent } from '@/components/client/page-content'

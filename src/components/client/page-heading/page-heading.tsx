@@ -1,13 +1,20 @@
 import { Separator } from '@/components/ui/separator'
 
 export interface PageHeadingProps {
-  title: string
+  title: string | React.ReactNode
   subtitle?: string | null
+  isSeparatorVisible?: boolean
   className?: string
   children?: React.ReactNode
 }
 
-export function PageHeading({ title, subtitle, className, children }: PageHeadingProps) {
+export function PageHeading({
+  title,
+  subtitle,
+  isSeparatorVisible = true,
+  className,
+  children,
+}: PageHeadingProps) {
   return (
     <div className={className}>
       <div className="grid gap-2">
@@ -19,7 +26,7 @@ export function PageHeading({ title, subtitle, className, children }: PageHeadin
         {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
       </div>
 
-      <Separator className="my-8" />
+      {isSeparatorVisible && <Separator className="my-8" />}
     </div>
   )
 }

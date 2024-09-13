@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useImageUpload } from '@/hooks/use-image-upload'
-import type { Quest } from '@/db/types'
+import type { Quest } from '@/types/models/creator'
 import type { createQuest, updateQuest } from '@/actions'
 
 import { saveTaskLabel } from './lib/labels'

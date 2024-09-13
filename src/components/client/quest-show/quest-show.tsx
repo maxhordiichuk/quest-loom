@@ -1,12 +1,12 @@
 import Image from 'next/image'
-import { ArrowDownUp, Plus } from 'lucide-react'
+import { Plus } from 'lucide-react'
 
 import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
 import { Button } from '@/components/ui/button'
 import { PageContent } from '@/components/client/page-content'
 import { PageHeading } from '@/components/client/page-heading'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
-import type { Quest, Task } from '@/db/types'
+import type { Quest, Task } from '@/types/models/creator'
 import type { createTask, deleteQuest, deleteTask, reorderTasks, updateTask } from '@/actions'
 
 import { QuestActions } from './quest-actions'

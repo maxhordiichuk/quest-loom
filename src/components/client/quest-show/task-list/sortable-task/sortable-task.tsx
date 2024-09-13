@@ -2,7 +2,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { GripVertical } from 'lucide-react'
 import { useSortable } from '@dnd-kit/sortable'
 
-import { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 import type { deleteTask, updateTask } from '@/actions'
 
 import { TaskCard } from '../task-card'

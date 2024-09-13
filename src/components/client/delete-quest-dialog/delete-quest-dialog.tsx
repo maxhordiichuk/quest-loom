@@ -1,4 +1,4 @@
-import type { Quest } from '@/db/types'
+import type { Quest } from '@/types/models/creator'
 import type { deleteQuest } from '@/actions'
 
 import { Button } from '@/components/ui/button'

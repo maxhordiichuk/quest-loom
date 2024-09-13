@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation'
 
 import { createTask, deleteQuest, deleteTask, reorderTasks, updateTask } from '@/actions'
 import { fetchQuest, fetchTasks } from '@/db/queries'
-import { serializeQuest, serializeTask } from '@/serializers'
+import { serializeQuest, serializeTask } from '@/serializers/creator'
 
 import { QuestShow as ClientQuestShow } from '@/components/client/quest-show'
 

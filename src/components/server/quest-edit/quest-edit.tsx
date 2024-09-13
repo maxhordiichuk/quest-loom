@@ -1,6 +1,6 @@
 import { fetchQuest } from '@/db/queries'
 import { notFound } from 'next/navigation'
-import { serializeQuest } from '@/serializers'
+import { serializeQuest } from '@/serializers/creator'
 
 import { QuestEdit as QuestEditClient } from '@/components/client/quest-edit'
 

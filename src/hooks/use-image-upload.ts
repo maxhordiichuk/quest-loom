@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import type { ImageType } from '@/db/types'
+import type { ImageType } from '@/types/models/creator'
 import type { UploadRequestBody, UploadResponseBody } from '@/app/api/upload/types'
 
 import paths from '@/lib/paths'

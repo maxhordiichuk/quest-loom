@@ -1,5 +1,5 @@
 import paths from '@/lib/paths'
-import type { Assignment } from '@/db/types'
+import type { Assignment } from '@/types/models/creator'
 
 interface CreateAssignmentProps {
   questId: string

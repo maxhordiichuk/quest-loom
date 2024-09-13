@@ -1,7 +1,7 @@
 import { QuestForm } from '@/components/client/quest-form'
 import { updateQuest } from '@/actions'
 
-import type { Quest } from '@/db/types'
+import type { Quest } from '@/types/models/creator'
 
 export interface QuestEditProps {
   quest: Quest

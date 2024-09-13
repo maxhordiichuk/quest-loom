@@ -2,7 +2,7 @@ import { useMutation } from 'react-query'
 import { useState } from 'react'
 
 import { createAssignment } from '@/client'
-import type { Assignment, Quest } from '@/db/types'
+import type { Assignment, Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
 import {

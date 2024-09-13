@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import type { User } from '@/db/types'
+import type { User } from '@/types/models/creator'
 
 import { getInitials, logoutLabel, profileLabel, toggleMenuLabel } from './lib'
 

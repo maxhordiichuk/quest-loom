@@ -1,4 +1,4 @@
-import { User } from '@/db/types'
+import type { User } from '@/types/models/creator'
 
 type UserProp = {
   name: string

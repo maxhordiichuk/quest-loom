@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/navigation-menu'
 
 import paths from '@/lib/paths'
-import type { User } from '@/db/types'
+import type { User } from '@/types/models/creator'
 
 import { projectNameLabel, questsLabel } from './lib'
 

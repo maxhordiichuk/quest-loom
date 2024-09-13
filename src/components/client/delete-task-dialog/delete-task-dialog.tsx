@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useFormState } from 'react-dom'
 
-import type { Task } from '@/db/types'
+import type { Task } from '@/types/models/creator'
 import type { deleteTask } from '@/actions'
 
 import { Button } from '@/components/ui/button'

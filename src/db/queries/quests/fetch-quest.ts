@@ -2,7 +2,7 @@ import { db } from '@/db'
 
 interface FetchQuestProps {
   id: string
-  userId: string
+  userId?: string
 }
 
 export function fetchQuest({ id, userId }: FetchQuestProps) {
