@@ -1,6 +1,7 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
+import type { Assignment } from '@prisma/client'
 
 import paths from '@/lib/paths'
 import { assignmentNotFound, cannotCompleteTask, incorrectCode } from '@/actions/errors'
@@ -10,7 +11,7 @@ import { fetchAssignment } from '@/db/queries'
 import type { CompleteTaskAction } from '@/types/requests'
 
 export const completeTask: CompleteTaskAction = async body => {
-  let assignment
+  let assignment: Assignment | null
 
   try {
     const result = completeTaskSchema.safeParse(body)

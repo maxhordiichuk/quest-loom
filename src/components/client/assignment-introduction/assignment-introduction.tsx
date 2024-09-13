@@ -1,11 +1,12 @@
 'use client'
 
 import Image from 'next/image'
-import { useFormState } from 'react-dom'
+import { FormEvent, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
 import type { Quest } from '@/types/models/player'
-import type { startAssignment } from '@/actions'
+import type { StartAssignmentAction } from '@/types/requests'
 
 import { Button } from '@/components/ui/button'
 import { ErrorsToaster } from '@/components/client/errors-toaster'
@@ -17,15 +18,29 @@ import { startQuestLabel } from './lib'
 export interface AssignmentIntroductionProps {
   assignmentId: string
   quest: Quest
-  formAction: typeof startAssignment
+  startAssignment: StartAssignmentAction
 }
 
 export function AssignmentIntroduction({
   assignmentId,
   quest,
-  formAction,
+  startAssignment,
 }: AssignmentIntroductionProps) {
-  const [formState, startAssignmentAction] = useFormState(formAction, {})
+  const router = useRouter()
+  const [errors, setErrors] = useState<string[]>([])
+
+  const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
+    event.preventDefault()
+
+    const result = await startAssignment({ id: assignmentId })
+
+    if (result.errors) {
+      setErrors(result.errors)
+      return
+    }
+
+    router.refresh()
+  }
 
   const questTitle = (
     <span className="bg-gradient-to-r from-orange-400 via-orange-600 to-red-500 inline-block text-transparent bg-clip-text">
@@ -51,13 +66,10 @@ export function AssignmentIntroduction({
         isSeparatorVisible={false}
         className="pt-8"
       />
-      <form action={startAssignmentAction} className="mt-8">
-        <input type="hidden" name="id" value={assignmentId} />
-        <Button type="submit" className="px-8">
-          {startQuestLabel}
-        </Button>
-      </form>
-      <ErrorsToaster errors={formState?.errors} />
+      <Button className="px-8 mt-8" onClick={handleSubmit}>
+        {startQuestLabel}
+      </Button>
+      <ErrorsToaster errors={errors} />
     </PageContent>
   )
 }

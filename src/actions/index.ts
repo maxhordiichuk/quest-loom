@@ -1,4 +1,4 @@
-export { completeTask } from './assignment-tasks/complete-task'
+export { completeTask } from './assignments/complete-task'
 export { createQuest } from './quests/create-quest'
 export { createTask } from './tasks/create-task'
 export { deleteQuest } from './quests/delete-quest'

@@ -1,1 +1,1 @@
-export * from './assignment-tasks'
+export * from './assignments'

@@ -36,7 +36,7 @@ export async function AssignmentShow({ id }: AssignmentShowProps) {
       <AssignmentIntroduction
         assignmentId={id}
         quest={serializedQuest}
-        formAction={startAssignment}
+        startAssignment={startAssignment}
       />
     )
   }
