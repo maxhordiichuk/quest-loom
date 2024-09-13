@@ -8,7 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import paths from '@/lib/paths'
 import { CreateQuestSchemaType, createQuestSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
-import type { CreateQuestAction } from '@/types/requests'
+import type { CreateQuestAction, UpdateQuestAction } from '@/types/requests'
 import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -29,10 +29,10 @@ import { saveQuestLabel } from './lib'
 
 export interface QuestFormProps {
   quest?: Quest
-  createQuest: CreateQuestAction
+  onSubmit: CreateQuestAction | UpdateQuestAction
 }
 
-export function QuestForm({ quest, createQuest }: QuestFormProps) {
+export function QuestForm({ quest, onSubmit }: QuestFormProps) {
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
 
@@ -45,7 +45,7 @@ export function QuestForm({ quest, createQuest }: QuestFormProps) {
   })
 
   const handleSubmit = form.handleSubmit(async () => {
-    const result = await createQuest(form.getValues())
+    const result = await onSubmit({ ...form.getValues(), id: quest?.id as string })
 
     if (!result.success) {
       setErrors(form, result.errors)
