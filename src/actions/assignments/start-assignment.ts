@@ -1,7 +1,7 @@
 'use server'
 
 import { startAssignment as doStartAssignment } from '@/services'
-import { failedToStartAssignment } from '@/actions/errors'
+import { failedToStartAssignment } from '@/server/errors'
 import { startAssignmentSchema } from '@/schema'
 import type { StartAssignmentAction } from '@/types/requests'
 

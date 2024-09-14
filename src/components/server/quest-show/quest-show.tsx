@@ -1,6 +1,5 @@
 import { notFound } from 'next/navigation'
 
-import { createTask, deleteTask, reorderTask, updateTask } from '@/actions'
 import { fetchQuest, fetchTasks } from '@/db/queries'
 import { serializeQuest, serializeTask } from '@/serializers/creator'
 
@@ -23,14 +22,5 @@ export async function QuestShow({ id, userId }: QuestShowProps) {
   const serializedQuest = await serializeQuest(quest)
   const serializedTasks = await Promise.all(tasks.map(serializeTask))
 
-  return (
-    <ClientQuestShow
-      quest={serializedQuest}
-      tasks={serializedTasks}
-      createTask={createTask}
-      deleteTask={deleteTask}
-      updateTask={updateTask}
-      reorderTask={reorderTask}
-    />
-  )
+  return <ClientQuestShow quest={serializedQuest} tasks={serializedTasks} />
 }

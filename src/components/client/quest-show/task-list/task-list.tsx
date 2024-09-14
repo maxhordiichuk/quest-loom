@@ -15,33 +15,25 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable'
-import { startTransition, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
+import { moveTask } from '@/client'
 import { useErrorToast } from '@/hooks/use-error-toast'
-import type { DeleteTaskAction, ReorderTaskAction, UpdateTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import { SortableTask } from './sortable-task'
 
 interface TaskListProps {
   tasks: Task[]
-  deleteTask: DeleteTaskAction
-  updateTask: UpdateTaskAction
-  reorderTask: ReorderTaskAction
 }
 
-export function TaskList({
-  tasks: propsTasks,
-  deleteTask,
-  updateTask,
-  reorderTask,
-}: TaskListProps) {
+export function TaskList({ tasks: initialTasks }: TaskListProps) {
   const { toastErrors } = useErrorToast()
-  const [tasks, setTasks] = useState(propsTasks)
+  const [tasks, setTasks] = useState(initialTasks)
 
   useEffect(() => {
-    setTasks(propsTasks)
-  }, [propsTasks])
+    setTasks(initialTasks)
+  }, [initialTasks])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -51,11 +43,11 @@ export function TaskList({
   )
 
   const reorderAction = async (id: string, oldIndex: number, newIndex: number) => {
-    const result = await reorderTask({ id, oldIndex, newIndex })
+    const result = await moveTask(id, { oldIndex, newIndex })
 
     if (!result.success) {
       toastErrors(result.errors)
-      setTasks(propsTasks)
+      setTasks(initialTasks)
     }
   }
 
@@ -81,12 +73,7 @@ export function TaskList({
       <div className="grid gap-4">
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
           {tasks.map(task => (
-            <SortableTask
-              key={task.id}
-              task={task}
-              deleteTask={deleteTask}
-              updateTask={updateTask}
-            />
+            <SortableTask key={task.id} task={task} />
           ))}
         </SortableContext>
       </div>

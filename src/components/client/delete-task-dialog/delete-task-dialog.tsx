@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { deleteTask } from '@/client'
 import { useErrorToast } from '@/hooks/use-error-toast'
-import type { DeleteTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -18,19 +18,18 @@ import {
 
 export interface DeleteTaskDialogProps {
   task: Task
-  deleteTask: DeleteTaskAction
   children?: React.ReactNode
 }
 
-export function DeleteTaskDialog({ task, deleteTask, children }: DeleteTaskDialogProps) {
+export function DeleteTaskDialog({ task, children }: DeleteTaskDialogProps) {
   const [isOpen, setOpen] = useState(false)
   const { toastErrors } = useErrorToast()
   const router = useRouter()
 
   const handleDelete = async () => {
-    const result = await deleteTask({ id: task.id })
+    const result = await deleteTask(task.id)
 
-    if (!result.success) {
+    if (result.errors) {
       toastErrors(result.errors)
       return
     }

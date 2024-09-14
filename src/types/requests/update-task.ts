@@ -1,22 +1,12 @@
 import { UpdateTaskSchemaType } from '@/schema'
 
-interface SuccessResponseBody {
-  success: true
-  questId: string
-}
+export type UpdateTaskRequestBody = UpdateTaskSchemaType
 
-interface ErrorResponseBody {
-  success: false
-  errors: {
+export type UpdateTaskResponseBody = {
+  errors?: {
     title?: string[]
     description?: string[]
     imageKey?: string[]
     root?: string[]
   }
 }
-
-export type UpdateTaskRequestBody = UpdateTaskSchemaType
-
-export type UpdateTaskResponseBody = SuccessResponseBody | ErrorResponseBody
-
-export type UpdateTaskAction = (body: UpdateTaskRequestBody) => Promise<UpdateTaskResponseBody>

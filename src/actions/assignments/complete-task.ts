@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import type { Assignment } from '@prisma/client'
 
 import paths from '@/lib/paths'
-import { assignmentNotFound, cannotCompleteTask, incorrectCode } from '@/actions/errors'
+import { assignmentNotFound, cannotCompleteTask, incorrectCode } from '@/server/errors'
 import { checkTaskCode, completeTask as doCompleteTask } from '@/services'
 import { completeTaskSchema } from '@/schema'
 import { fetchAssignment } from '@/db/queries'

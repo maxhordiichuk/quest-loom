@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { CreateTaskSchemaType, createTaskSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
-import type { CreateTaskAction, UpdateTaskAction } from '@/types/requests'
+import type { CreateTaskRequestBody, CreateTaskResponseBody } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -26,19 +26,17 @@ import { saveTaskLabel } from './lib'
 
 export interface TaskFormProps {
   task?: Task
-  questId?: string
-  onSubmit: CreateTaskAction | UpdateTaskAction
+  onSubmit: (body: CreateTaskRequestBody) => Promise<CreateTaskResponseBody>
   onSuccess: () => void
 }
 
-export function TaskForm({ task, questId, onSubmit, onSuccess }: TaskFormProps) {
+export function TaskForm({ task, onSubmit, onSuccess }: TaskFormProps) {
   const router = useRouter()
   const formRef = useRef<HTMLFormElement>(null)
 
   const form = useForm<CreateTaskSchemaType>({
     resolver: zodResolver(createTaskSchema),
     defaultValues: {
-      questId,
       title: task?.title || '',
       description: task?.description || '',
       code: task?.code || '',
@@ -46,9 +44,9 @@ export function TaskForm({ task, questId, onSubmit, onSuccess }: TaskFormProps) 
   })
 
   const handleSubmit = form.handleSubmit(async () => {
-    const result = await onSubmit({ ...form.getValues(), id: task?.id as string })
+    const result = await onSubmit({ ...form.getValues() })
 
-    if (!result.success) {
+    if (result.errors) {
       setErrors(form, result.errors)
       return
     }
@@ -61,8 +59,6 @@ export function TaskForm({ task, questId, onSubmit, onSuccess }: TaskFormProps) 
     <Form {...form}>
       <form ref={formRef} onSubmit={handleSubmit} className="grid gap-4">
         <FormAlert message={form.formState.errors.root?.message} />
-
-        <FormField name="questId" render={({ field }) => <input type="hidden" {...field} />} />
 
         <FormField
           control={form.control}

@@ -1,17 +1,14 @@
 import axios from 'axios'
 
 import paths from '@/lib/paths'
-import type { UpdateQuestRequestBody, UpdateQuestResponseBody } from '@/types/requests'
+import type { MoveTaskRequestBody, MoveTaskResponseBody } from '@/types/requests/move-task'
 
 import { unknownError } from '../constants'
 
-export function updateQuest(
-  id: string,
-  body: UpdateQuestRequestBody
-): Promise<UpdateQuestResponseBody> {
+export function moveTask(id: string, body: MoveTaskRequestBody): Promise<MoveTaskResponseBody> {
   return new Promise(resolve => {
     axios
-      .put<UpdateQuestResponseBody>(paths.apiQuest(id), body)
+      .put<MoveTaskResponseBody>(paths.apiMoveTask(id), body)
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: { root: [unknownError] } }))
   })

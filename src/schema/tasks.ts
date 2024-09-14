@@ -1,9 +1,6 @@
 import { z } from 'zod'
 
-export const createTaskSchema = z.object({
-  questId: z.string().trim().min(1, {
-    message: 'Quest ID is required',
-  }),
+const taskSchema = z.object({
   title: z.string().trim().min(1, {
     message: 'Title is required',
   }),
@@ -15,42 +12,16 @@ export const createTaskSchema = z.object({
   }),
   imageKey: z.string().optional().nullable(),
 })
+
+export const createTaskSchema = taskSchema
 
 export type CreateTaskSchemaType = z.infer<typeof createTaskSchema>
 
-export const updateTaskSchema = z.object({
-  id: z.string().trim().min(1, {
-    message: 'Task ID is required',
-  }),
-  questId: z.string().trim().min(1, {
-    message: 'Quest ID is required',
-  }),
-  title: z.string().trim().min(1, {
-    message: 'Title is required',
-  }),
-  description: z.string().trim().min(1, {
-    message: 'Description is required',
-  }),
-  code: z.string().trim().min(1, {
-    message: 'Code is required',
-  }),
-  imageKey: z.string().optional().nullable(),
-})
+export const updateTaskSchema = taskSchema
 
 export type UpdateTaskSchemaType = z.infer<typeof updateTaskSchema>
 
-export const deleteTaskSchema = z.object({
-  id: z.string().trim().min(1, {
-    message: 'Task ID is required',
-  }),
-})
-
-export type DeleteTaskSchemaType = z.infer<typeof deleteTaskSchema>
-
-export const reorderTaskSchema = z.object({
-  id: z.string().trim().min(1, {
-    message: 'Task ID is required',
-  }),
+export const moveTaskSchema = z.object({
   oldIndex: z.number().int().min(0, {
     message: 'Old index must be a positive integer',
   }),
@@ -59,4 +30,4 @@ export const reorderTaskSchema = z.object({
   }),
 })
 
-export type ReorderTaskSchemaType = z.infer<typeof reorderTaskSchema>
+export type MoveTaskSchemaType = z.infer<typeof moveTaskSchema>

@@ -53,6 +53,12 @@ function getSession() {
   return getServerSession(nextAuthConfig)
 }
 
+async function getSessionUser() {
+  const session = await getSession()
+
+  return session?.user
+}
+
 async function getAuthenticatedSession() {
   const session = await getSession()
 
@@ -67,4 +73,11 @@ function getCsrfToken() {
   return cookies().get('next-auth.csrf-token')?.value.split('|')[0]
 }
 
-export { handler as GET, handler as POST, getSession, getAuthenticatedSession, getCsrfToken }
+export {
+  handler as GET,
+  handler as POST,
+  getSession,
+  getSessionUser,
+  getAuthenticatedSession,
+  getCsrfToken,
+}

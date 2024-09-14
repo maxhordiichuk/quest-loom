@@ -1,18 +1,17 @@
+'use client'
+
 import Image from 'next/image'
 import { Plus } from 'lucide-react'
 
 import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import { createTask } from '@/client'
+import type { CreateTaskRequestBody } from '@/types/requests'
+import type { Quest, Task } from '@/types/models/creator'
+
 import { Button } from '@/components/ui/button'
 import { PageContent } from '@/components/client/page-content'
 import { PageHeading } from '@/components/client/page-heading'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
-import type {
-  CreateTaskAction,
-  DeleteTaskAction,
-  ReorderTaskAction,
-  UpdateTaskAction,
-} from '@/types/requests'
-import type { Quest, Task } from '@/types/models/creator'
 
 import { QuestActions } from './quest-actions'
 import { TaskList } from './task-list'
@@ -20,20 +19,11 @@ import { TaskList } from './task-list'
 export interface QuestShowProps {
   quest: Quest
   tasks: Task[]
-  createTask: CreateTaskAction
-  deleteTask: DeleteTaskAction
-  updateTask: UpdateTaskAction
-  reorderTask: ReorderTaskAction
 }
 
-export function QuestShow({
-  quest,
-  tasks,
-  createTask,
-  deleteTask,
-  updateTask,
-  reorderTask,
-}: QuestShowProps) {
+export function QuestShow({ quest, tasks }: QuestShowProps) {
+  const handleCreateTask = (body: CreateTaskRequestBody) => createTask(quest.id, body)
+
   return (
     <PageContent className="pt-8">
       <div className="bg-muted rounded-lg overflow-hidden">
@@ -54,7 +44,7 @@ export function QuestShow({
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold">Tasks</h2>
         <div className="flex justify-end gap-3">
-          <TaskFormDialog title="Create a new task" questId={quest.id} onSubmit={createTask}>
+          <TaskFormDialog title="Create a new task" onSubmit={handleCreateTask}>
             <Button>
               <Plus className="w-4 h-4 mr-2" />
               Create Task
@@ -63,12 +53,7 @@ export function QuestShow({
         </div>
       </div>
 
-      <TaskList
-        tasks={tasks}
-        deleteTask={deleteTask}
-        updateTask={updateTask}
-        reorderTask={reorderTask}
-      />
+      <TaskList tasks={tasks} />
     </PageContent>
   )
 }

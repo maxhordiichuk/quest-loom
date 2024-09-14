@@ -1,13 +1,9 @@
 import { CreateTaskSchemaType } from '@/schema'
 
-interface SuccessResponseBody {
-  success: true
-}
+export type CreateTaskRequestBody = CreateTaskSchemaType
 
-interface ErrorResponseBody {
-  success: false
-  errors: {
-    questId?: string[]
+export type CreateTaskResponseBody = {
+  errors?: {
     title?: string[]
     description?: string[]
     code?: string[]
@@ -15,9 +11,3 @@ interface ErrorResponseBody {
     root?: string[]
   }
 }
-
-export type CreateTaskRequestBody = CreateTaskSchemaType
-
-export type CreateTaskResponseBody = SuccessResponseBody | ErrorResponseBody
-
-export type CreateTaskAction = (body: CreateTaskRequestBody) => Promise<CreateTaskResponseBody>

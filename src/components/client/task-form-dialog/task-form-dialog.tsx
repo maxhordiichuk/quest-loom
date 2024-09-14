@@ -1,8 +1,6 @@
-'use client'
-
 import { useState } from 'react'
 
-import type { CreateTaskAction, UpdateTaskAction } from '@/types/requests'
+import type { CreateTaskRequestBody, CreateTaskResponseBody } from '@/types/requests'
 import type { Task } from '@/types/models/creator'
 
 import {
@@ -18,12 +16,11 @@ import { TaskForm } from '@/components/client/task-form'
 export interface TaskFormDialogProps {
   title: string
   task?: Task
-  questId?: string
-  onSubmit: CreateTaskAction | UpdateTaskAction
+  onSubmit: (body: CreateTaskRequestBody) => Promise<CreateTaskResponseBody>
   children?: React.ReactNode
 }
 
-export function TaskFormDialog({ title, task, questId, onSubmit, children }: TaskFormDialogProps) {
+export function TaskFormDialog({ title, task, onSubmit, children }: TaskFormDialogProps) {
   const [isOpen, setOpen] = useState(false)
 
   return (
@@ -35,12 +32,7 @@ export function TaskFormDialog({ title, task, questId, onSubmit, children }: Tas
         </DialogHeader>
         <DialogDescription>Fill in the form below to create a new task</DialogDescription>
         <div className="pt-4">
-          <TaskForm
-            task={task}
-            questId={questId}
-            onSubmit={onSubmit}
-            onSuccess={() => setOpen(false)}
-          />
+          <TaskForm task={task} onSubmit={onSubmit} onSuccess={() => setOpen(false)} />
         </div>
       </DialogContent>
     </Dialog>

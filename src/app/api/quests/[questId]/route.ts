@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { deleteQuest, updateQuest } from '@/services'
+import { deleteQuest as doDeleteQuest, updateQuest as doUpdateQuest } from '@/services'
 import { fetchQuest } from '@/db/queries'
-import { getSession } from '@/lib/auth'
-import { questNotFound } from '@/actions/errors'
+import { getSessionUser } from '@/lib/auth'
+import { questNotFound } from '@/server/errors'
 import { updateQuestSchema } from '@/schema'
 import type { DeleteQuestResponseBody, UpdateQuestResponseBody } from '@/types/requests'
 
@@ -13,51 +13,53 @@ interface RequestParams {
   }
 }
 
-export async function PUT(
+async function updateQuest(
   req: NextRequest,
   { params: { questId } }: RequestParams
 ): Promise<NextResponse<UpdateQuestResponseBody>> {
-  const session = await getSession()
+  const user = await getSessionUser()
 
-  if (!session?.user) {
+  if (!user) {
     return NextResponse.json({ errors: { root: ['Unauthorized'] } }, { status: 401 })
   }
 
   const body = await req.json()
-  const result = updateQuestSchema.safeParse(body)
+  const { data, error } = updateQuestSchema.safeParse(body)
 
-  if (!result.success) {
-    return NextResponse.json({ errors: result.error.flatten().fieldErrors }, { status: 400 })
+  if (!data) {
+    return NextResponse.json({ errors: error.flatten().fieldErrors }, { status: 400 })
   }
 
-  const quest = await fetchQuest({ id: questId, userId: session.user.id })
+  const quest = await fetchQuest({ id: questId, userId: user.id })
 
   if (!quest) {
     return NextResponse.json({ errors: { root: [questNotFound] } }, { status: 404 })
   }
 
-  await updateQuest(quest.id, result.data)
+  await doUpdateQuest(quest.id, data)
 
   return NextResponse.json({ questId: quest.id })
 }
 
-export async function DELETE(
+async function deleteQuest(
   _req: NextRequest,
   { params: { questId } }: RequestParams
 ): Promise<NextResponse<DeleteQuestResponseBody>> {
-  const session = await getSession()
+  const user = await getSessionUser()
 
-  if (!session?.user) {
+  if (!user) {
     return NextResponse.json({ errors: ['Unauthorized'] }, { status: 401 })
   }
 
-  const quest = await fetchQuest({ id: questId, userId: session.user.id })
+  const quest = await fetchQuest({ id: questId, userId: user.id })
 
   if (!quest) {
     return NextResponse.json({ errors: [questNotFound] }, { status: 404 })
   }
 
-  await deleteQuest(quest)
+  await doDeleteQuest(quest)
 
   return NextResponse.json({})
 }
+
+export { updateQuest as PUT, updateQuest as PATCH, deleteQuest as DELETE }

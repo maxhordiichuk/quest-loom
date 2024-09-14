@@ -1,6 +1,2 @@
 export { completeTask } from './assignments/complete-task'
-export { createTask } from './tasks/create-task'
-export { deleteTask } from './tasks/delete-task'
-export { reorderTask } from './tasks/reorder-task'
 export { startAssignment } from './assignments/start-assignment'
-export { updateTask } from './tasks/update-task'

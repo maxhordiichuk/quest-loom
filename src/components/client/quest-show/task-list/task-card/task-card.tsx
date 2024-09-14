@@ -5,8 +5,9 @@ import Link from 'next/link'
 
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import paths from '@/lib/paths'
-import type { DeleteTaskAction, UpdateTaskAction } from '@/types/requests'
+import { updateTask } from '@/client'
 import type { Task } from '@/types/models/creator'
+import type { UpdateTaskRequestBody } from '@/types/requests'
 
 import { Button } from '@/components/ui/button'
 import { DeleteTaskDialog } from '@/components/client/delete-task-dialog'
@@ -16,12 +17,12 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 
 export interface TaskCardProps {
   task: Task
-  deleteTask: DeleteTaskAction
-  updateTask: UpdateTaskAction
   dragHandler: React.ReactNode
 }
 
-export function TaskCard({ task, deleteTask, updateTask, dragHandler }: TaskCardProps) {
+export function TaskCard({ task, dragHandler }: TaskCardProps) {
+  const handleUpdateTask = async (body: UpdateTaskRequestBody) => updateTask(task.id, body)
+
   return (
     <div className="bg-muted/70 rounded-lg p-4 hover:bg-muted/80 transition-colors">
       <div className="flex items-center gap-4">
@@ -47,7 +48,7 @@ export function TaskCard({ task, deleteTask, updateTask, dragHandler }: TaskCard
         <div>
           <TooltipProvider>
             <Tooltip>
-              <TaskFormDialog title="Update the task" task={task} onSubmit={updateTask}>
+              <TaskFormDialog title="Update the task" task={task} onSubmit={handleUpdateTask}>
                 <TooltipTrigger asChild>
                   <Button variant="ghost">
                     <Edit className="h-4 w-4" />
@@ -62,7 +63,7 @@ export function TaskCard({ task, deleteTask, updateTask, dragHandler }: TaskCard
 
           <TooltipProvider>
             <Tooltip>
-              <DeleteTaskDialog task={task} deleteTask={deleteTask}>
+              <DeleteTaskDialog task={task}>
                 <TooltipTrigger asChild>
                   <Button variant="ghost">
                     <Trash2 className="h-4 w-4 text-red-600" />

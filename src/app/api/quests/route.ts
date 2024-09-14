@@ -1,25 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import { createQuest } from '@/services'
 import { createQuestSchema } from '@/schema'
-import { getSession } from '@/lib/auth'
+import { createQuest as doCreateQuest } from '@/services'
+import { getSessionUser } from '@/lib/auth'
 import type { CreateQuestResponseBody } from '@/types/requests'
 
-export async function POST(req: NextRequest): Promise<NextResponse<CreateQuestResponseBody>> {
-  const session = await getSession()
+async function createQuest(req: NextRequest): Promise<NextResponse<CreateQuestResponseBody>> {
+  const user = await getSessionUser()
 
-  if (!session?.user) {
+  if (!user) {
     return NextResponse.json({ errors: { root: ['Unauthorized'] } }, { status: 401 })
   }
 
   const body = await req.json()
-  const result = createQuestSchema.safeParse(body)
+  const { data, error } = createQuestSchema.safeParse(body)
 
-  if (!result.success) {
-    return NextResponse.json({ errors: result.error.flatten().fieldErrors }, { status: 400 })
+  if (!data) {
+    return NextResponse.json({ errors: error.flatten().fieldErrors }, { status: 400 })
   }
 
-  const quest = await createQuest({ ...result.data, userId: session.user.id })
+  const quest = await doCreateQuest({ ...data, userId: user.id })
 
   return NextResponse.json({ questId: quest.id })
 }
+
+export { createQuest as POST }
