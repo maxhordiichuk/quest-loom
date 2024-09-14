@@ -2,6 +2,7 @@ import { useMutation } from 'react-query'
 import { useState } from 'react'
 
 import { createAssignment } from '@/lib/client'
+import { useErrorToast } from '@/hooks/use-error-toast'
 import type { Assignment, Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -22,13 +23,20 @@ interface ShareQuestDialogProps {
 }
 
 export function ShareQuestDialog({ open, onOpenChange, quest, children }: ShareQuestDialogProps) {
+  const { toastErrors } = useErrorToast()
   const [assignment, setAssignment] = useState<Assignment | null>(null)
-  const { mutateAsync } = useMutation(createAssignment)
+  const { mutateAsync, isLoading } = useMutation(createAssignment)
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
 
-    const result = await mutateAsync({ questId: quest.id })
+    const result = await mutateAsync(quest.id)
+
+    if (result.errors) {
+      toastErrors(result.errors)
+      return
+    }
+
     setAssignment(result)
   }
 
@@ -49,7 +57,9 @@ export function ShareQuestDialog({ open, onOpenChange, quest, children }: ShareQ
               className="w-full p-2 border border-gray-300 rounded-md"
             />
           ) : (
-            <Button onClick={handleSubmit}>Share Quest</Button>
+            <Button onClick={handleSubmit} loading={isLoading}>
+              Share Quest
+            </Button>
           )}
         </div>
       </DialogContent>

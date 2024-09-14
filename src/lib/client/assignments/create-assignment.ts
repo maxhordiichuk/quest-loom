@@ -1,22 +1,15 @@
+import axios from 'axios'
+
 import paths from '@/lib/paths'
-import type { Assignment } from '@/types/models/creator'
+import type { CreateAssignmentResponseBody } from '@/types/requests'
 
-interface CreateAssignmentProps {
-  questId: string
-}
+import { unknownError } from '../constants'
 
-export async function createAssignment({ questId }: CreateAssignmentProps): Promise<Assignment> {
-  const response = await fetch(paths.apiAssignments, {
-    method: 'POST',
-    body: JSON.stringify({ questId }),
-    headers: {
-      'Content-Type': 'application/json',
-    },
+export function createAssignment(questId: string): Promise<CreateAssignmentResponseBody> {
+  return new Promise(resolve => {
+    axios
+      .post<CreateAssignmentResponseBody>(paths.apiCreateAssignment(questId))
+      .then(response => resolve(response.data))
+      .catch(error => resolve(error.response?.data || { errors: [unknownError] }))
   })
-
-  if (!response.ok) {
-    throw new Error('Failed to create assignment')
-  }
-
-  return response.json()
 }

@@ -1,8 +1,9 @@
 import axios from 'axios'
 
 import paths from '@/lib/paths'
-import { unknownError } from '@/client/constants'
 import type { CreateTaskRequestBody, CreateTaskResponseBody } from '@/types/requests'
+
+import { unknownError } from '../constants'
 
 export function createTask(
   questId: string,

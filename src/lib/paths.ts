@@ -1,7 +1,6 @@
 export default {
   home: '/quests',
   apiAuthSignIn: '/api/auth/signin/email',
-  apiAssignments: '/api/assignments',
   apiUpload: '/api/upload',
   apiCreateQuest: '/api/quests',
   apiDeleteQuest: (questId: string) => `/api/quests/${questId}`,
@@ -10,6 +9,7 @@ export default {
   apiUpdateTask: (taskId: string) => `/api/tasks/${taskId}`,
   apiDeleteTask: (taskId: string) => `/api/tasks/${taskId}`,
   apiMoveTask: (taskId: string) => `/api/tasks/${taskId}/move`,
+  apiCreateAssignment: (questId: string) => `/api/quests/${questId}/assignments`,
   signIn: '/auth/login',
   verifyRequest: '/auth/verify-request',
   assignmentShow: (assignmentId: string) => `/assignments/${assignmentId}`,
