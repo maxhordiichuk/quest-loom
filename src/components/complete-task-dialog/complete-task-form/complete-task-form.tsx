@@ -3,9 +3,10 @@ import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { CompleteTaskSchemaType, completeTaskSchema } from '@/schema'
+import { completeTaskSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
 import type { CompleteTaskAction } from '@/types/requests'
+import type { CompleteTaskSchemaType } from '@/schema'
 
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form'

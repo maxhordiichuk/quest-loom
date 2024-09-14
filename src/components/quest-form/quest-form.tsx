@@ -4,8 +4,9 @@ import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import paths from '@/lib/paths'
-import { CreateQuestSchemaType, createQuestSchema } from '@/schema'
+import { createQuestSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
+import type { CreateQuestSchemaType } from '@/schema'
 import type { Quest } from '@/types/models/creator'
 import type { createQuest } from '@/lib/client'
 

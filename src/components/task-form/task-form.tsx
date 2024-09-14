@@ -3,9 +3,10 @@ import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { zodResolver } from '@hookform/resolvers/zod'
 
-import { CreateTaskSchemaType, createTaskSchema } from '@/schema'
+import { createTaskSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
 import type { CreateTaskRequestBody, CreateTaskResponseBody } from '@/types/requests'
+import type { CreateTaskSchemaType } from '@/schema'
 import type { Task } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
