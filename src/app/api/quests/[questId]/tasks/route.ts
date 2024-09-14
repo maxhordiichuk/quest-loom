@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 import { createTaskSchema } from '@/schema'
-import { createTask as doCreateTask } from '@/services'
-import { fetchQuest } from '@/db/queries'
-import { getSessionUser } from '@/lib/auth'
+import { createTask as doCreateTask } from '@/server/services'
+import { fetchQuest } from '@/server/queries'
+import { getSessionUser } from '@/server/auth'
 import { questNotFound } from '@/server/errors'
 import type { CreateTaskResponseBody } from '@/types/requests'
 

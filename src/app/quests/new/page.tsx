@@ -1,5 +1,6 @@
-import { QuestNew } from '@/components/client/quest-new'
-import { getAuthenticatedSession } from '@/lib/auth'
+import { getAuthenticatedSession } from '@/server/auth'
+
+import { QuestNew } from '@/components/quest-new'
 
 export default async function QuestNewPage() {
   await getAuthenticatedSession()

@@ -1,6 +1,6 @@
-import { getAuthenticatedSession } from '@/lib/auth'
+import { getAuthenticatedSession } from '@/server/auth'
 
-import { TaskShow } from '@/components/server/task-show'
+import { TaskShow } from '@/server/components/task-show'
 
 interface TaskShowPageProps {
   params: {

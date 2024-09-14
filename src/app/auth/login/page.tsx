@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation'
 
 import paths from '@/lib/paths'
-import { getCsrfToken, getSession } from '@/lib/auth'
+import { getCsrfToken, getSession } from '@/server/auth'
 
-import { LoginPage as LoginPageClient } from '@/components/client/login-page'
+import { LoginPage as LoginPageClient } from '@/components/login-page'
 
 export default async function LoginPage() {
   const session = await getSession()

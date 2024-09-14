@@ -1,14 +1,15 @@
 import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-import { createAssignment } from '@/services'
-import { serializeAssignment } from '@/serializers/creator'
+import { createAssignment } from '@/server/services'
+import { serializeAssignment } from '@/server/serializers/creator'
 import type { Assignment } from '@/types/models/creator'
 
 interface ErrorResponseBody {
   error: string
 }
 
-export async function POST(req: Request): Promise<NextResponse<Assignment | ErrorResponseBody>> {
+export async function POST(req: NextRequest): Promise<NextResponse<Assignment | ErrorResponseBody>> {
   const body = await req.json()
 
   if (!body?.questId) {

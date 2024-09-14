@@ -1,7 +1,8 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-import { generateTempKey, getFileUrl, getUploadConfig } from '@/lib/aws'
-import { getAuthenticatedSession } from '@/lib/auth'
+import { generateTempKey, getFileUrl, getUploadConfig } from '@/server/lib/aws'
+import { getAuthenticatedSession } from '@/server/auth'
 
 import { RequestBodySchema } from './validations'
 import { UploadRequestBody, UploadResponseBody, UploadResponseError } from './types'

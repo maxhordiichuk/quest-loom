@@ -1,6 +1,6 @@
-import { getAuthenticatedSession } from '@/lib/auth'
+import { getAuthenticatedSession } from '@/server/auth'
 
-import { QuestShow } from '@/components/server/quest-show'
+import { QuestShow } from '@/server/components/quest-show'
 
 interface QuestShowPageProps {
   params: {

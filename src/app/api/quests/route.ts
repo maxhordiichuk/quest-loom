@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
 import { createQuestSchema } from '@/schema'
-import { createQuest as doCreateQuest } from '@/services'
-import { getSessionUser } from '@/lib/auth'
+import { createQuest as doCreateQuest } from '@/server/services'
+import { getSessionUser } from '@/server/auth'
 import type { CreateQuestResponseBody } from '@/types/requests'
 
 async function createQuest(req: NextRequest): Promise<NextResponse<CreateQuestResponseBody>> {

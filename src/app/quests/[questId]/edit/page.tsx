@@ -1,5 +1,6 @@
-import { QuestEdit } from '@/components/server/quest-edit'
-import { getAuthenticatedSession } from '@/lib/auth'
+import { getAuthenticatedSession } from '@/server/auth'
+
+import { QuestEdit } from '@/server/components/quest-edit'
 
 interface QuestEditPageProps {
   params: {

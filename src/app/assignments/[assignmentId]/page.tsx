@@ -1,4 +1,4 @@
-import { AssignmentShow } from '@/components/server/assignment-show'
+import { AssignmentShow } from '@/server/components/assignment-show'
 
 interface AssignmentShowPageProps {
   params: {

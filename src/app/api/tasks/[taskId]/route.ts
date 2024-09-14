@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-import { deleteTask as doDeleteTask, updateTask as doUpdateTask } from '@/services'
-import { fetchTask } from '@/db/queries'
-import { getSessionUser } from '@/lib/auth'
+import { deleteTask as doDeleteTask, updateTask as doUpdateTask } from '@/server/services'
+import { fetchTask } from '@/server/queries'
+import { getSessionUser } from '@/server/auth'
 import { taskNotFound } from '@/server/errors'
 import { updateTaskSchema } from '@/schema'
 import type { DeleteQuestResponseBody, UpdateTaskResponseBody } from '@/types/requests'

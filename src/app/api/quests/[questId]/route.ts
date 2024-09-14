@@ -1,8 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
+import type { NextRequest } from 'next/server'
 
-import { deleteQuest as doDeleteQuest, updateQuest as doUpdateQuest } from '@/services'
-import { fetchQuest } from '@/db/queries'
-import { getSessionUser } from '@/lib/auth'
+import { deleteQuest as doDeleteQuest, updateQuest as doUpdateQuest } from '@/server/services'
+import { fetchQuest } from '@/server/queries'
+import { getSessionUser } from '@/server/auth'
 import { questNotFound } from '@/server/errors'
 import { updateQuestSchema } from '@/schema'
 import type { DeleteQuestResponseBody, UpdateQuestResponseBody } from '@/types/requests'
