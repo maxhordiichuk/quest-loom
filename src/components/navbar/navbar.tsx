@@ -1,5 +1,8 @@
 import Link from 'next/link'
 
+import paths from '@/lib/paths'
+import type { User } from '@/types/models/creator'
+
 import { Button } from '@/components/ui/button'
 import { MenuIcon, MountainIcon } from 'lucide-react'
 import {
@@ -7,9 +10,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu'
-
-import paths from '@/lib/paths'
-import type { User } from '@/types/models/creator'
 
 import { projectNameLabel, questsLabel } from './lib'
 

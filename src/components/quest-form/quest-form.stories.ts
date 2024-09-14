@@ -9,6 +9,9 @@ const meta = {
   component: QuestForm,
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      appDirectory: true,
+    },
   },
   args: data,
   argTypes: {

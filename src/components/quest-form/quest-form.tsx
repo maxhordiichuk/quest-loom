@@ -89,7 +89,7 @@ export function QuestForm({ quest, onSubmit }: QuestFormProps) {
 
         <ImageField form={form} name="imageKey" image={quest?.image} />
 
-        <div className="grid justify-end">
+        <div>
           <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
             {saveQuestLabel}
           </Button>

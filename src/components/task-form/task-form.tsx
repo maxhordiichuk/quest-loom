@@ -105,7 +105,7 @@ export function TaskForm({ task, onSubmit, onSuccess }: TaskFormProps) {
 
         <ImageField form={form} name="imageKey" image={task?.image} />
 
-        <div className="grid justify-end">
+        <div>
           <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
             {saveTaskLabel}
           </Button>

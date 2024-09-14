@@ -2,16 +2,17 @@
 
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import type { CompleteTaskAction } from '@/types/requests'
-import type { PublicTask } from '@/types/models/creator'
+import type { Task } from '@/types/models/creator'
 
+import { Button } from '@/components/ui/button'
 import { CompleteTaskDialog } from '@/components/complete-task-dialog'
 import { PageContent } from '@/components/page-content'
 import { TaskImage } from '@/components/task-image'
 
-import { taskNumberLabel } from './lib'
+import { completeTaskLabel, taskNumberLabel } from './lib'
 
 export interface TaskShowProps {
-  task: PublicTask
+  task: Task
   assignmentId?: string
   completeTask?: CompleteTaskAction
 }
@@ -45,8 +46,14 @@ export function TaskShow({ task, assignmentId, completeTask }: TaskShowProps) {
               {task.description}
             </p>
 
-            {completeTask && assignmentId && (
-              <CompleteTaskDialog assignmentId={assignmentId} completeTask={completeTask} />
+            {completeTask && assignmentId ? (
+              <CompleteTaskDialog assignmentId={assignmentId} completeTask={completeTask}>
+                <Button className="px-8">{completeTaskLabel}</Button>
+              </CompleteTaskDialog>
+            ) : (
+              <Button className="px-8" disabled>
+                {completeTaskLabel}
+              </Button>
             )}
           </div>
         </div>

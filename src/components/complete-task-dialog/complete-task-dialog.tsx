@@ -2,7 +2,6 @@ import { useState } from 'react'
 
 import type { CompleteTaskAction } from '@/types/requests'
 
-import { Button } from '@/components/ui/button'
 import {
   Dialog,
   DialogContent,
@@ -12,23 +11,24 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-import { completeTaskLabel } from './lib'
-
 import { CompleteTaskForm } from './complete-task-form'
 
 export interface DeleteQuestDialogProps {
   assignmentId: string
   completeTask: CompleteTaskAction
+  children: React.ReactNode
 }
 
-export function CompleteTaskDialog({ assignmentId, completeTask }: DeleteQuestDialogProps) {
+export function CompleteTaskDialog({
+  assignmentId,
+  completeTask,
+  children,
+}: DeleteQuestDialogProps) {
   const [open, setOpen] = useState(false)
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
-        <Button className="px-8">{completeTaskLabel}</Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
 
       <DialogContent className="max-h-[96%] overflow-auto">
         <DialogHeader>

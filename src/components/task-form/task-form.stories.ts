@@ -10,6 +10,9 @@ const meta = {
   component: TaskForm,
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      appDirectory: true,
+    },
   },
   args: data,
   argTypes: {

@@ -17,4 +17,6 @@ export default {
       height: 1024,
     },
   },
+  assignmentId: '66d083266d083266d083266d',
+  completeTask: () => new Promise(() => {}),
 } satisfies TaskShowProps

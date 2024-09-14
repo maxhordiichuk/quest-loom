@@ -18,3 +18,11 @@ type Story = StoryObj<typeof meta>
 export const Default: Story = {
   name: 'TaskShow',
 }
+
+export const WithoutCompleteAction: Story = {
+  name: 'TaskShow Preview',
+  args: {
+    ...data,
+    completeTask: undefined,
+  },
+}

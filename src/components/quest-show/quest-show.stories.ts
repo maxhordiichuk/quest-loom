@@ -8,6 +8,9 @@ const meta = {
   component: QuestShow,
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      appDirectory: true,
+    },
   },
   args: data,
 } satisfies Meta<typeof QuestShow>
