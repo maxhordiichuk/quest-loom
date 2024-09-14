@@ -48,7 +48,6 @@ export function QuestForm({ quest, onSubmit }: QuestFormProps) {
 
     if (result.errors) {
       setErrors(form, result.errors)
-
       return
     }
 
