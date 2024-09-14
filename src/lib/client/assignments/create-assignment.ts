@@ -8,7 +8,7 @@ import { unknownError } from '../constants'
 export function createAssignment(questId: string): Promise<CreateAssignmentResponseBody> {
   return new Promise(resolve => {
     axios
-      .post<CreateAssignmentResponseBody>(paths.apiCreateAssignment(questId))
+      .post<CreateAssignmentResponseBody>(paths.apiAssignmentCreate(questId))
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: [unknownError] }))
   })

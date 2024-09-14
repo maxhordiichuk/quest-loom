@@ -8,7 +8,7 @@ import { unknownError } from '../constants'
 export function deleteQuest(id: string): Promise<DeleteQuestResponseBody> {
   return new Promise(resolve => {
     axios
-      .delete<DeleteQuestResponseBody>(paths.apiDeleteQuest(id))
+      .delete<DeleteQuestResponseBody>(paths.apiQuestDelete(id))
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: [unknownError] }))
   })

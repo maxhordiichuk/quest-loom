@@ -11,7 +11,7 @@ export function createTask(
 ): Promise<CreateTaskResponseBody> {
   return new Promise(resolve => {
     axios
-      .post<CreateTaskResponseBody>(paths.apiCreateTask(questId), body)
+      .post<CreateTaskResponseBody>(paths.apiTaskCreate(questId), body)
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: { root: [unknownError] } }))
   })

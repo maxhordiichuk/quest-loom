@@ -42,8 +42,8 @@ export const nextAuthConfig = {
     },
   },
   pages: {
-    signIn: paths.signIn,
-    verifyRequest: paths.verifyRequest,
+    signIn: paths.authSignIn,
+    verifyRequest: paths.authVerifyRequest,
   },
 }
 
@@ -63,7 +63,7 @@ async function getAuthenticatedSession() {
   const session = await getSession()
 
   if (!session?.user) {
-    return redirect(paths.signIn)
+    return redirect(paths.authSignIn)
   }
 
   return session

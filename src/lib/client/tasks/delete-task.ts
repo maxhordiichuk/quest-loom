@@ -8,7 +8,7 @@ import { unknownError } from '../constants'
 export function deleteTask(id: string): Promise<DeleteTaskResponseBody> {
   return new Promise(resolve => {
     axios
-      .delete<DeleteTaskResponseBody>(paths.apiDeleteTask(id))
+      .delete<DeleteTaskResponseBody>(paths.apiTaskDelete(id))
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: [unknownError] }))
   })

@@ -11,7 +11,7 @@ export function updateTask(
 ): Promise<UpdateTaskResponseBody> {
   return new Promise(resolve => {
     axios
-      .put<UpdateTaskResponseBody>(paths.apiUpdateTask(id), body)
+      .put<UpdateTaskResponseBody>(paths.apiTaskUpdate(id), body)
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: { root: [unknownError] } }))
   })

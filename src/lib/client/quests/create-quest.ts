@@ -8,7 +8,7 @@ import { unknownError } from '../constants'
 export function createQuest(body: CreateQuestRequestBody): Promise<CreateQuestResponseBody> {
   return new Promise(resolve => {
     axios
-      .post<CreateQuestResponseBody>(paths.apiCreateQuest, body)
+      .post<CreateQuestResponseBody>(paths.apiQuestCreate, body)
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: { root: [unknownError] } }))
   })

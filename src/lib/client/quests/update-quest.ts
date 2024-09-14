@@ -11,7 +11,7 @@ export function updateQuest(
 ): Promise<UpdateQuestResponseBody> {
   return new Promise(resolve => {
     axios
-      .put<UpdateQuestResponseBody>(paths.apiUpdateQuest(id), body)
+      .put<UpdateQuestResponseBody>(paths.apiQuestUpdate(id), body)
       .then(response => resolve(response.data))
       .catch(error => resolve(error.response?.data || { errors: { root: [unknownError] } }))
   })
