@@ -5,7 +5,6 @@ import { ChevronDown, Edit, Eye, Share, Trash2 } from 'lucide-react'
 import { useState } from 'react'
 
 import paths from '@/lib/paths'
-import type { DeleteQuestAction } from '@/types/requests'
 import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -20,10 +19,9 @@ import { ShareQuestDialog } from '@/components/client/share-quest-dialog'
 
 export interface QuestActionsProps {
   quest: Quest
-  deleteQuest: DeleteQuestAction
 }
 
-export function QuestActions({ quest, deleteQuest }: QuestActionsProps) {
+export function QuestActions({ quest }: QuestActionsProps) {
   const [isDeleting, setDeleting] = useState(false)
   const [isSharing, setSharing] = useState(false)
 
@@ -69,12 +67,7 @@ export function QuestActions({ quest, deleteQuest }: QuestActionsProps) {
       </DropdownMenu>
 
       {isDeleting && (
-        <DeleteQuestDialog
-          quest={quest}
-          deleteQuest={deleteQuest}
-          open={isDeleting}
-          onOpenChange={setDeleting}
-        />
+        <DeleteQuestDialog quest={quest} open={isDeleting} onOpenChange={setDeleting} />
       )}
 
       {isSharing && <ShareQuestDialog quest={quest} open={isSharing} onOpenChange={setSharing} />}

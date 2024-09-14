@@ -1,4 +1,6 @@
-import { createQuest } from '@/actions'
+'use client'
+
+import { createQuest } from '@/client'
 
 import { QuestForm } from '@/components/client/quest-form'
 

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/navigation'
 
 import paths from '@/lib/paths'
+import { deleteQuest } from '@/client'
 import { useErrorToast } from '@/hooks/use-error-toast'
-import type { DeleteQuestAction } from '@/types/requests'
 import type { Quest } from '@/types/models/creator'
 
 import { Button } from '@/components/ui/button'
@@ -17,24 +17,18 @@ import {
 
 export interface DeleteQuestDialogProps {
   quest: Quest
-  deleteQuest: DeleteQuestAction
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export function DeleteQuestDialog({
-  quest,
-  deleteQuest,
-  open,
-  onOpenChange,
-}: DeleteQuestDialogProps) {
+export function DeleteQuestDialog({ quest, open, onOpenChange }: DeleteQuestDialogProps) {
   const { toastErrors } = useErrorToast()
   const router = useRouter()
 
   const handleDelete = async () => {
-    const result = await deleteQuest({ id: quest.id })
+    const result = await deleteQuest(quest.id)
 
-    if (!result.success) {
+    if (result.errors) {
       toastErrors(result.errors)
       return
     }

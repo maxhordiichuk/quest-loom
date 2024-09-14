@@ -3,6 +3,8 @@ export default {
   apiAuthSignIn: '/api/auth/signin/email',
   apiAssignments: '/api/assignments',
   apiUpload: '/api/upload',
+  apiQuests: '/api/quests',
+  apiQuest: (questId: string) => `/api/quests/${questId}`,
   signIn: '/auth/login',
   verifyRequest: '/auth/verify-request',
   assignmentShow: (assignmentId: string) => `/assignments/${assignmentId}`,

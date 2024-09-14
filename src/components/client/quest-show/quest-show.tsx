@@ -8,7 +8,6 @@ import { PageHeading } from '@/components/client/page-heading'
 import { TaskFormDialog } from '@/components/client/task-form-dialog'
 import type {
   CreateTaskAction,
-  DeleteQuestAction,
   DeleteTaskAction,
   ReorderTaskAction,
   UpdateTaskAction,
@@ -21,7 +20,6 @@ import { TaskList } from './task-list'
 export interface QuestShowProps {
   quest: Quest
   tasks: Task[]
-  deleteQuest: DeleteQuestAction
   createTask: CreateTaskAction
   deleteTask: DeleteTaskAction
   updateTask: UpdateTaskAction
@@ -31,7 +29,6 @@ export interface QuestShowProps {
 export function QuestShow({
   quest,
   tasks,
-  deleteQuest,
   createTask,
   deleteTask,
   updateTask,
@@ -51,7 +48,7 @@ export function QuestShow({
       </div>
 
       <PageHeading title={quest.title} subtitle={quest.description} className="pt-8">
-        <QuestActions quest={quest} deleteQuest={deleteQuest} />
+        <QuestActions quest={quest} />
       </PageHeading>
 
       <div className="flex items-center justify-between mb-4">

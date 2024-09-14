@@ -1,5 +1,3 @@
-'use client'
-
 import { useForm } from 'react-hook-form'
 import { useRef } from 'react'
 import { useRouter } from 'next/navigation'
@@ -8,8 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import paths from '@/lib/paths'
 import { CreateQuestSchemaType, createQuestSchema } from '@/schema'
 import { setErrors } from '@/lib/forms'
-import type { CreateQuestAction, UpdateQuestAction } from '@/types/requests'
 import type { Quest } from '@/types/models/creator'
+import type { createQuest } from '@/client'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -29,7 +27,7 @@ import { saveQuestLabel } from './lib'
 
 export interface QuestFormProps {
   quest?: Quest
-  onSubmit: CreateQuestAction | UpdateQuestAction
+  onSubmit: typeof createQuest
 }
 
 export function QuestForm({ quest, onSubmit }: QuestFormProps) {
@@ -45,10 +43,11 @@ export function QuestForm({ quest, onSubmit }: QuestFormProps) {
   })
 
   const handleSubmit = form.handleSubmit(async () => {
-    const result = await onSubmit({ ...form.getValues(), id: quest?.id as string })
+    const result = await onSubmit({ ...form.getValues() })
 
-    if (!result.success) {
+    if (result.errors) {
       setErrors(form, result.errors)
+
       return
     }
 

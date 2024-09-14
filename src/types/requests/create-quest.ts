@@ -1,12 +1,11 @@
 import { CreateQuestSchemaType } from '@/schema'
 
 interface SuccessResponseBody {
-  success: true
   questId: string
+  errors?: undefined
 }
 
 interface ErrorResponseBody {
-  success: false
   errors: {
     title?: string[]
     description?: string[]
@@ -18,5 +17,3 @@ interface ErrorResponseBody {
 export type CreateQuestRequestBody = CreateQuestSchemaType
 
 export type CreateQuestResponseBody = SuccessResponseBody | ErrorResponseBody
-
-export type CreateQuestAction = (body: CreateQuestRequestBody) => Promise<CreateQuestResponseBody>

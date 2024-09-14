@@ -6,7 +6,7 @@ import { attachImage } from '@/services/images/attach-image'
 interface UpdateQuestData {
   title?: string
   description?: string
-  imageKey?: string
+  imageKey?: string | null
 }
 
 export async function updateQuest(id: string, data: UpdateQuestData) {
