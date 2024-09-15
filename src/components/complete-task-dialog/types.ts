@@ -1,1 +1,1 @@
-export type { DeleteQuestDialogProps } from './complete-task-dialog'
+export type { CompleteTaskDialogProps } from './complete-task-dialog'

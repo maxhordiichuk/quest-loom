@@ -1,6 +1,7 @@
-import type { QuestShowProps } from '../types'
+import questImage from '@/assets/quest-image.jpg'
+import taskImage from '@/assets/task-image.jpg'
 
-import questImage from './assets/quest-image.jpg'
+import type { QuestShowProps } from '../types'
 
 export default {
   quest: {
@@ -10,8 +11,8 @@ export default {
       "The village has been terrorized by a fearsome dragon for too long. It's time to take action and put an end to its reign of terror. Gather your courage and venture into the dragon's lair to slay the beast and bring peace back to the land.",
     image: {
       url: questImage.src,
-      width: 1792,
-      height: 1024,
+      width: questImage.width,
+      height: questImage.height,
     },
   },
   tasks: [
@@ -21,7 +22,11 @@ export default {
       description: 'Collect the necessary items to prepare for the battle.',
       code: 'password',
       order: 0,
-      image: null,
+      image: {
+        url: taskImage.src,
+        width: taskImage.width,
+        height: taskImage.height,
+      },
     },
     {
       id: '0fa4f68a872049c9a81a6e45',

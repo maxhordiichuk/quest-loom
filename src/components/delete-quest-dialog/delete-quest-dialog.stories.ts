@@ -1,26 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { withFormWrapper } from '@/.storybook/decorators'
-
 import data from './__mock__'
-import { TaskForm } from '.'
+import { DeleteQuestDialog } from '.'
 
 const meta = {
-  title: 'Components/TaskForm',
-  component: TaskForm,
+  title: 'Components/DeleteQuestDialog',
+  component: DeleteQuestDialog,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'centered',
     nextjs: {
       appDirectory: true,
     },
   },
   args: data,
-  decorators: [withFormWrapper],
-} satisfies Meta<typeof TaskForm>
+} satisfies Meta<typeof DeleteQuestDialog>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  name: 'TaskForm',
+  name: 'DeleteQuestDialog',
 }

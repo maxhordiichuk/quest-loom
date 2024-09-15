@@ -15,7 +15,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
-interface ShareQuestDialogProps {
+export interface ShareQuestDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   quest: Quest
@@ -27,9 +27,7 @@ export function ShareQuestDialog({ open, onOpenChange, quest, children }: ShareQ
   const [assignment, setAssignment] = useState<Assignment | null>(null)
   const { mutateAsync, isLoading } = useMutation(createAssignment)
 
-  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-
+  const handleSubmit = async () => {
     const result = await mutateAsync(quest.id)
 
     if (result.errors) {

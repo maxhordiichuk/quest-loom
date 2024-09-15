@@ -17,7 +17,7 @@ export interface TaskFormDialogProps {
   title: string
   task?: Task
   onSubmit: (body: CreateTaskRequestBody) => Promise<CreateTaskResponseBody>
-  children?: React.ReactNode
+  children: React.ReactNode
 }
 
 export function TaskFormDialog({ title, task, onSubmit, children }: TaskFormDialogProps) {
@@ -25,7 +25,7 @@ export function TaskFormDialog({ title, task, onSubmit, children }: TaskFormDial
 
   return (
     <Dialog open={isOpen} onOpenChange={setOpen}>
-      {children && <DialogTrigger asChild>{children}</DialogTrigger>}
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-h-[96%] overflow-auto">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

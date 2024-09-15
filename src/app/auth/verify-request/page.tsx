@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation'
 import paths from '@/lib/paths'
 import { getSession } from '@/server/auth'
 
-import { VerifyRequest } from '@/components/verify-request-page'
+import { VerifyRequest } from '@/components/verify-request'
 
 export default async function VerifyRequestPage() {
   const session = await getSession()

@@ -1,13 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import { withFormWrapper } from '@/.storybook/decorators'
-
 import data from './__mock__'
-import { TaskForm } from '.'
+import { AssignmentIntroduction } from '.'
 
 const meta = {
-  title: 'Components/TaskForm',
-  component: TaskForm,
+  title: 'Components/AssignmentIntroduction',
+  component: AssignmentIntroduction,
   parameters: {
     layout: 'fullscreen',
     nextjs: {
@@ -15,12 +13,11 @@ const meta = {
     },
   },
   args: data,
-  decorators: [withFormWrapper],
-} satisfies Meta<typeof TaskForm>
+} satisfies Meta<typeof AssignmentIntroduction>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  name: 'TaskForm',
+  name: 'AssignmentIntroduction',
 }

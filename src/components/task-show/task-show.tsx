@@ -1,6 +1,6 @@
 'use client'
 
-import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
+import fallbackTaskImage from '@/assets/task-image.jpg'
 import type { CompleteTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/player'
 

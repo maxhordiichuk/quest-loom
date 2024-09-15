@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import data from './__mock__'
-import { Navbar } from './navbar'
+import { Navbar } from '.'
 
 const meta = {
   title: 'Components/Navbar',

@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { Plus } from 'lucide-react'
 
-import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import fallbackQuestImage from '@/assets/quest-image.jpg'
 import { createTask } from '@/lib/client'
 import type { CreateTaskRequestBody } from '@/types/requests'
 import type { Quest, Task } from '@/types/models/creator'

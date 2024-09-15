@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
 import data from './__mock__'
-import { TaskShow } from './task-show'
+import { TaskShow } from '.'
 
 const meta = {
   title: 'Components/TaskShow',
@@ -15,12 +15,9 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  name: 'TaskShow',
-}
+export const PlayerVariant: Story = {}
 
-export const WithoutCompleteAction: Story = {
-  name: 'TaskShow Preview',
+export const CreatorVariant: Story = {
   args: {
     ...data,
     completeTask: undefined,

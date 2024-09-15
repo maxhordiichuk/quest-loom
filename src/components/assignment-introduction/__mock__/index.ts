@@ -1,19 +1,19 @@
 import questImage from '@/assets/quest-image.jpg'
 
-import { QuestFormProps } from '../types'
+import type { AssignmentIntroductionProps } from '../types'
 
 export default {
+  assignmentId: 'e8407da112294795be708033c854fa20',
   quest: {
-    id: '66d0832be14a7663e71719ab',
     title: 'Slay the Dragon',
     description:
       "The village has been terrorized by a fearsome dragon for too long. It's time to take action and put an end to its reign of terror. Gather your courage and venture into the dragon's lair to slay the beast and bring peace back to the land.",
     image: {
-      key: 'quest-image.jpg',
+      key: 'quest-cover.jpg',
       url: questImage.src,
       width: questImage.width,
       height: questImage.height,
     },
   },
-  onSubmit: () => new Promise(() => {}),
-} satisfies QuestFormProps
+  startAssignment: () => Promise.resolve({}),
+} satisfies AssignmentIntroductionProps

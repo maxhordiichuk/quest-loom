@@ -13,7 +13,7 @@ import {
 
 import { CompleteTaskForm } from './complete-task-form'
 
-export interface DeleteQuestDialogProps {
+export interface CompleteTaskDialogProps {
   assignmentId: string
   completeTask: CompleteTaskAction
   children: React.ReactNode
@@ -23,7 +23,7 @@ export function CompleteTaskDialog({
   assignmentId,
   completeTask,
   children,
-}: DeleteQuestDialogProps) {
+}: CompleteTaskDialogProps) {
   const [open, setOpen] = useState(false)
 
   return (

@@ -1,23 +1,24 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import data from './__mock__'
-import { QuestShow } from '.'
+import { LoginPage } from '.'
 
 const meta = {
-  title: 'Components/QuestShow',
-  component: QuestShow,
+  title: 'Components/LoginPage',
+  component: LoginPage,
   parameters: {
     layout: 'fullscreen',
     nextjs: {
       appDirectory: true,
     },
   },
-  args: data,
-} satisfies Meta<typeof QuestShow>
+  args: {
+    csrfToken: '8a116343f27941f4834a30b15166379c',
+  },
+} satisfies Meta<typeof LoginPage>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  name: 'QuestShow',
+  name: 'LoginPage',
 }

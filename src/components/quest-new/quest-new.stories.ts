@@ -1,20 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/react'
 
-import data from './__mock__'
-import { QuestList } from '.'
+import { QuestNew } from '.'
 
 const meta = {
-  title: 'Components/QuestList',
-  component: QuestList,
+  title: 'Components/QuestNew',
+  component: QuestNew,
   parameters: {
     layout: 'fullscreen',
+    nextjs: {
+      appDirectory: true,
+    },
   },
-  args: data,
-} satisfies Meta<typeof QuestList>
+} satisfies Meta<typeof QuestNew>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {
-  name: 'QuestList',
+  name: 'QuestNew',
 }

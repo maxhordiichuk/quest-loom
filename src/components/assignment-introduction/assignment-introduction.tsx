@@ -1,10 +1,9 @@
 'use client'
 
 import Image from 'next/image'
-import { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 
-import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import fallbackQuestImage from '@/assets/quest-image.jpg'
 import { useErrorToast } from '@/hooks/use-error-toast'
 import type { Quest } from '@/types/models/player'
 import type { StartAssignmentAction } from '@/types/requests'
@@ -29,9 +28,7 @@ export function AssignmentIntroduction({
   const { toastErrors } = useErrorToast()
   const router = useRouter()
 
-  const handleSubmit = async (event: FormEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-
+  const handleSubmit = async () => {
     const result = await startAssignment({ id: assignmentId })
 
     if (result.errors) {

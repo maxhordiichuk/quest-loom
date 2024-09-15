@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
+import fallbackTaskImage from '@/assets/task-image.jpg'
 import paths from '@/lib/paths'
 import { updateTask } from '@/lib/client'
 import type { Task } from '@/types/models/creator'

@@ -2,7 +2,7 @@ import { withFormWrapper } from '@/.storybook/decorators'
 import type { Meta, StoryObj } from '@storybook/react'
 
 import data from './__mock__'
-import { QuestForm } from './quest-form'
+import { QuestForm } from '.'
 
 const meta = {
   title: 'Components/QuestForm',
@@ -14,13 +14,6 @@ const meta = {
     },
   },
   args: data,
-  argTypes: {
-    quest: {
-      control: {
-        type: 'object',
-      },
-    },
-  },
   decorators: [withFormWrapper],
 } satisfies Meta<typeof QuestForm>
 

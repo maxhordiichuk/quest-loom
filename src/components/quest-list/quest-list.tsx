@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { Plus } from 'lucide-react'
 
-import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import fallbackQuestImage from '@/assets/quest-image.jpg'
 import paths from '@/lib/paths'
 import type { Quest } from '@/types/models/creator'
 

@@ -1,6 +1,6 @@
 import Image from 'next/image'
 
-import fallbackQuestImage from '@/assets/fallback-quest-image.jpg'
+import fallbackQuestImage from '@/assets/quest-image.jpg'
 import type { Quest } from '@/types/models/player'
 
 import { PageContent } from '@/components/page-content'
