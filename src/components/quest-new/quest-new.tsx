@@ -2,12 +2,13 @@
 
 import { createQuest } from '@/lib/client'
 
+import { FormContent } from '@/components/form-content'
 import { QuestForm } from '@/components/quest-form'
 
 export function QuestNew() {
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 md:p-8">
+    <FormContent>
       <QuestForm onSubmit={createQuest} />
-    </div>
+    </FormContent>
   )
 }

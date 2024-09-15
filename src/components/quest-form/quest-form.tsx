@@ -1,3 +1,5 @@
+'use client'
+
 import { useForm } from 'react-hook-form'
 import { useRef } from 'react'
 import { useRouter } from 'next/navigation'

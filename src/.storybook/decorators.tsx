@@ -1,15 +1,15 @@
-import React, {ElementType} from "react";
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { FormContent } from '@/components/form-content'
 
-export function withFormWrapper(Story: ElementType) {
+export function withFormWrapper(Story: React.ElementType) {
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 md:p-8">
+    <FormContent>
       <Story />
-    </div>
+    </FormContent>
   )
 }
 
-export function withQueryClientProvider(Story: ElementType) {
+export function withQueryClientProvider(Story: React.ElementType) {
   const queryClient = new QueryClient()
 
   return (

@@ -6,6 +6,8 @@ import { updateQuest } from '@/lib/client'
 import type { Quest } from '@/types/models/creator'
 import type { UpdateQuestRequestBody } from '@/types/requests'
 
+import { FormContent } from '@/components/form-content'
+
 export interface QuestEditProps {
   quest: Quest
 }
@@ -16,8 +18,8 @@ export function QuestEdit({ quest }: QuestEditProps) {
   }
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-6 md:p-8">
+    <FormContent>
       <QuestForm quest={quest} onSubmit={handleSubmit} />
-    </div>
+    </FormContent>
   )
 }

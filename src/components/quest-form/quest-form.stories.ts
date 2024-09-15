@@ -20,6 +20,10 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Default: Story = {
-  name: 'QuestForm',
+export const WithQuest: Story = {}
+
+export const WithoutQuest: Story = {
+  args: {
+    quest: undefined,
+  },
 }
