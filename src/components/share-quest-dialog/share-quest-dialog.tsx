@@ -56,7 +56,7 @@ export function ShareQuestDialog({ open, onOpenChange, quest, children }: ShareQ
             />
           ) : (
             <Button onClick={handleSubmit} loading={isLoading}>
-              Share Quest
+              {isLoading ? 'Sharing Quest' : 'Share Quest'}
             </Button>
           )}
         </div>

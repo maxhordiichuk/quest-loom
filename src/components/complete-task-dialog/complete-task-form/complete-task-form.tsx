@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { FormAlert } from '@/components/form-alert'
 import { Input } from '@/components/ui/input'
 
-import { completeTaskLabel } from '../lib'
+import { completeTaskLabel, completingTaskLabel } from '../lib'
 
 export interface CompleteTaskFormProps {
   assignmentId: string
@@ -64,7 +64,7 @@ export function CompleteTaskForm({ assignmentId, completeTask, onSuccess }: Comp
 
         <div className="grid justify-end">
           <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
-            {completeTaskLabel}
+            {form.formState.isSubmitting ? completingTaskLabel : completeTaskLabel}
           </Button>
         </div>
       </form>

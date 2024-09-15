@@ -26,7 +26,7 @@ import { ImageField } from '@/components/image-field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
-import { saveQuestLabel } from './lib'
+import { saveQuestLabel, savingQuestLabel } from './lib'
 
 export interface QuestFormProps {
   quest?: Quest
@@ -93,7 +93,7 @@ export function QuestForm({ quest, onSubmit }: QuestFormProps) {
 
         <div>
           <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
-            {saveQuestLabel}
+            {form.formState.isSubmitting ? savingQuestLabel : saveQuestLabel}
           </Button>
         </div>
       </form>

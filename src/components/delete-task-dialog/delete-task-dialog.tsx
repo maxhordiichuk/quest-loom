@@ -1,3 +1,4 @@
+import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
@@ -24,10 +25,11 @@ export interface DeleteTaskDialogProps {
 export function DeleteTaskDialog({ task, children }: DeleteTaskDialogProps) {
   const [isOpen, setOpen] = useState(false)
   const { toastErrors } = useErrorToast()
+  const { mutateAsync, isLoading } = useMutation(deleteTask)
   const router = useRouter()
 
   const handleDelete = async () => {
-    const result = await deleteTask(task.id)
+    const result = await mutateAsync(task.id)
 
     if (result.errors) {
       toastErrors(result.errors)
@@ -49,8 +51,8 @@ export function DeleteTaskDialog({ task, children }: DeleteTaskDialogProps) {
           Are you sure you want to delete the task {task.title}?
         </DialogDescription>
         <DialogFooter>
-          <Button variant="destructive" onClick={handleDelete}>
-            Delete Task
+          <Button variant="destructive" onClick={handleDelete} loading={isLoading}>
+            {isLoading ? 'Deleting Task' : 'Delete Task'}
           </Button>
         </DialogFooter>
       </DialogContent>

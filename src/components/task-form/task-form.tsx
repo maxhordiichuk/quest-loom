@@ -23,7 +23,7 @@ import { ImageField } from '@/components/image-field'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 
-import { saveTaskLabel } from './lib'
+import { saveTaskLabel, savingTaskLabel } from './lib'
 
 export interface TaskFormProps {
   task?: Task
@@ -107,7 +107,7 @@ export function TaskForm({ task, onSubmit, onSuccess }: TaskFormProps) {
 
         <div>
           <Button type="submit" className="px-8" loading={form.formState.isSubmitting}>
-            {saveTaskLabel}
+            {form.formState.isSubmitting ? savingTaskLabel : saveTaskLabel}
           </Button>
         </div>
       </form>

@@ -1,3 +1,4 @@
+import { useMutation } from 'react-query'
 import { useRouter } from 'next/navigation'
 
 import paths from '@/lib/paths'
@@ -23,10 +24,11 @@ export interface DeleteQuestDialogProps {
 
 export function DeleteQuestDialog({ quest, open, onOpenChange }: DeleteQuestDialogProps) {
   const { toastErrors } = useErrorToast()
+  const { mutateAsync, isLoading } = useMutation(deleteQuest)
   const router = useRouter()
 
   const handleDelete = async () => {
-    const result = await deleteQuest(quest.id)
+    const result = await mutateAsync(quest.id)
 
     if (result.errors) {
       toastErrors(result.errors)
@@ -46,8 +48,8 @@ export function DeleteQuestDialog({ quest, open, onOpenChange }: DeleteQuestDial
           Are you sure you want to delete the quest {quest.title}?
         </DialogDescription>
         <DialogFooter>
-          <Button variant="destructive" onClick={handleDelete}>
-            Delete Quest
+          <Button variant="destructive" onClick={handleDelete} loading={isLoading}>
+            {isLoading ? 'Deleting Quest' : 'Delete Quest'}
           </Button>
         </DialogFooter>
       </DialogContent>
