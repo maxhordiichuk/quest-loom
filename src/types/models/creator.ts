@@ -7,7 +7,6 @@ export interface Assignment {
 }
 
 export interface User {
-  name: string
   email: string
 }
 
