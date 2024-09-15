@@ -45,7 +45,7 @@ export function TaskList({ tasks: initialTasks }: TaskListProps) {
   const reorderAction = async (id: string, oldIndex: number, newIndex: number) => {
     const result = await moveTask(id, { oldIndex, newIndex })
 
-    if (!result.success) {
+    if (result.errors) {
       toastErrors(result.errors)
       setTasks(initialTasks)
     }

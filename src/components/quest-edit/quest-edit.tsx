@@ -1,3 +1,5 @@
+'use client'
+
 import { QuestForm } from '@/components/quest-form'
 
 import { updateQuest } from '@/lib/client'

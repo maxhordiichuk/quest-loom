@@ -38,7 +38,10 @@ export interface ButtonProps
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild = false, loading, children, ...props }, ref) => {
+  (
+    { className, variant, size, asChild = false, loading, children, type, ...props }: ButtonProps,
+    ref
+  ) => {
     if (asChild) {
       return (
         <Slot ref={ref} {...props}>
@@ -66,6 +69,8 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={cn(buttonVariants({ variant, size, className }))}
         disabled={loading}
         ref={ref}
+        // eslint-disable-next-line react/button-has-type
+        type={type || 'button'}
         {...props}
       >
         {loading && <Loader2 className={cn('h-4 w-4 animate-spin', children && 'mr-2')} />}

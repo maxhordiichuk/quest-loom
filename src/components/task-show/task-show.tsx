@@ -2,7 +2,7 @@
 
 import fallbackTaskImage from '@/assets/fallback-task-image.jpg'
 import type { CompleteTaskAction } from '@/types/requests'
-import type { Task } from '@/types/models/creator'
+import type { Task } from '@/types/models/player'
 
 import { Button } from '@/components/ui/button'
 import { CompleteTaskDialog } from '@/components/complete-task-dialog'
