@@ -15,6 +15,10 @@ const fontSans = FontSans({
 export const metadata: Metadata = {
   title: 'Quest Loom',
   description: 'Quest Loom is a platform to create and manage quests.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 }
 
 export default function RootLayout({
