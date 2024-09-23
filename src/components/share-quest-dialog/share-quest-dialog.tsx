@@ -15,6 +15,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 
+import { AssignmentFields } from './assignment-fields'
+
 export interface ShareQuestDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -48,12 +50,7 @@ export function ShareQuestDialog({ open, onOpenChange, quest, children }: ShareQ
         <DialogDescription>Share the {quest.title} quest with your friends</DialogDescription>
         <div className="pt-4">
           {assignment ? (
-            <input
-              type="text"
-              value={assignment.url}
-              readOnly
-              className="w-full p-2 border border-gray-300 rounded-md"
-            />
+            <AssignmentFields assignment={assignment} />
           ) : (
             <Button onClick={handleSubmit} loading={isLoading}>
               {isLoading ? 'Sharing Quest' : 'Share Quest'}
