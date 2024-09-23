@@ -27,9 +27,8 @@ export function Profile({ user }: ProfileProps) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="rounded-full">
+        <Button variant="ghost" size="icon" className="rounded-full" aria-label={toggleMenuLabel}>
           <UserIcon className="w-5 h-5" />
-          <span className="sr-only">{toggleMenuLabel}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">

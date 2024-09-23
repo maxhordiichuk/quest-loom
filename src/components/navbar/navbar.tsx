@@ -15,6 +15,7 @@ import { projectNameLabel, questsLabel } from './lib'
 
 import { NavigationLink } from './navigation-link'
 import { Profile } from './profile'
+import { toggleMenuLabel } from './profile/lib'
 
 export interface NavbarProps {
   user: User
@@ -38,9 +39,8 @@ export function Navbar({ user }: NavbarProps) {
             </NavigationMenuList>
           </NavigationMenu>
           <Profile user={user} />
-          <Button variant="outline" className="ml-2 lg:hidden">
+          <Button variant="outline" className="ml-2 lg:hidden" aria-label={toggleMenuLabel}>
             <MenuIcon className="w-4 h-4" />
-            <span className="sr-only">Toggle navigation menu</span>
           </Button>
         </div>
       </div>
