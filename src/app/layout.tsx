@@ -19,6 +19,36 @@ export const metadata: Metadata = {
     index: false,
     follow: false,
   },
+  manifest: '/site.webmanifest',
+  icons: {
+    icon: [
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '16x16',
+        url: '/favicon-16x16.png',
+      },
+      {
+        rel: 'icon',
+        type: 'image/png',
+        sizes: '32x32',
+        url: '/favicon-32x32.png',
+      },
+      {
+        rel: 'mask-icon',
+        color: '#5bbad5',
+        url: '/safari-pinned-tab.svg',
+      },
+    ],
+    apple: {
+      rel: 'apple-touch-icon',
+      sizes: '180x180',
+      url: '/apple-touch-icon.png',
+    },
+  },
+  other: {
+    'msapplication-TileColor': '#f9c515',
+  },
 }
 
 export default function RootLayout({
