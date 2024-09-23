@@ -16,6 +16,7 @@ export default {
   questEdit: (questId: string) => `/quests/${questId}/edit`,
   questList: '/quests',
   questNew: '/quests/new',
+  questPreview: (questId: string) => `/quests/${questId}/preview`,
   questShow: (questId: string) => `/quests/${questId}`,
   taskShow: (taskId: string) => `/tasks/${taskId}`,
 }

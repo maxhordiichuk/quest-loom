@@ -47,10 +47,10 @@ export function QuestActions({ quest }: QuestActionsProps) {
             <Share className="mr-2 h-4 w-4" />
             <span>Share</span>
           </DropdownMenuItem>
-          <Link href={paths.questShow(quest.id)}>
+          <Link href={paths.questPreview(quest.id)} target="_blank">
             <DropdownMenuItem>
               <Eye className="mr-2 h-4 w-4" />
-              <span>View details</span>
+              <span>Preview</span>
             </DropdownMenuItem>
           </Link>
           <Link href={paths.questEdit(quest.id)}>

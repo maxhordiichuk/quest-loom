@@ -1,13 +1,5 @@
 import { z } from 'zod'
 
-export const startAssignmentSchema = z.object({
-  id: z.string().trim().min(1, {
-    message: 'Assignment ID is required',
-  }),
-})
-
-export type StartAssignmentSchemaType = z.infer<typeof startAssignmentSchema>
-
 export const completeTaskSchema = z.object({
   assignmentId: z.string().trim().min(1, {
     message: 'Assignment ID is required',

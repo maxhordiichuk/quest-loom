@@ -15,5 +15,4 @@ export default {
       height: questImage.height,
     },
   },
-  startAssignment: () => Promise.resolve({}),
 } satisfies AssignmentIntroductionProps

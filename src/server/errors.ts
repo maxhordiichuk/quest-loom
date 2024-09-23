@@ -1,7 +1,7 @@
 export const assignmentNotFound = 'Assignment not found'
 export const failedToCompleteTask = 'Cannot complete the task'
 export const failedToReorderTasks = 'Failed to reorder tasks'
-export const failedToStartAssignment = 'Failed to start an assignment'
+export const failedToStartAssignment = 'Failed to start the assignment'
 export const incorrectCode = 'Code is incorrect'
 export const questNotFound = 'Quest not found'
 export const taskNotFound = 'Task not found'

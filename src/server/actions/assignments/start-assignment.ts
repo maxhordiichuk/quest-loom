@@ -1,20 +1,31 @@
 'use server'
 
+import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
+
+import paths from '@/lib/paths'
 import { startAssignment as doStartAssignment } from '@/server/services'
 import { failedToStartAssignment } from '@/server/errors'
-import { startAssignmentSchema } from '@/schema'
-import type { StartAssignmentAction } from '@/types/requests'
 
-export const startAssignment: StartAssignmentAction = async body => {
+interface StartAssignmentState {
+  error?: string
+  success?: boolean
+}
+
+// eslint-disable-next-line consistent-return
+export async function startAssignment(
+  id: string,
+  _formState: StartAssignmentState,
+  _formData: FormData
+) {
   try {
-    const { id } = startAssignmentSchema.parse(body)
-
     await doStartAssignment(id)
   } catch (error) {
     console.error(error)
 
-    return { errors: [failedToStartAssignment] }
+    return { error: failedToStartAssignment }
   }
 
-  return { success: true }
+  revalidatePath(paths.assignmentShow(id))
+  redirect(paths.assignmentShow(id))
 }

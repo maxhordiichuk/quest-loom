@@ -1,23 +1,21 @@
 'use client'
 
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 
 import fallbackQuestImage from '@/assets/quest-image.jpg'
-import { useErrorToast } from '@/hooks/use-error-toast'
 import type { Quest } from '@/types/models/player'
-import type { StartAssignmentAction } from '@/types/requests'
+import type { startAssignment as startAssignmentAction } from '@/server/actions'
 
-import { Button } from '@/components/ui/button'
 import { PageContent } from '@/components/page-content'
 import { PageHeading } from '@/components/page-heading'
 
-import { startQuestLabel } from './lib'
+import { StartButton } from './start-button'
+import { SubmitButton } from './submit-button'
 
 export interface AssignmentIntroductionProps {
-  assignmentId: string
+  assignmentId?: string
   quest: Quest
-  startAssignment: StartAssignmentAction
+  startAssignment?: typeof startAssignmentAction
 }
 
 export function AssignmentIntroduction({
@@ -25,20 +23,6 @@ export function AssignmentIntroduction({
   quest,
   startAssignment,
 }: AssignmentIntroductionProps) {
-  const { toastErrors } = useErrorToast()
-  const router = useRouter()
-
-  const handleSubmit = async () => {
-    const result = await startAssignment({ id: assignmentId })
-
-    if (result.errors) {
-      toastErrors(result.errors)
-      return
-    }
-
-    router.refresh()
-  }
-
   const questTitle = (
     <span className="bg-gradient-to-r from-orange-400 via-orange-600 to-red-500 inline-block text-transparent bg-clip-text">
       Welcome to the Quest {quest.title}!
@@ -63,9 +47,13 @@ export function AssignmentIntroduction({
         isSeparatorVisible={false}
         className="pt-8"
       />
-      <Button className="px-8 mt-8" onClick={handleSubmit}>
-        {startQuestLabel}
-      </Button>
+      <div className="mt-8">
+        {assignmentId && startAssignment ? (
+          <StartButton assignmentId={assignmentId} startAssignment={startAssignment} />
+        ) : (
+          <SubmitButton disabled />
+        )}
+      </div>
     </PageContent>
   )
 }
