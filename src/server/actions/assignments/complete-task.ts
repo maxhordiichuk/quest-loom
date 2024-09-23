@@ -1,47 +1,53 @@
 'use server'
 
+import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import type { Assignment } from '@prisma/client'
 
 import paths from '@/lib/paths'
 import { assignmentNotFound, failedToCompleteTask, incorrectCode } from '@/server/errors'
 import { checkTaskCode, completeTask as doCompleteTask } from '@/server/services'
-import { completeTaskSchema } from '@/schema'
 import { fetchAssignment } from '@/server/queries'
-import type { CompleteTaskAction } from '@/types/requests'
 
-export const completeTask: CompleteTaskAction = async body => {
+interface CompleteTaskState {
+  error?: string
+}
+
+// eslint-disable-next-line consistent-return
+export async function completeTask(
+  assignmentId: string,
+  _formState: CompleteTaskState,
+  formData: FormData
+) {
   let assignment: Assignment | null
 
   try {
-    const result = completeTaskSchema.safeParse(body)
+    const code = formData.get('code')
 
-    if (!result.success) {
-      return { errors: result.error.flatten().fieldErrors }
+    if (typeof code !== 'string') {
+      return { error: failedToCompleteTask }
     }
-
-    const { assignmentId, code } = result.data
 
     assignment = await fetchAssignment({ id: assignmentId })
 
     if (!assignment) {
-      return { errors: { root: [assignmentNotFound] } }
+      return { error: assignmentNotFound }
     }
 
     const isCodeCorrect = await checkTaskCode({ assignment, code })
 
     if (!isCodeCorrect) {
-      return { errors: { code: [incorrectCode] } }
+      return { error: incorrectCode }
     }
 
     await doCompleteTask({ assignment })
+
+    revalidatePath(paths.assignmentShow(assignmentId))
   } catch (error) {
     console.error(error)
 
-    return { errors: { root: [failedToCompleteTask] } }
+    return { error: failedToCompleteTask }
   }
 
-  revalidatePath(paths.assignmentShow(assignment.id))
-
-  return {}
+  redirect(paths.assignmentShow(assignmentId))
 }

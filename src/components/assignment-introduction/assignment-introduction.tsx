@@ -8,9 +8,11 @@ import type { startAssignment as startAssignmentAction } from '@/server/actions'
 
 import { PageContent } from '@/components/page-content'
 import { PageHeading } from '@/components/page-heading'
+import { SubmitButton } from '@/components/submit-button'
+
+import { startQuestLabel } from './lib'
 
 import { StartButton } from './start-button'
-import { SubmitButton } from './submit-button'
 
 export interface AssignmentIntroductionProps {
   assignmentId?: string
@@ -51,7 +53,7 @@ export function AssignmentIntroduction({
         {assignmentId && startAssignment ? (
           <StartButton assignmentId={assignmentId} startAssignment={startAssignment} />
         ) : (
-          <SubmitButton disabled />
+          <SubmitButton disabled>{startQuestLabel}</SubmitButton>
         )}
       </div>
     </PageContent>

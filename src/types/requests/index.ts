@@ -1,4 +1,3 @@
-export type * from './complete-task'
 export type * from './create-assignment'
 export type * from './create-quest'
 export type * from './create-task'

@@ -1,20 +1,20 @@
 'use client'
 
 import fallbackTaskImage from '@/assets/task-image.jpg'
-import type { CompleteTaskAction } from '@/types/requests'
 import type { Task } from '@/types/models/player'
+import type { completeTask as completeTaskAction } from '@/server/actions'
 
-import { Button } from '@/components/ui/button'
-import { CompleteTaskDialog } from '@/components/complete-task-dialog'
 import { PageContent } from '@/components/page-content'
 import { TaskImage } from '@/components/task-image'
 
-import { completeTaskLabel, taskNumberLabel } from './lib'
+import { taskNumberLabel } from './lib'
+
+import { CompleteTask } from './complete-task'
 
 export interface TaskShowProps {
   task: Task
   assignmentId?: string
-  completeTask?: CompleteTaskAction
+  completeTask?: typeof completeTaskAction
 }
 
 export function TaskShow({ task, assignmentId, completeTask }: TaskShowProps) {
@@ -29,32 +29,24 @@ export function TaskShow({ task, assignmentId, completeTask }: TaskShowProps) {
             {task.order + 1}
           </div>
 
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl/tight">
-              {task.title}
-            </h1>
+          <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl/tight">
+            {task.title}
+          </h1>
 
-            <TaskImage
-              className="mx-auto lg:hidden"
-              src={taskImageUrl}
-              alt="Task image"
-              width={500}
-              height={500}
-            />
+          <TaskImage
+            className="mx-auto lg:hidden"
+            src={taskImageUrl}
+            alt="Task image"
+            width={500}
+            height={500}
+          />
 
-            <p className="max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-              {task.description}
-            </p>
+          <p className="mt-2 max-w-[600px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+            {task.description}
+          </p>
 
-            {completeTask && assignmentId ? (
-              <CompleteTaskDialog assignmentId={assignmentId} completeTask={completeTask}>
-                <Button className="px-8">{completeTaskLabel}</Button>
-              </CompleteTaskDialog>
-            ) : (
-              <Button className="px-8" disabled>
-                {completeTaskLabel}
-              </Button>
-            )}
+          <div className="mt-12">
+            <CompleteTask assignmentId={assignmentId} completeTask={completeTask} />
           </div>
         </div>
 

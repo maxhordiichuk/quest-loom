@@ -2,7 +2,8 @@ import { useFormState } from 'react-dom'
 
 import type { startAssignment as startAssignmentAction } from '@/server/actions'
 
-import { SubmitButton } from '../submit-button'
+import { SubmitButton } from '@/components/submit-button'
+import { startQuestLabel } from '@/components/assignment-introduction/lib'
 
 export interface StartButtonProps {
   assignmentId: string
@@ -17,7 +18,7 @@ export function StartButton({ assignmentId, startAssignment }: StartButtonProps)
       {state.error && (
         <div className="mb-8 p-4 bg-red-100 text-red-800 rounded-lg">{state.error}</div>
       )}
-      <SubmitButton />
+      <SubmitButton>{startQuestLabel}</SubmitButton>
     </form>
   )
 }

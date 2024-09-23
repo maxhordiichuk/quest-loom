@@ -9,7 +9,6 @@ import { failedToStartAssignment } from '@/server/errors'
 
 interface StartAssignmentState {
   error?: string
-  success?: boolean
 }
 
 // eslint-disable-next-line consistent-return
@@ -20,12 +19,13 @@ export async function startAssignment(
 ) {
   try {
     await doStartAssignment(id)
+
+    revalidatePath(paths.assignmentShow(id))
   } catch (error) {
     console.error(error)
 
     return { error: failedToStartAssignment }
   }
 
-  revalidatePath(paths.assignmentShow(id))
   redirect(paths.assignmentShow(id))
 }
