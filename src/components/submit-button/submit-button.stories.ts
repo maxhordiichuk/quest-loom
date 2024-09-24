@@ -9,7 +9,7 @@ const meta = {
     layout: 'centered',
   },
   args: {
-    children: 'Submit'
+    children: 'Submit',
   },
 } satisfies Meta<typeof SubmitButton>
 
