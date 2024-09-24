@@ -1,4 +1,4 @@
-name: lint
+name: tests
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  lint:
+  tests:
     runs-on: ubuntu-latest
 
     env:
@@ -25,5 +25,5 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Run lint
-        run: npm run lint
+      - name: Run tests
+        run: npm test
