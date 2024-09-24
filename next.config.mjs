@@ -1,4 +1,10 @@
-;['HOST', 'AWS_BUCKET_NAME', 'AWS_REGION', 'EMAIL_SERVER', 'EMAIL_FROM'].forEach(key => {
+;[
+  'HOST',
+  'AWS_BUCKET_NAME',
+  'AWS_REGION',
+  'EMAIL_SERVER',
+  'EMAIL_FROM',
+].forEach(key => {
   if (!process.env[key]) {
     throw new Error(`Please set ${key} in environment variables`)
   }
@@ -21,16 +27,18 @@ const nextConfig = {
     host: process.env.HOST,
   },
   images: {
-    remotePatterns: [{
-      protocol: 'https',
-      hostname: 'quest-loom-dev.s3.us-east-1.amazonaws.com',
-      port: '',
-      pathname: '/**'
-    }]
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'quest-loom-dev.s3.us-east-1.amazonaws.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
   },
   experimental: {
     serverComponentsExternalPackages: ['@aws-sdk'],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
